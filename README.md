@@ -96,10 +96,14 @@ docs/                           modelling guide, competency questions, reference
 
 ## Examples and practitioner cases
 
+### Example systems (fictional)
+
 Two fictional AI systems in `examples/` show how to describe your own systems:
 
 - **Hiring pre-screening assistant** (`hiring-assistant.ttl`) – an LLM-based CV screening assistant with a retrieval index and an applicant-tracking write tool. Annex III(4) makes it **high risk**; deployment scope 3 (pre-trained model). Running `query-all` lists its EU AI Act obligations, maps them to NIST, and flags **three bias risks as unmitigated** (discriminatory ranking, reproduced recruiter bias, exclusion of qualified candidates).
 - **Customer support chatbot** (`support-chatbot.ttl`) – answers from a help-centre RAG index and opens tickets. **Transparency risk** (Art. 50); deployment scope 3. Covers RAG poisoning, hidden-context extraction and ticket abuse with controls, and flags **confident but wrong answers** as unmitigated.
+
+### Practitioner cases
 
 Four anonymised, composite cases from the author's practice live in `ontology/modules/practitioner-knowledge.ttl`. Each describes a recurring deployment pattern rather than any single organisation – the system, typical risks, recommended controls, target outcome and lesson learned:
 
@@ -108,7 +112,7 @@ Four anonymised, composite cases from the author's practice live in `ontology/mo
 | 1 | Internal knowledge-base RAG assistant |
 | 2 | Customer-facing support chatbot with actions (refunds, cancellations) |
 | 3 | AI coding assistant and local IDE agents |
-| 5 | AI nodes in low-code workflow automation |
+| 4 | AI nodes in low-code workflow automation |
 
 Run `queries/cq19-practitioner-cases.rq` to see them end to end.
 

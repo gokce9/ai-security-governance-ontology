@@ -181,13 +181,13 @@ pk:Case3-UnauthorisedCommands a asgo:Risk ;
     asgo:mitigatedBy ctl:HumanApprovalForActions .
 
 # =============================================================================
-# Case 5 - AI nodes in low-code workflow automation
+# Case 4 - AI nodes in low-code workflow automation
 # =============================================================================
 
-pk:Case5 a asgo:PractitionerCase ;
-    rdfs:label "Case 5 - AI nodes in low-code workflow automation"@en ;
+pk:Case4 a asgo:PractitionerCase ;
+    rdfs:label "Case 4 - AI nodes in low-code workflow automation"@en ;
     asgo:caseSystem pk:LowCodeAIWorkflow ;
-    asgo:observedRisk pk:Case5-TokensInLogs , pk:Case5-UnauthenticatedWebhook ;
+    asgo:observedRisk pk:Case4-TokensInLogs , pk:Case4-UnauthenticatedWebhook ;
     asgo:appliedControl ctl:SecretsVault , ctl:AuthenticatedWorkflowTriggers ;
     asgo:outcome "Recommended fix: no plaintext API keys - credentials are injected from a central secrets vault - and HMAC signature verification on every external webhook. Together these close unauthorised pipeline triggers and credential leaks."@en ;
     asgo:lessonLearned "When workflow automations (low-code/no-code) are built by speed-focused teams, security is usually skipped. Once an AI model is connected to a workflow, classic application security standards (API security, secret management) must be enforced without compromise from the very first trigger point."@en ;
@@ -197,7 +197,7 @@ pk:Case5 a asgo:PractitionerCase ;
     dcterms:created "2026-10-01"^^xsd:date .
 
 pk:LowCodeAIWorkflow a asgo:AISystem ;
-    rdfs:label "AI nodes in low-code workflow automation (Case 5)"@en ;
+    rdfs:label "AI nodes in low-code workflow automation (Case 4)"@en ;
     asgo:intendedPurpose "Operations teams automate workflows, e.g. summarise incoming support e-mails and open tickets in the issue tracker" ;
     asgo:supportsBusinessProcess "Operations automation" ;
     asgo:usesTechnique asgo:GenerativeAI , asgo:AgenticAI ;
@@ -206,18 +206,18 @@ pk:LowCodeAIWorkflow a asgo:AISystem ;
     asgo:deploymentScope ctl:Scope3 ;
     asgo:classifiedAs euaia:MinimalRisk ;
     asgo:inLifecycleStage asgo:OperateAndMonitor ;
-    asgo:hasComponent pk:Case5-Webhook ;
-    asgo:exposedTo pk:Case5-TokensInLogs , pk:Case5-UnauthenticatedWebhook .
+    asgo:hasComponent pk:Case4-Webhook ;
+    asgo:exposedTo pk:Case4-TokensInLogs , pk:Case4-UnauthenticatedWebhook .
 
-pk:Case5-Webhook a asgo:ToolIntegration ; rdfs:label "Case 5 - Inbound webhook trigger"@en .
+pk:Case4-Webhook a asgo:ToolIntegration ; rdfs:label "Case 4 - Inbound webhook trigger"@en .
 
-pk:Case5-TokensInLogs a asgo:Risk ;
+pk:Case4-TokensInLogs a asgo:Risk ;
     rdfs:label "LLM API tokens written in plaintext to debug and error logs"@en ;
     asgo:arisesFrom threat:IdentityPrivilegeAbuse ;
     asgo:likelihood 4 ; asgo:severity 4 ;
     asgo:mitigatedBy ctl:SecretsVault .
 
-pk:Case5-UnauthenticatedWebhook a asgo:Risk ;
+pk:Case4-UnauthenticatedWebhook a asgo:Risk ;
     rdfs:label "Unauthenticated webhook lets anyone trigger the LLM with an arbitrary payload and create fake work items"@en ;
     asgo:arisesFrom threat:ToolMisuse ;
     asgo:likelihood 4 ; asgo:severity 4 ;

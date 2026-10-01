@@ -1,5 +1,7 @@
 # AI Security Governance Ontology (ASGO)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23091135.svg)](https://doi.org/10.5281/zenodo.23091135) [![validate](https://github.com/gokce9/ai-security-governance-ontology/actions/workflows/validate.yml/badge.svg)](https://github.com/gokce9/ai-security-governance-ontology/actions/workflows/validate.yml) [![Licence: CC BY-NC 4.0](https://img.shields.io/badge/licence-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
+
 A modular OWL/RDF ontology that connects **AI systems**, **AI security threats**, **controls**, and **governance requirements** from the **NIST AI Risk Management Framework**, **NIST CSF 2.0**, the **OECD AI Principles** and the **EU AI Act**, extended with curated practitioner knowledge.
 
 It is designed to answer questions such as:
@@ -142,7 +144,9 @@ Source frameworks remain the property of their respective publishers: NIST (AI R
 
 GitHub shows a **“Cite this repository”** button (from `CITATION.cff`). Release notes are in [CHANGELOG.md](CHANGELOG.md).
 
-> Yazici, G. (2026). *AI Security Governance Ontology (ASGO)*, version 0.4. CC BY-NC 4.0. https://github.com/gokce9/ai-security-governance-ontology
+> Yazici, G. (2026). *AI Security Governance Ontology (ASGO)* (Version 0.4.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23091136
+
+To cite all versions, use the concept DOI [10.5281/zenodo.23091135](https://doi.org/10.5281/zenodo.23091135), which always resolves to the latest release.
 
 ---
 

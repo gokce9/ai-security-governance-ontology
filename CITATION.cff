@@ -12,6 +12,14 @@ authors:
   - family-names: Yazici
     given-names: Gokcenur
 version: 0.4.0
+doi: 10.5281/zenodo.23091135
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23091135
+    description: Concept DOI (all versions)
+  - type: doi
+    value: 10.5281/zenodo.23091136
+    description: Version 0.4.0
 date-released: 2026-10-02
 license: CC-BY-NC-4.0
 repository-code: "https://github.com/gokce9/ai-security-governance-ontology"

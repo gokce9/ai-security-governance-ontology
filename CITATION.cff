@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use ASGO, please cite it as below."
+title: "AI Security Governance Ontology (ASGO)"
+abstract: >-
+  A modular OWL/RDF ontology linking AI systems, AI security threats, controls
+  and governance requirements from the EU AI Act (as amended by the Digital
+  Omnibus), NIST AI RMF, NIST CSF 2.0, the OECD AI Principles, the OWASP Top 10
+  for LLM and Agentic Applications and MITRE ATLAS, with expert-reviewed
+  framework mappings and practitioner cases.
+type: dataset
+authors:
+  - family-names: Yazici
+    given-names: Gokcenur
+version: 0.4.0
+date-released: 2026-10-02
+license: CC-BY-NC-4.0
+repository-code: "https://github.com/gokce9/ai-security-governance-ontology"
+keywords:
+  - AI security
+  - AI governance
+  - ontology
+  - OWL
+  - EU AI Act
+  - NIST AI RMF
+  - NIST CSF
+  - OWASP
+  - MITRE ATLAS

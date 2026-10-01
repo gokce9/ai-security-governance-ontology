@@ -1,0 +1,14 @@
+# CQ11: Which evidence types demonstrate which requirements across frameworks?
+#       One artefact often serves several frameworks at once - this shows the
+#       reuse ("prepare once, comply many").
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?evidence ?level (COUNT(DISTINCT ?req) AS ?requirements)
+       (GROUP_CONCAT(DISTINCT ?id; separator=", ") AS ?satisfies)
+WHERE {
+  ?e a asgo:EvidenceType ; rdfs:label ?evidence ; asgo:documentLevel/rdfs:label ?level .
+  ?req asgo:demonstratedBy ?e ; asgo:identifier ?id .
+}
+GROUP BY ?evidence ?level
+ORDER BY DESC(?requirements) ?evidence

@@ -1,0 +1,12 @@
+# CQ14: For a given AI system, which evidence must exist to show compliance with
+#       the EU AI Act obligations that apply to its risk tier? (audit checklist)
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?system ?evidence (GROUP_CONCAT(DISTINCT ?article; separator=", ") AS ?forArticles) WHERE {
+  ?s a asgo:AISystem ; rdfs:label ?system ; asgo:classifiedAs ?tier .
+  ?req asgo:appliesToTier ?tier ; asgo:identifier ?article ; asgo:demonstratedBy ?e .
+  ?e rdfs:label ?evidence .
+}
+GROUP BY ?system ?evidence
+ORDER BY ?system ?evidence

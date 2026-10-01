@@ -1,0 +1,232 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix threat:  <https://w3id.org/asgo/threats#> .
+@prefix nist:    <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# =============================================================================
+# AI security threats and controls
+# Taxonomy follows NIST AI 100-2 (Adversarial Machine Learning) and is
+# cross-referenced to OWASP Top 10 for LLM Applications (2025) and MITRE ATLAS.
+# =============================================================================
+
+<https://w3id.org/asgo/threats>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/core> , <https://w3id.org/asgo/nist-ai-rmf> ;
+    dcterms:title "ASGO - AI threats and controls module"@en ;
+    owl:versionInfo "0.3.0" .
+
+threat:NISTAML a asgo:Framework ;
+    asgo:companionOf nist:AIRMF ;
+    rdfs:label "Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations"@en ;
+    asgo:identifier "NIST AI 100-2 E2025" ;
+    asgo:authorityLevel asgo:Voluntary ;
+    asgo:sourceURL "https://doi.org/10.6028/NIST.AI.100-2e2025" ;
+    dcterms:issued "2025-03-24"^^xsd:date ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    skos:note "Distinguishes predictive and generative AI attacks; supersedes the E2023 edition."@en .
+
+threat:OWASPLLMTop10-2025 a asgo:Framework ;
+    rdfs:label "OWASP Top 10 for LLM Applications 2025"@en ;
+    asgo:identifier "OWASP LLM Top 10 2025" ;
+    asgo:authorityLevel asgo:Informative ;
+    asgo:sourceURL "https://genai.owasp.org/llm-top-10/" ;
+    asgo:publicationStatus asgo:Superseded ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    dcterms:isReplacedBy threat:OWASPLLMTop10-2026 .
+
+threat:OWASPLLMTop10-2026 a asgo:Framework ;
+    rdfs:label "OWASP GenAI LLM Top 10 2026"@en ;
+    asgo:identifier "OWASP LLM Top 10 2026" ;
+    asgo:authorityLevel asgo:Informative ;
+    asgo:sourceURL "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/" ;
+    rdfs:seeAlso <https://github.com/GenAI-Security-Project/GenAI-LLM-Top10/tree/main/2026/final> ;
+    dcterms:issued "2026-08-04"^^xsd:date ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    dcterms:replaces threat:OWASPLLMTop10-2025 ;
+    skos:note "Ranking weights practitioner voting (~75%) and incident data (~25%). Excessive Agency rises to #3; System Prompt Leakage is broadened and renamed Hidden Context Exposure; Improper Output Handling falls to #10. Agentic amplifications are covered by the OWASP Top 10 for Agentic Applications."@en .
+
+threat:OWASPAgenticTop10 a asgo:Framework ;
+    rdfs:label "OWASP Top 10 for Agentic Applications 2026"@en ;
+    asgo:identifier "OWASP Agentic Top 10 2026" ;
+    asgo:authorityLevel asgo:Informative ;
+    asgo:sourceURL "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" ;
+    dcterms:issued "2025-12-09"^^xsd:date ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    dcterms:relation threat:OWASPLLMTop10-2026 .
+
+threat:MITREATLAS a asgo:Framework ;
+    rdfs:label "MITRE ATLAS"@en ;
+    asgo:identifier "ATLAS v2026.09" ;
+    asgo:authorityLevel asgo:Informative ;
+    asgo:sourceURL "https://atlas.mitre.org/" ;
+    rdfs:seeAlso <https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09> ;
+    dcterms:issued "2026-09-15"^^xsd:date ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    skos:note "Living catalogue with frequent releases (v2026.07, v2026.08, v2026.09 within six weeks). v2026.09: 16 tactics, 120 techniques, 88 sub-techniques, 40 mitigations, 73 case studies. Technique IDs used in this module were verified against v2026.09."@en .
+
+# -----------------------------------------------------------------------------
+# Attack class hierarchy (NIST AI 100-2 E2025), with OWASP and ATLAS IDs
+# -----------------------------------------------------------------------------
+
+threat:EvasionAttack a owl:Class ; rdfs:subClassOf asgo:AdversarialAttack ;
+    rdfs:label "Evasion Attack"@en ;
+    skos:definition "Crafting adversarial inputs at inference time to change the model's output."@en ;
+    asgo:externalId "AML.T0015" ;
+    asgo:affectsCharacteristic nist:ValidAndReliable , nist:SecureAndResilient .
+
+threat:PoisoningAttack a owl:Class ; rdfs:subClassOf asgo:AdversarialAttack ;
+    rdfs:label "Poisoning Attack"@en ;
+    skos:definition "Manipulating training data or model parameters to compromise integrity or availability."@en ;
+    asgo:externalId "OWASP LLM05:2026" , "OWASP LLM04:2025" ;
+    asgo:affectsCharacteristic nist:ValidAndReliable , nist:SecureAndResilient .
+
+threat:DataPoisoning a owl:Class ; rdfs:subClassOf threat:PoisoningAttack ; rdfs:label "Data Poisoning"@en ; asgo:externalId "AML.T0020" .
+threat:ModelPoisoning a owl:Class ; rdfs:subClassOf threat:PoisoningAttack ; rdfs:label "Model Poisoning"@en ; asgo:externalId "AML.T0018.000" .
+threat:BackdoorAttack a owl:Class ; rdfs:subClassOf threat:PoisoningAttack ; rdfs:label "Backdoor / Trojan"@en ; asgo:externalId "AML.T0043.004" .
+threat:RAGPoisoning a owl:Class ; rdfs:subClassOf threat:PoisoningAttack ;
+    rdfs:label "RAG Poisoning"@en ; asgo:externalId "AML.T0070" , "OWASP LLM09:2026" ;
+    skos:definition "Injecting malicious or false content into data indexed for retrieval-augmented generation."@en .
+
+threat:PrivacyAttack a owl:Class ; rdfs:subClassOf asgo:AdversarialAttack ;
+    rdfs:label "Privacy Attack"@en ;
+    asgo:externalId "AML.T0024" ;
+    asgo:affectsCharacteristic nist:PrivacyEnhanced .
+
+threat:MembershipInference a owl:Class ; rdfs:subClassOf threat:PrivacyAttack ; rdfs:label "Membership Inference"@en ; asgo:externalId "AML.T0024.000" .
+threat:DataReconstruction a owl:Class ; rdfs:subClassOf threat:PrivacyAttack ; rdfs:label "Training Data Reconstruction / Extraction"@en ;
+    asgo:externalId "AML.T0024.001" , "AML.T0057" , "OWASP LLM02:2026" , "OWASP LLM02:2025" .
+threat:ModelExtraction a owl:Class ; rdfs:subClassOf threat:PrivacyAttack ; rdfs:label "Model Extraction / Stealing"@en ; asgo:externalId "AML.T0024.002" .
+threat:PropertyInference a owl:Class ; rdfs:subClassOf threat:PrivacyAttack ; rdfs:label "Property Inference"@en .
+
+threat:MisuseAttack a owl:Class ; rdfs:subClassOf asgo:AdversarialAttack ;
+    rdfs:label "Misuse / Abuse"@en ;
+    skos:definition "Circumventing GenAI safety restrictions to produce harmful outputs."@en .
+
+threat:PromptInjection a owl:Class ; rdfs:subClassOf asgo:AdversarialAttack ;
+    rdfs:label "Prompt Injection"@en ;
+    asgo:externalId "OWASP LLM01:2026" , "OWASP LLM01:2025" , "AML.T0051" ;
+    skos:scopeNote "The 2026 OWASP entry explicitly includes cross-modal injection hidden in images or audio (cf. ATLAS AML.T0129 Triggers in Multimodal Inputs)."@en .
+
+threat:DirectPromptInjection a owl:Class ; rdfs:subClassOf threat:PromptInjection ; rdfs:label "Direct Prompt Injection"@en ; asgo:externalId "AML.T0051.000" .
+threat:IndirectPromptInjection a owl:Class ; rdfs:subClassOf threat:PromptInjection ;
+    rdfs:label "Indirect Prompt Injection"@en ; asgo:externalId "AML.T0051.001" ;
+    skos:definition "Malicious instructions embedded in content the model retrieves or processes (web pages, documents, tool output)."@en .
+
+threat:Jailbreak a owl:Class ; rdfs:subClassOf threat:MisuseAttack ;
+    rdfs:label "Jailbreak"@en ; asgo:externalId "AML.T0054" .
+
+threat:SupplyChainCompromise a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "AI Supply Chain Compromise"@en ;
+    asgo:externalId "OWASP LLM04:2026" , "OWASP LLM03:2025" , "AML.T0010" , "OWASP ASI04" .
+
+threat:ExcessiveAgency a owl:Class ; rdfs:subClassOf asgo:Vulnerability ;
+    rdfs:label "Excessive Agency"@en ; asgo:externalId "OWASP LLM03:2026" , "OWASP LLM06:2025" ;
+    skos:definition "An LLM-based system is granted more functionality, permissions or autonomy than needed."@en .
+
+threat:HiddenContextExposure a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Hidden Context Exposure"@en ; asgo:externalId "OWASP LLM08:2026" ;
+    skos:definition "Unauthorised extraction, inference or reconstruction of hidden, non-user-facing context placed in a model's context window: system prompts, developer instructions, retrieved policy text, tool and function schemas."@en ;
+    skos:scopeNote "Assume hidden context is discoverable; it must not contain secrets or be the sole enforcement point for security decisions."@en .
+
+threat:SystemPromptLeakage a owl:Class ; rdfs:subClassOf threat:HiddenContextExposure ;
+    rdfs:label "System Prompt Leakage"@en ; asgo:externalId "OWASP LLM07:2025" , "AML.T0056" .
+
+threat:ImproperOutputHandling a owl:Class ; rdfs:subClassOf asgo:Vulnerability ;
+    rdfs:label "Improper Output Handling"@en ; asgo:externalId "OWASP LLM10:2026" , "OWASP LLM05:2025" , "AML.T0077" .
+
+threat:UnboundedConsumption a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Unbounded Consumption"@en ; asgo:externalId "OWASP LLM06:2026" , "OWASP LLM10:2025" , "AML.T0029" , "AML.T0034" .
+
+threat:VectorEmbeddingWeakness a owl:Class ; rdfs:subClassOf asgo:Vulnerability ;
+    rdfs:label "Vector and Embedding Weaknesses"@en ; asgo:externalId "OWASP LLM09:2026" , "OWASP LLM08:2025" .
+
+# --- Agentic threats (OWASP Agentic Top 10 / ATLAS agentic techniques) -------
+
+threat:AgentGoalHijack a owl:Class ; rdfs:subClassOf asgo:AdversarialAttack ;
+    rdfs:label "Agent Goal Hijack"@en ; asgo:externalId "OWASP ASI01" ;
+    skos:definition "Manipulating an agent's objectives or decision logic, typically via direct or indirect prompt injection."@en .
+
+threat:ToolMisuse a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Tool Misuse and Exploitation"@en ; asgo:externalId "OWASP ASI02" , "AML.T0053" , "AML.T0086" , "AML.T0101" .
+
+threat:AgentToolPoisoning a owl:Class ; rdfs:subClassOf threat:SupplyChainCompromise ;
+    rdfs:label "AI Agent Tool Poisoning"@en ; asgo:externalId "AML.T0110" , "AML.T0010.005" ;
+    skos:definition "Malicious or tampered tool definitions, descriptions or servers (e.g. MCP) that steer an agent."@en .
+
+threat:IdentityPrivilegeAbuse a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Identity and Privilege Abuse"@en ; asgo:externalId "OWASP ASI03" , "AML.T0098" .
+
+threat:UnexpectedCodeExecution a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Unexpected Code Execution"@en ; asgo:externalId "OWASP ASI05" , "AML.T0050" .
+
+threat:MemoryContextPoisoning a owl:Class ; rdfs:subClassOf threat:PoisoningAttack ;
+    rdfs:label "Memory and Context Poisoning"@en ; asgo:externalId "OWASP ASI06" , "AML.T0080" , "AML.T0080.000" .
+
+threat:InsecureInterAgentCommunication a owl:Class ; rdfs:subClassOf asgo:Vulnerability ;
+    rdfs:label "Insecure Inter-Agent Communication"@en ; asgo:externalId "OWASP ASI07" .
+
+threat:CascadingFailure a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Cascading Failures"@en ; asgo:externalId "OWASP ASI08" .
+
+threat:HumanAgentTrustExploitation a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Human-Agent Trust Exploitation"@en ; asgo:externalId "OWASP ASI09" .
+
+threat:RogueAgent a owl:Class ; rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Rogue Agents"@en ; asgo:externalId "OWASP ASI10" .
+
+# -----------------------------------------------------------------------------
+# OWASP LLM Top 10 2026 entries
+# -----------------------------------------------------------------------------
+
+threat:LLM01-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM01:2026" ; rdfs:label "LLM01:2026 Prompt Injection"@en ; asgo:addresses threat:PromptInjection ; skos:exactMatch threat:LLM01-2025 .
+threat:LLM02-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM02:2026" ; rdfs:label "LLM02:2026 Sensitive Information Disclosure"@en ; asgo:addresses threat:DataReconstruction ; skos:exactMatch threat:LLM02-2025 .
+threat:LLM03-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM03:2026" ; rdfs:label "LLM03:2026 Excessive Agency"@en ; asgo:addresses threat:ExcessiveAgency ; skos:exactMatch threat:LLM06-2025 .
+threat:LLM04-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM04:2026" ; rdfs:label "LLM04:2026 Supply Chain"@en ; asgo:addresses threat:SupplyChainCompromise ; skos:exactMatch threat:LLM03-2025 .
+threat:LLM05-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM05:2026" ; rdfs:label "LLM05:2026 Data and Model Poisoning"@en ; asgo:addresses threat:PoisoningAttack ; skos:closeMatch threat:LLM04-2025 ;
+    skos:note "Now also absorbs fine-tuning subversion."@en .
+threat:LLM06-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM06:2026" ; rdfs:label "LLM06:2026 Unbounded Consumption"@en ; asgo:addresses threat:UnboundedConsumption ; skos:exactMatch threat:LLM10-2025 .
+threat:LLM07-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM07:2026" ; rdfs:label "LLM07:2026 Misinformation"@en ; asgo:addresses nist:Confabulation ; skos:exactMatch threat:LLM09-2025 .
+threat:LLM08-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM08:2026" ; rdfs:label "LLM08:2026 Hidden Context Exposure"@en ; asgo:addresses threat:HiddenContextExposure ; skos:broadMatch threat:LLM07-2025 ;
+    skos:note "Renamed and broadened from System Prompt Leakage: covers all hidden context (system prompt, developer instructions, retrieved policy text, tool schemas)."@en .
+threat:LLM09-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM09:2026" ; rdfs:label "LLM09:2026 Vector and Embedding Weaknesses"@en ; asgo:addresses threat:VectorEmbeddingWeakness , threat:RAGPoisoning ; skos:exactMatch threat:LLM08-2025 .
+threat:LLM10-2026 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "OWASP GenAI-LLM-Top10 GitHub, 2026/final" ; asgo:partOfFramework threat:OWASPLLMTop10-2026 ; asgo:identifier "LLM10:2026" ; rdfs:label "LLM10:2026 Improper Output Handling"@en ; asgo:addresses threat:ImproperOutputHandling ; skos:closeMatch threat:LLM05-2025 .
+
+# -----------------------------------------------------------------------------
+# OWASP LLM Top 10 2025 entries (superseded, kept for traceability)
+# -----------------------------------------------------------------------------
+
+threat:LLM01-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM01:2025" ; rdfs:label "LLM01:2025 Prompt Injection"@en ; asgo:addresses threat:PromptInjection .
+threat:LLM02-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM02:2025" ; rdfs:label "LLM02:2025 Sensitive Information Disclosure"@en ; asgo:addresses threat:DataReconstruction .
+threat:LLM03-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM03:2025" ; rdfs:label "LLM03:2025 Supply Chain"@en ; asgo:addresses threat:SupplyChainCompromise .
+threat:LLM04-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM04:2025" ; rdfs:label "LLM04:2025 Data and Model Poisoning"@en ; asgo:addresses threat:PoisoningAttack .
+threat:LLM05-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM05:2025" ; rdfs:label "LLM05:2025 Improper Output Handling"@en ; asgo:addresses threat:ImproperOutputHandling .
+threat:LLM06-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM06:2025" ; rdfs:label "LLM06:2025 Excessive Agency"@en ; asgo:addresses threat:ExcessiveAgency .
+threat:LLM07-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM07:2025" ; rdfs:label "LLM07:2025 System Prompt Leakage"@en ; asgo:addresses threat:SystemPromptLeakage .
+threat:LLM08-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM08:2025" ; rdfs:label "LLM08:2025 Vector and Embedding Weaknesses"@en ; asgo:addresses threat:VectorEmbeddingWeakness .
+threat:LLM09-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM09:2025" ; rdfs:label "LLM09:2025 Misinformation"@en ; asgo:addresses nist:Confabulation .
+threat:LLM10-2025 a asgo:FrameworkElement ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "genai.owasp.org/llm-top-10" ; asgo:partOfFramework threat:OWASPLLMTop10-2025 ; asgo:identifier "LLM10:2025" ; rdfs:label "LLM10:2025 Unbounded Consumption"@en ; asgo:addresses threat:UnboundedConsumption .
+
+# -----------------------------------------------------------------------------
+# OWASP Top 10 for Agentic Applications 2026
+# -----------------------------------------------------------------------------
+
+threat:ASI01 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI01" ; rdfs:label "ASI01 Agent Goal Hijack"@en ; asgo:addresses threat:AgentGoalHijack , threat:PromptInjection .
+threat:ASI02 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI02" ; rdfs:label "ASI02 Tool Misuse and Exploitation"@en ; asgo:addresses threat:ToolMisuse , threat:ExcessiveAgency .
+threat:ASI03 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI03" ; rdfs:label "ASI03 Identity and Privilege Abuse"@en ; asgo:addresses threat:IdentityPrivilegeAbuse .
+threat:ASI04 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI04" ; rdfs:label "ASI04 Agentic Supply Chain Vulnerabilities"@en ; asgo:addresses threat:SupplyChainCompromise , threat:AgentToolPoisoning .
+threat:ASI05 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI05" ; rdfs:label "ASI05 Unexpected Code Execution (RCE)"@en ; asgo:addresses threat:UnexpectedCodeExecution .
+threat:ASI06 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI06" ; rdfs:label "ASI06 Memory and Context Poisoning"@en ; asgo:addresses threat:MemoryContextPoisoning .
+threat:ASI07 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI07" ; rdfs:label "ASI07 Insecure Inter-Agent Communication"@en ; asgo:addresses threat:InsecureInterAgentCommunication .
+threat:ASI08 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI08" ; rdfs:label "ASI08 Cascading Failures"@en ; asgo:addresses threat:CascadingFailure .
+threat:ASI09 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI09" ; rdfs:label "ASI09 Human-Agent Trust Exploitation"@en ; asgo:addresses threat:HumanAgentTrustExploitation .
+threat:ASI10 a asgo:FrameworkElement ; asgo:verificationStatus asgo:CorroboratedSecondary ; asgo:verifiedWith "Two consistent secondary sources (official list is in the OWASP PDF)" ; asgo:partOfFramework threat:OWASPAgenticTop10 ; asgo:identifier "ASI10" ; rdfs:label "ASI10 Rogue Agents"@en ; asgo:addresses threat:RogueAgent .
+
+# Controls that mitigate these threats are defined in ai-controls.ttl.

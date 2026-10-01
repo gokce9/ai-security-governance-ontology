@@ -1,0 +1,12 @@
+# CQ4: Which risks of an AI system have no mitigating control (gap analysis)?
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?system ?risk ?likelihood ?severity WHERE {
+  ?s asgo:exposedTo ?r ; rdfs:label ?system .
+  ?r rdfs:label ?risk .
+  OPTIONAL { ?r asgo:likelihood ?likelihood }
+  OPTIONAL { ?r asgo:severity ?severity }
+  FILTER NOT EXISTS { ?r asgo:mitigatedBy ?c }
+  FILTER NOT EXISTS { ?r asgo:arisesFrom ?t . ?c2 asgo:mitigates ?t }
+}

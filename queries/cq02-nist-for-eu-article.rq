@@ -1,0 +1,11 @@
+# CQ2: Which NIST AI RMF categories support compliance with each EU AI Act article?
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX euaia: <https://w3id.org/asgo/eu-ai-act#>
+
+SELECT ?article ?matchType ?nistCategory WHERE {
+  ?a a euaia:Article ; asgo:identifier ?article ; ?p ?n .
+  VALUES (?p ?matchType) { (skos:closeMatch "close") (skos:relatedMatch "related") }
+  ?n asgo:identifier ?nistCategory .
+}
+ORDER BY ?article ?matchType

@@ -1,0 +1,504 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# AI Security Governance Ontology (ASGO) - Core
+# Upper-level classes and properties shared by every module.
+# Framework-specific content (NIST, EU AI Act, threats) lives in ./modules.
+# =============================================================================
+
+<https://w3id.org/asgo/core>
+    a owl:Ontology ;
+    dcterms:title "AI Security Governance Ontology (ASGO) - Core"@en ;
+    dcterms:description "Core vocabulary for describing AI systems, their security and governance risks, the controls that treat them, and the regulatory/framework requirements they must satisfy."@en ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by-nc/4.0/> ;
+    owl:versionInfo "0.1.0" .
+
+# -----------------------------------------------------------------------------
+# Annotation properties
+# -----------------------------------------------------------------------------
+
+asgo:sourceReference a owl:AnnotationProperty ;
+    rdfs:label "source reference"@en ;
+    rdfs:comment "Citation of the authoritative text (e.g. 'EU AI Act Art. 15(5)', 'NIST AI 100-1 MANAGE 4.1')."@en .
+
+asgo:sourceURL a owl:AnnotationProperty ;
+    rdfs:label "source URL"@en .
+
+asgo:authorityLevel a owl:AnnotationProperty ;
+    rdfs:label "authority level"@en ;
+    rdfs:comment "How binding the statement is. Value is one of the asgo:AuthorityLevel individuals."@en .
+
+asgo:externalId a owl:AnnotationProperty ;
+    rdfs:label "external identifier"@en ;
+    rdfs:comment "Identifier in an external catalogue (e.g. MITRE ATLAS technique ID, OWASP LLM Top 10 ID)."@en .
+
+# -----------------------------------------------------------------------------
+# Authority levels - lets normative text and practitioner insight coexist
+# -----------------------------------------------------------------------------
+
+asgo:AuthorityLevel a owl:Class ;
+    rdfs:label "Authority Level"@en .
+
+asgo:Normative a asgo:AuthorityLevel ;
+    rdfs:label "Normative"@en ;
+    skos:definition "Legally binding text (e.g. a regulation article)."@en .
+
+asgo:Voluntary a asgo:AuthorityLevel ;
+    rdfs:label "Voluntary framework"@en ;
+    skos:definition "Published guidance or framework adopted voluntarily (e.g. NIST AI RMF)."@en .
+
+asgo:Informative a asgo:AuthorityLevel ;
+    rdfs:label "Informative"@en ;
+    skos:definition "Community or industry catalogue (e.g. OWASP, MITRE ATLAS)."@en .
+
+asgo:PractitionerInsight a asgo:AuthorityLevel ;
+    rdfs:label "Practitioner insight"@en ;
+    skos:definition "Author-curated knowledge from professional experience; not an official interpretation."@en .
+
+# -----------------------------------------------------------------------------
+# Publication status - distinguishes final texts from drafts and revisions
+# -----------------------------------------------------------------------------
+
+asgo:publicationStatus a owl:AnnotationProperty ;
+    rdfs:label "publication status"@en ;
+    rdfs:comment "Lifecycle status of a framework document. Value is one of the asgo:PublicationStatus individuals."@en .
+
+asgo:statusCheckedOn a owl:AnnotationProperty ;
+    rdfs:label "status checked on"@en ;
+    rdfs:comment "Date the publication status was last verified against the publisher."@en .
+
+asgo:PublicationStatus a owl:Class ;
+    rdfs:label "Publication Status"@en .
+
+asgo:Final a asgo:PublicationStatus ; rdfs:label "Final / in force"@en .
+asgo:UnderRevision a asgo:PublicationStatus ; rdfs:label "Final, revision announced"@en .
+asgo:Draft a asgo:PublicationStatus ; rdfs:label "Draft / not yet final"@en .
+asgo:ConceptNote a asgo:PublicationStatus ; rdfs:label "Concept note / pre-draft"@en .
+asgo:Superseded a asgo:PublicationStatus ; rdfs:label "Superseded by a newer edition"@en ;
+    skos:definition "Kept for traceability because existing assessments still cite it. Link to the newer edition with dcterms:isReplacedBy."@en .
+
+# -----------------------------------------------------------------------------
+# Verification status - how far an element's title/text has been checked
+# -----------------------------------------------------------------------------
+
+asgo:verificationStatus a owl:AnnotationProperty ;
+    rdfs:label "verification status"@en ;
+    rdfs:comment "How the element's identifier and title were checked. Elements in a module marked as work in progress without this annotation are unverified."@en .
+
+asgo:mappingRationale a owl:AnnotationProperty ;
+    rdfs:label "mapping rationale"@en ;
+    rdfs:comment "Why a framework element is mapped (closeMatch/relatedMatch) to another; attach to the subject of the mapping."@en .
+
+asgo:reviewedBy a owl:AnnotationProperty ;
+    rdfs:label "reviewed by"@en ;
+    rdfs:comment "Name of the domain expert who reviewed a module or mapping set."@en .
+
+asgo:reviewScope a owl:AnnotationProperty ;
+    rdfs:label "review scope"@en ;
+    rdfs:comment "What a recorded review covered."@en .
+
+asgo:reviewedOn a owl:AnnotationProperty ;
+    rdfs:label "reviewed on"@en ;
+    rdfs:range xsd:date .
+
+asgo:verifiedWith a owl:AnnotationProperty ;
+    rdfs:label "verified with"@en ;
+    rdfs:comment "The source used for verification (citation string)."@en .
+
+asgo:VerificationStatus a owl:Class ;
+    rdfs:label "Verification Status"@en .
+
+asgo:VerifiedPrimary a asgo:VerificationStatus ; rdfs:label "Verified against the primary source"@en .
+asgo:CorroboratedSecondary a asgo:VerificationStatus ; rdfs:label "Corroborated by a secondary source"@en ;
+    skos:definition "Matches an independent secondary source that cites the primary text; still to be checked against the primary source."@en .
+asgo:Unverified a asgo:VerificationStatus ; rdfs:label "Unverified"@en .
+
+# -----------------------------------------------------------------------------
+# Top-level classes
+# -----------------------------------------------------------------------------
+
+asgo:AISystem a owl:Class ;
+    rdfs:label "AI System"@en ;
+    skos:definition "A machine-based system that infers from inputs how to generate outputs such as predictions, content, recommendations or decisions."@en ;
+    asgo:sourceReference "EU AI Act Art. 3(1); NIST AI 100-1 Sec. 1" .
+
+asgo:GeneralPurposeAIModel a owl:Class ;
+    rdfs:label "General-Purpose AI Model"@en ;
+    skos:definition "An AI model displaying significant generality and capable of competently performing a wide range of distinct tasks."@en ;
+    asgo:sourceReference "EU AI Act Art. 3(63)" .
+
+asgo:AIComponent a owl:Class ;
+    rdfs:label "AI Component"@en ;
+    skos:definition "A constituent part of an AI system: model, dataset, pipeline, prompt, tool, plugin, vector store, etc."@en .
+
+asgo:SystemPrompt a owl:Class ; rdfs:subClassOf asgo:AIComponent ; rdfs:label "System Prompt"@en .
+asgo:ToolIntegration a owl:Class ; rdfs:subClassOf asgo:AIComponent ; rdfs:label "Tool / Plugin Integration"@en ;
+    skos:definition "An external capability an AI system can invoke (API, function call, MCP server, agent tool)."@en .
+asgo:VectorStore a owl:Class ; rdfs:subClassOf asgo:AIComponent ; rdfs:label "Vector Store"@en .
+
+asgo:LifecycleStage a owl:Class ;
+    rdfs:label "AI Lifecycle Stage"@en .
+
+asgo:Actor a owl:Class ;
+    rdfs:label "Actor"@en ;
+    skos:definition "A natural or legal person, or an organisational role, that participates in the AI lifecycle."@en .
+
+asgo:Role a owl:Class ;
+    rdfs:label "Role"@en ;
+    skos:definition "A function an actor plays with respect to an AI system (e.g. provider, deployer). One actor can hold several roles."@en .
+
+asgo:Risk a owl:Class ;
+    rdfs:label "Risk"@en ;
+    skos:definition "The composite measure of an event's probability of occurring and the magnitude of its consequences."@en ;
+    asgo:sourceReference "NIST AI 100-1 Sec. 1.1; EU AI Act Art. 3(2)" .
+
+asgo:Threat a owl:Class ;
+    rdfs:label "Threat"@en ;
+    skos:definition "A potential cause of an unwanted incident, including adversarial attacks against AI components."@en .
+
+asgo:AdversarialAttack a owl:Class ;
+    rdfs:subClassOf asgo:Threat ;
+    rdfs:label "Adversarial Attack"@en .
+
+asgo:Vulnerability a owl:Class ;
+    rdfs:label "Vulnerability"@en .
+
+asgo:Harm a owl:Class ;
+    rdfs:label "Harm / Impact"@en ;
+    skos:definition "A negative consequence to individuals, groups, organisations, society or the environment."@en .
+
+asgo:TrustworthinessCharacteristic a owl:Class ;
+    rdfs:label "Trustworthiness Characteristic"@en .
+
+asgo:Control a owl:Class ;
+    rdfs:label "Control"@en ;
+    skos:definition "A safeguard or countermeasure (technical, organisational or procedural) that modifies risk."@en .
+
+asgo:TechnicalControl a owl:Class ; rdfs:subClassOf asgo:Control ; rdfs:label "Technical Control"@en .
+asgo:OrganisationalControl a owl:Class ; rdfs:subClassOf asgo:Control ; rdfs:label "Organisational Control"@en .
+
+asgo:Framework a owl:Class ;
+    rdfs:label "Framework / Regulation"@en ;
+    skos:definition "A body of requirements or guidance (regulation, standard, voluntary framework, catalogue)."@en .
+
+asgo:AmendingAct a owl:Class ;
+    rdfs:label "Amending Act"@en ;
+    skos:definition "A legal act that changes an existing framework rather than standing on its own (e.g. the Digital Omnibus on AI amending the EU AI Act)."@en .
+
+asgo:SourceDocument a owl:Class ;
+    rdfs:label "Source Document"@en ;
+    skos:definition "Reference material used to build or verify the ontology (e.g. training material, books, templates). Not a framework an organisation complies with."@en .
+
+asgo:ContentProvider a owl:Class ;
+    rdfs:label "Content Provider"@en ;
+    skos:definition "A person or channel through which source documents entered the project."@en .
+
+asgo:companionOf a owl:ObjectProperty ;
+    rdfs:label "companion of"@en ;
+    rdfs:comment "A supporting document (profile, guidance standard) that is used together with a core framework rather than on its own."@en ;
+    rdfs:domain asgo:Framework ; rdfs:range asgo:Framework .
+
+asgo:format a owl:DatatypeProperty ;
+    rdfs:label "format"@en ;
+    rdfs:range xsd:string .
+
+asgo:FrameworkElement a owl:Class ;
+    rdfs:label "Framework Element"@en ;
+    skos:definition "A citable unit inside a framework: article, annex, function, category, subcategory, technique."@en .
+
+asgo:Requirement a owl:Class ;
+    rdfs:subClassOf asgo:FrameworkElement ;
+    rdfs:label "Requirement / Obligation"@en ;
+    skos:definition "A framework element that states something an actor shall or should do."@en .
+
+asgo:RiskTier a owl:Class ;
+    rdfs:label "Risk Tier"@en ;
+    skos:definition "A regulatory risk classification of an AI system (e.g. prohibited, high-risk)."@en .
+
+asgo:EvidenceType a owl:Class ;
+    rdfs:label "Evidence Type"@en ;
+    skos:definition "A kind of documented information an auditor or regulator typically expects (e.g. AI risk register, Statement of Applicability)."@en .
+
+asgo:DocumentLevel a owl:Class ;
+    rdfs:label "Document Level"@en ;
+    skos:definition "Position of a document in a management-system documentation hierarchy."@en .
+
+asgo:PolicyLevel a asgo:DocumentLevel ; rdfs:label "Level 1 - Policy"@en ; skos:definition "High-level commitments and intent."@en .
+asgo:ProcedureLevel a asgo:DocumentLevel ; rdfs:label "Level 2 - Procedure / framework"@en ; skos:definition "How the organisation carries out a process."@en .
+asgo:RecordLevel a asgo:DocumentLevel ; rdfs:label "Level 3 - Register, plan or record"@en ; skos:definition "Operational outputs that prove the process ran."@en .
+asgo:SupportingLevel a asgo:DocumentLevel ; rdfs:label "Level 4 - Supporting document"@en ; skos:definition "Checklists, work instructions, templates."@en .
+
+# --- AI system inventory vocabularies ---------------------------------------
+
+asgo:AITechnique a owl:Class ; rdfs:label "AI Technique"@en .
+asgo:RuleBased a asgo:AITechnique ; rdfs:label "Rule-based / symbolic"@en .
+asgo:MachineLearning a asgo:AITechnique ; rdfs:label "Predictive machine learning"@en .
+asgo:GenerativeAI a asgo:AITechnique ; rdfs:label "Generative AI"@en .
+asgo:AgenticAI a asgo:AITechnique ; rdfs:label "Agentic AI (tool-using, autonomous)"@en .
+
+asgo:AutomationLevel a owl:Class ; rdfs:label "Automation Level"@en .
+asgo:DecisionSupport a asgo:AutomationLevel ; rdfs:label "Decision support (human decides)"@en .
+asgo:HumanInTheLoop a asgo:AutomationLevel ; rdfs:label "Human in the loop (human approves each decision)"@en .
+asgo:HumanOnTheLoop a asgo:AutomationLevel ; rdfs:label "Human on the loop (human monitors, can intervene)"@en .
+asgo:FullyAutomated a asgo:AutomationLevel ; rdfs:label "Fully automated decision (human out of the loop)"@en ;
+    skos:scopeNote "Requires human-out-of-the-loop safeguards: an emergency stop / disengagement mechanism, automatic shutdown on malfunction, and after-the-fact human review. Cf. EU AI Act Art. 14(4)(e), NIST AI RMF MANAGE 2.4."@en .
+
+asgo:DeploymentScope a owl:Class ;
+    rdfs:label "Deployment Scope"@en ;
+    skos:definition "How much of the AI stack the organisation owns: from using a public consumer app to training its own model. Determines which security controls apply."@en .
+
+asgo:deploymentScope a owl:ObjectProperty ;
+    rdfs:label "deployment scope"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:DeploymentScope .
+
+asgo:applicableToScope a owl:ObjectProperty ;
+    rdfs:label "applicable to scope"@en ;
+    rdfs:comment "The deployment scopes in which a control is expected."@en ;
+    rdfs:domain asgo:Control ; rdfs:range asgo:DeploymentScope .
+
+asgo:scopeLevel a owl:DatatypeProperty ;
+    rdfs:label "scope level"@en ;
+    rdfs:domain asgo:DeploymentScope ; rdfs:range xsd:integer .
+
+asgo:controlDomain a owl:AnnotationProperty ;
+    rdfs:label "control domain"@en ;
+    rdfs:comment "Grouping used to present the control catalogue (e.g. Data security, Identity and access, Model security)."@en .
+
+asgo:Sourcing a owl:Class ; rdfs:label "Sourcing"@en .
+asgo:DevelopedInternally a asgo:Sourcing ; rdfs:label "Developed internally"@en .
+asgo:ThirdPartyProvided a asgo:Sourcing ; rdfs:label "Procured / third-party (incl. SaaS)"@en .
+
+asgo:PractitionerCase a owl:Class ;
+    rdfs:label "Practitioner Case"@en ;
+    skos:definition "An anonymised, composite case drawn from the author's practice: a recurring deployment pattern with its AI system, typical risks, recommended controls, target outcome and lesson learned. It does not describe any single organisation."@en .
+
+asgo:caseSystem a owl:ObjectProperty ;
+    rdfs:label "case system"@en ;
+    rdfs:domain asgo:PractitionerCase ; rdfs:range asgo:AISystem .
+
+asgo:observedRisk a owl:ObjectProperty ;
+    rdfs:label "observed risk"@en ;
+    rdfs:domain asgo:PractitionerCase ; rdfs:range asgo:Risk .
+
+asgo:appliedControl a owl:ObjectProperty ;
+    rdfs:label "applied control"@en ;
+    rdfs:domain asgo:PractitionerCase ; rdfs:range asgo:Control .
+
+asgo:outcome a owl:AnnotationProperty ;
+    rdfs:label "outcome"@en .
+
+asgo:lessonLearned a owl:AnnotationProperty ;
+    rdfs:label "lesson learned"@en .
+
+asgo:Incident a owl:Class ;
+    rdfs:label "AI Incident"@en .
+
+asgo:Metric a owl:Class ;
+    rdfs:label "Metric"@en ;
+    skos:definition "A quantitative measure used to test a trustworthiness characteristic (e.g. precision, equal opportunity difference)."@en .
+
+asgo:RobustnessMetric a owl:Class ; rdfs:subClassOf asgo:Metric ; rdfs:label "Performance / robustness metric"@en .
+asgo:FairnessMetric a owl:Class ; rdfs:subClassOf asgo:Metric ; rdfs:label "Fairness metric"@en .
+
+asgo:AssessmentMethod a owl:Class ;
+    rdfs:label "Assessment Method"@en ;
+    skos:definition "A structured way of evaluating an AI system (an audit cycle, a questionnaire, a conformity assessment procedure)."@en .
+
+asgo:AssessmentStep a owl:Class ;
+    rdfs:label "Assessment Step"@en ;
+    skos:definition "An ordered step of an assessment method."@en .
+
+asgo:AssessmentQuestion a owl:Class ;
+    rdfs:label "Assessment Question"@en ;
+    skos:definition "A question an assessor asks about an AI system to surface risks (consequence scanning)."@en .
+
+asgo:GovernanceOperatingModel a owl:Class ;
+    rdfs:label "AI Governance Operating Model"@en ;
+    skos:definition "How AI governance responsibilities are distributed across an organisation (e.g. centralised, federated, hybrid)."@en .
+
+asgo:RiskSource a owl:Class ;
+    rdfs:label "AI Risk Source"@en ;
+    skos:definition "A property of AI that makes it riskier than traditional software (e.g. data dependence, human impact, opacity)."@en .
+
+# -----------------------------------------------------------------------------
+# Object properties
+# -----------------------------------------------------------------------------
+
+asgo:hasComponent a owl:ObjectProperty ;
+    rdfs:label "has component"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:AIComponent .
+
+asgo:basedOnModel a owl:ObjectProperty ;
+    rdfs:label "based on model"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:GeneralPurposeAIModel .
+
+asgo:hasRole a owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    rdfs:domain asgo:Actor ; rdfs:range asgo:Role .
+
+asgo:actsOn a owl:ObjectProperty ;
+    rdfs:label "acts on"@en ;
+    rdfs:comment "Links an actor to the AI system for which it holds a role."@en ;
+    rdfs:domain asgo:Actor ; rdfs:range asgo:AISystem .
+
+asgo:classifiedAs a owl:ObjectProperty ;
+    rdfs:label "classified as"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:RiskTier .
+
+asgo:inLifecycleStage a owl:ObjectProperty ;
+    rdfs:label "in lifecycle stage"@en ;
+    rdfs:range asgo:LifecycleStage .
+
+asgo:exposedTo a owl:ObjectProperty ;
+    rdfs:label "exposed to"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:Risk .
+
+asgo:arisesFrom a owl:ObjectProperty ;
+    rdfs:label "arises from"@en ;
+    rdfs:domain asgo:Risk ; rdfs:range asgo:Threat .
+
+asgo:mayCause a owl:ObjectProperty ;
+    rdfs:label "may cause"@en ;
+    rdfs:range asgo:Harm .
+
+asgo:affectsCharacteristic a owl:ObjectProperty ;
+    rdfs:label "affects characteristic"@en ;
+    rdfs:comment "The trustworthiness characteristic degraded by a threat or risk."@en ;
+    rdfs:range asgo:TrustworthinessCharacteristic .
+
+asgo:mitigates a owl:ObjectProperty ;
+    rdfs:label "mitigates"@en ;
+    rdfs:domain asgo:Control .
+
+asgo:mitigatedBy a owl:ObjectProperty ;
+    owl:inverseOf asgo:mitigates ;
+    rdfs:label "mitigated by"@en .
+
+asgo:implements a owl:ObjectProperty ;
+    rdfs:label "implements"@en ;
+    rdfs:comment "A control (fully or partly) implements a requirement or framework element."@en ;
+    rdfs:domain asgo:Control ; rdfs:range asgo:FrameworkElement .
+
+asgo:partOfFramework a owl:ObjectProperty ;
+    rdfs:label "part of framework"@en ;
+    rdfs:domain asgo:FrameworkElement ; rdfs:range asgo:Framework .
+
+asgo:parentElement a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:label "parent element"@en ;
+    rdfs:domain asgo:FrameworkElement ; rdfs:range asgo:FrameworkElement .
+
+asgo:appliesToRole a owl:ObjectProperty ;
+    rdfs:label "applies to role"@en ;
+    rdfs:domain asgo:Requirement ; rdfs:range asgo:Role .
+
+asgo:appliesToTier a owl:ObjectProperty ;
+    rdfs:label "applies to risk tier"@en ;
+    rdfs:domain asgo:Requirement ; rdfs:range asgo:RiskTier .
+
+asgo:addresses a owl:ObjectProperty ;
+    rdfs:label "addresses"@en ;
+    rdfs:comment "A framework element addresses a threat, risk or trustworthiness characteristic."@en ;
+    rdfs:domain asgo:FrameworkElement .
+
+asgo:amendedBy a owl:ObjectProperty ;
+    rdfs:label "amended by"@en ;
+    rdfs:comment "A framework or element is changed by a later amending act. Record the original value in skos:historyNote."@en ;
+    rdfs:range asgo:AmendingAct .
+
+asgo:demonstratedBy a owl:ObjectProperty ;
+    rdfs:label "demonstrated by"@en ;
+    rdfs:comment "Links a requirement or control to the evidence type (or concrete evidence) that demonstrates it."@en .
+
+asgo:documentLevel a owl:ObjectProperty ;
+    rdfs:label "document level"@en ;
+    rdfs:domain asgo:EvidenceType ; rdfs:range asgo:DocumentLevel .
+
+asgo:usesTechnique a owl:ObjectProperty ;
+    rdfs:label "uses technique"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:AITechnique .
+
+asgo:automationLevel a owl:ObjectProperty ;
+    rdfs:label "automation level"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:AutomationLevel .
+
+asgo:sourcing a owl:ObjectProperty ;
+    rdfs:label "sourcing"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range asgo:Sourcing .
+
+asgo:supportsBusinessProcess a owl:DatatypeProperty ;
+    rdfs:label "supports business process"@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range xsd:string .
+
+asgo:intendedPurpose a owl:DatatypeProperty ;
+    rdfs:label "intended purpose"@en ;
+    rdfs:comment "Cf. EU AI Act Art. 3(12)."@en ;
+    rdfs:domain asgo:AISystem ; rdfs:range xsd:string .
+
+asgo:partOfMethod a owl:ObjectProperty ;
+    rdfs:label "part of method"@en ;
+    rdfs:range asgo:AssessmentMethod .
+
+asgo:stepOrder a owl:DatatypeProperty ;
+    rdfs:label "step order"@en ;
+    rdfs:domain asgo:AssessmentStep ; rdfs:range xsd:integer .
+
+asgo:formula a owl:DatatypeProperty ;
+    rdfs:label "formula"@en ;
+    rdfs:domain asgo:Metric ; rdfs:range xsd:string .
+
+asgo:threshold a owl:DatatypeProperty ;
+    rdfs:label "threshold / rule of thumb"@en ;
+    rdfs:domain asgo:Metric ; rdfs:range xsd:string .
+
+asgo:measuredBy a owl:ObjectProperty ;
+    rdfs:label "measured by"@en ;
+    rdfs:range asgo:Metric .
+
+# -----------------------------------------------------------------------------
+# Datatype properties
+# -----------------------------------------------------------------------------
+
+asgo:identifier a owl:DatatypeProperty ;
+    rdfs:label "identifier"@en ;
+    rdfs:range xsd:string .
+
+asgo:applicableFrom a owl:AnnotationProperty ;
+    rdfs:label "applicable from"@en ;
+    rdfs:comment "Date from which a requirement applies. Modelled as an annotation property because xsd:date is not in the OWL 2 datatype map; keeps the ontology within OWL 2 DL for Protege/HermiT."@en ;
+    rdfs:range xsd:date .
+
+asgo:likelihood a owl:DatatypeProperty ;
+    rdfs:label "likelihood"@en ;
+    rdfs:domain asgo:Risk ; rdfs:range xsd:integer .
+
+asgo:severity a owl:DatatypeProperty ;
+    rdfs:label "severity"@en ;
+    rdfs:domain asgo:Risk ; rdfs:range xsd:integer .
+
+asgo:maxFineEUR a owl:DatatypeProperty ;
+    rdfs:label "maximum fine (EUR)"@en ;
+    rdfs:range xsd:decimal .
+
+asgo:maxFinePercentTurnover a owl:DatatypeProperty ;
+    rdfs:label "maximum fine (% worldwide annual turnover)"@en ;
+    rdfs:range xsd:decimal .
+
+# -----------------------------------------------------------------------------
+# Lifecycle stages (aligned with NIST AI RMF Fig. 2 / OECD lifecycle)
+# -----------------------------------------------------------------------------
+
+asgo:PlanAndDesign a asgo:LifecycleStage ; rdfs:label "Plan and Design"@en .
+asgo:CollectAndProcessData a asgo:LifecycleStage ; rdfs:label "Collect and Process Data"@en .
+asgo:BuildAndUseModel a asgo:LifecycleStage ; rdfs:label "Build and Use Model"@en .
+asgo:VerifyAndValidate a asgo:LifecycleStage ; rdfs:label "Verify and Validate"@en .
+asgo:Deploy a asgo:LifecycleStage ; rdfs:label "Deploy and Use"@en .
+asgo:OperateAndMonitor a asgo:LifecycleStage ; rdfs:label "Operate and Monitor"@en .
+asgo:Decommission a asgo:LifecycleStage ; rdfs:label "Decommission"@en .

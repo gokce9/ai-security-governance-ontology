@@ -1,0 +1,350 @@
+@prefix asgo:     <https://w3id.org/asgo/core#> .
+@prefix tai:      <https://w3id.org/asgo/assessment#> .
+@prefix src:      <https://w3id.org/asgo/sources#> .
+@prefix nist:     <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix csf:      <https://w3id.org/asgo/nist-csf#> .
+@prefix euaia:    <https://w3id.org/asgo/eu-ai-act#> .
+@prefix oecd:     <https://w3id.org/asgo/oecd-ai#> .
+@prefix ev:       <https://w3id.org/asgo/evidence#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# Trustworthy AI assessment
+# The auditor's perspective: how to evaluate an AI system, not only which
+# rules apply. Covers an assessment cycle, consequence-scanning questions,
+# performance and fairness metrics, the EU AI Act conformity assessment route
+# (Annex VI), AI governance operating models, and AI-specific risk sources.
+#
+# Source: GokceINFO. Content is paraphrased; mappings to frameworks are the
+# ASGO author's interpretation (asgo:PractitionerInsight).
+#
+# Note on article numbers: some source references follow the 2021 Commission
+# proposal numbering. This module uses the final Regulation (EU) 2024/1689
+# numbering and records source references in skos:editorialNote.
+# =============================================================================
+
+<https://w3id.org/asgo/assessment>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/evidence> , <https://w3id.org/asgo/oecd-ai> , <https://w3id.org/asgo/sources> ;
+    dcterms:title "ASGO - Trustworthy AI assessment module"@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date ;
+    owl:versionInfo "0.1.0" .
+
+# Source document: src:GokceINFO (ontology/sources.ttl)
+
+# =============================================================================
+# 1. Trustworthiness assessment cycle (5 steps)
+# =============================================================================
+
+tai:TrustworthinessCycle a asgo:AssessmentMethod ;
+    rdfs:label "Five-step trustworthiness assessment cycle"@en ;
+    skos:definition "Iterative cycle run across the AI lifecycle: anticipate consequences and set oversight, check data, define principle-based metrics, test and document, then monitor and review."@en ;
+    dcterms:source src:GokceINFO .
+
+tai:Cycle1 a asgo:AssessmentStep ; asgo:partOfMethod tai:TrustworthinessCycle ; asgo:stepOrder 1 ;
+    rdfs:label "Consequences and oversight"@en ;
+    skos:definition "Anticipate intended and unintended consequences for every stakeholder and decide the level of human oversight."@en ;
+    asgo:inLifecycleStage asgo:PlanAndDesign ;
+    skos:relatedMatch nist:MP-5.1 , nist:MP-3.5 , nist:GV-3.2 , euaia:Art14 , euaia:Art27 .
+
+tai:Cycle2 a asgo:AssessmentStep ; asgo:partOfMethod tai:TrustworthinessCycle ; asgo:stepOrder 2 ;
+    rdfs:label "Data quality and conformance"@en ;
+    skos:definition "Check data quality and representativeness, and confirm consent and lawful purpose for access and use."@en ;
+    asgo:inLifecycleStage asgo:CollectAndProcessData ;
+    skos:relatedMatch nist:MP-2.3 , nist:MP-4.1 , euaia:Art10 .
+
+tai:Cycle3 a asgo:AssessmentStep ; asgo:partOfMethod tai:TrustworthinessCycle ; asgo:stepOrder 3 ;
+    rdfs:label "Principles and metrics"@en ;
+    skos:definition "Translate organisational values and principles into measurable performance and fairness metrics."@en ;
+    asgo:inLifecycleStage asgo:PlanAndDesign ;
+    skos:relatedMatch nist:GV-1.2 , nist:MS-1.1 , oecd:P1.2 .
+
+tai:Cycle4 a asgo:AssessmentStep ; asgo:partOfMethod tai:TrustworthinessCycle ; asgo:stepOrder 4 ;
+    rdfs:label "Testing and documentation"@en ;
+    skos:definition "Test performance, robustness and fairness; document results; audit against sectoral and regional mandates."@en ;
+    asgo:inLifecycleStage asgo:VerifyAndValidate ;
+    skos:relatedMatch nist:MS-2.1 , nist:MS-2.5 , nist:MS-2.11 , euaia:Art11 , euaia:Art15 .
+
+tai:Cycle5 a asgo:AssessmentStep ; asgo:partOfMethod tai:TrustworthinessCycle ; asgo:stepOrder 5 ;
+    rdfs:label "Monitoring and review"@en ;
+    skos:definition "Monitor performance in operation and update regularly to catch model drift and decay."@en ;
+    asgo:inLifecycleStage asgo:OperateAndMonitor ;
+    skos:relatedMatch nist:MS-2.4 , nist:MG-4.1 , euaia:Art72 .
+
+# =============================================================================
+# 2. Consequence-scanning questions (12)
+# =============================================================================
+
+tai:KeyQuestions a asgo:AssessmentMethod ;
+    rdfs:label "Trustworthiness key questions (consequence scanning)"@en ;
+    dcterms:source src:GokceINFO .
+
+tai:Q01 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 1 ;
+    rdfs:label "Data, privacy and IP rights"@en ;
+    skos:definition "Is the data sufficient for the required performance, and do we hold access rights and consent to use it?"@en ;
+    asgo:addresses nist:PrivacyEnhanced , nist:DataPrivacy , nist:IntellectualProperty ;
+    skos:relatedMatch euaia:Art10 , nist:MP-4.1 .
+
+tai:Q02 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 2 ;
+    rdfs:label "Bias and discrimination"@en ;
+    skos:definition "Have systemic biases and under-representation in training data been checked, and does the system behave well on edge cases?"@en ;
+    asgo:addresses nist:FairWithHarmfulBiasManaged , nist:HarmfulBiasAndHomogenization ;
+    skos:relatedMatch euaia:Art10 , nist:MS-2.11 .
+
+tai:Q03 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 3 ;
+    rdfs:label "Explainability"@en ;
+    skos:definition "Can an adequate explanation of an outcome be given, in particular when a complaint is raised?"@en ;
+    asgo:addresses nist:ExplainableAndInterpretable ;
+    skos:relatedMatch euaia:Art13 , nist:MS-2.9 , oecd:P1.3 .
+
+tai:Q04 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 4 ;
+    rdfs:label "Performance"@en ;
+    skos:definition "Does the model behave as intended, at a level fit for the task and context?"@en ;
+    asgo:addresses nist:ValidAndReliable ;
+    skos:relatedMatch euaia:Art15 , nist:MS-2.3 , nist:MS-2.5 .
+
+tai:Q05 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 5 ;
+    rdfs:label "Human impact"@en ;
+    skos:definition "Will use of the system erode people's skills or ability to do their work?"@en ;
+    asgo:addresses nist:HumanAIConfiguration ;
+    skos:relatedMatch nist:MP-5.1 , oecd:R2.4 .
+
+tai:Q06 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 6 ;
+    rdfs:label "Environmental impact"@en ;
+    skos:definition "Is the carbon and resource footprint known and proportionate?"@en ;
+    asgo:addresses nist:EnvironmentalImpacts ;
+    skos:relatedMatch nist:MS-2.12 , oecd:P1.1 .
+
+tai:Q07 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 7 ;
+    rdfs:label "Oversight"@en ;
+    skos:definition "Who intervenes when the system fails, and is the level of human oversight proportionate to the purpose?"@en ;
+    skos:relatedMatch euaia:Art14 , nist:MP-3.5 , nist:GV-3.2 , nist:MG-2.4 .
+
+tai:Q08 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 8 ;
+    rdfs:label "Security"@en ;
+    skos:definition "Can the system be attacked or manipulated, and what cybersecurity measures are in place?"@en ;
+    asgo:addresses nist:SecureAndResilient , nist:InformationSecurity ;
+    skos:relatedMatch euaia:Art15-5 , euaia:Art42 , nist:MS-2.7 ;
+    skos:note "ASGO extension: drill down with the OWASP LLM / Agentic Top 10 and ATLAS techniques in the threats module."@en .
+
+tai:Q09 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 9 ;
+    rdfs:label "Compliance"@en ;
+    skos:definition "Does the system comply with the law in every region where it operates?"@en ;
+    skos:relatedMatch nist:GV-1.1 , csf:GV.OC-03 .
+
+tai:Q10 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 10 ;
+    rdfs:label "Transparency"@en ;
+    skos:definition "Do users know they are dealing with an automated system, and are its purpose and nature clear to them?"@en ;
+    asgo:addresses nist:AccountableAndTransparent ;
+    skos:relatedMatch euaia:Art50 , euaia:Art13 , oecd:P1.3 .
+
+tai:Q11 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 11 ;
+    rdfs:label "Complaints process"@en ;
+    skos:definition "Is there a route for users to complain and get issues corrected?"@en ;
+    skos:relatedMatch nist:MS-3.3 , nist:GV-5.1 , oecd:P1.3 .
+
+tai:Q12 a asgo:AssessmentQuestion ; asgo:partOfMethod tai:KeyQuestions ; asgo:stepOrder 12 ;
+    rdfs:label "Monitoring"@en ;
+    skos:definition "Is performance tracked over time to detect drift or decay, and can the system adapt to change?"@en ;
+    skos:relatedMatch euaia:Art72 , nist:MS-2.4 , nist:MG-4.1 .
+
+# =============================================================================
+# 3. Metrics
+# =============================================================================
+
+tai:ConfusionMatrix a asgo:RobustnessMetric ;
+    rdfs:label "Confusion matrix"@en ;
+    skos:definition "Breakdown of predictions into true positives, false positives, true negatives and false negatives; basis for most classification and fairness metrics and useful for spotting error patterns that hint at bias."@en .
+
+tai:Precision a asgo:RobustnessMetric ;
+    rdfs:label "Precision"@en ;
+    asgo:formula "TP / (TP + FP)" ;
+    skos:definition "Share of positive predictions that are correct. Prioritise when false positives are costly (e.g. unnecessary medical follow-up)."@en .
+
+tai:Recall a asgo:RobustnessMetric ;
+    rdfs:label "Recall / true positive rate (sensitivity)"@en ;
+    asgo:formula "TP / (TP + FN)" ;
+    skos:definition "Share of actual positives that are detected. Basis of the equal opportunity fairness metric."@en .
+
+tai:Accuracy a asgo:RobustnessMetric ;
+    rdfs:label "Accuracy"@en ;
+    asgo:formula "(TP + TN) / (TP + TN + FP + FN)" ;
+    skos:definition "Overall share of correct predictions."@en ;
+    skos:scopeNote "Misleading on imbalanced data: a fraud model that always predicts 'not fraud' can score high accuracy while being useless."@en .
+
+tai:ROCAUC a asgo:RobustnessMetric ;
+    rdfs:label "ROC curve and AUC"@en ;
+    asgo:formula "ROC: TPR vs FPR across thresholds; AUC = area under the ROC curve" ;
+    asgo:threshold "AUC near 1 = strong separation; near 0.5 = no better than chance" ;
+    skos:definition "Threshold-independent view of the trade-off between sensitivity and specificity; useful when false positives and false negatives have different costs."@en .
+
+tai:IndividualFairness a asgo:FairnessMetric ;
+    rdfs:label "Individual fairness"@en ;
+    skos:definition "Individuals who are similar in task-relevant respects receive similar outcomes."@en .
+
+tai:DemographicParity a asgo:FairnessMetric ;
+    rdfs:label "Demographic (statistical) parity"@en ;
+    asgo:formula "P(Ŷ=1 | A=a) = P(Ŷ=1 | A=b)" ;
+    skos:definition "Selection rates are equal across demographic groups."@en ;
+    skos:scopeNote "Ignores differences in error rates between groups."@en .
+
+tai:EqualOpportunity a asgo:FairnessMetric ;
+    rdfs:label "Equal opportunity"@en ;
+    asgo:formula "TPR(group a) = TPR(group b)" ;
+    skos:definition "Qualified individuals are equally likely to receive the positive outcome in every group."@en .
+
+tai:EqualisedOdds a asgo:FairnessMetric ;
+    rdfs:label "Equalised odds"@en ;
+    asgo:formula "TPR and FPR equal across groups" ;
+    skos:definition "Both correct positive decisions and false positives are distributed equally across groups."@en .
+
+tai:DisparateImpact a asgo:FairnessMetric ;
+    rdfs:label "Disparate impact ratio"@en ;
+    asgo:formula "P(Ŷ=1 | unprivileged) / P(Ŷ=1 | privileged)" ;
+    asgo:threshold "≥ 0.8 (four-fifths rule)" ;
+    skos:definition "Detects unintended adverse impact on a group by comparing positive-outcome rates."@en ;
+    skos:note "The four-fifths rule originates in the US Uniform Guidelines on Employee Selection Procedures (1978); it is a screening heuristic, not an EU legal threshold."@en .
+
+tai:FairnessTradeOffNote a skos:Concept ;
+    rdfs:label "Fairness metrics cannot all be satisfied at once"@en ;
+    skos:note "Group metrics (parity, equal opportunity, equalised odds) generally conflict when base rates differ between groups. Fairness is contextual: choose and justify metrics per use case, and document the choice (Art. 11 / MEASURE 2.11). Measuring fairness needs sensitive attributes, comparable skills data and unbiased ground truth - which may require synthetic data and experimentation."@en ;
+    dcterms:subject nist:MS-2.11 , euaia:Art10 ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+# --- Which requirements are tested with which metrics ------------------------
+nist:MS-2.3  asgo:measuredBy tai:Precision , tai:Recall , tai:Accuracy , tai:ROCAUC .
+nist:MS-2.5  asgo:measuredBy tai:ConfusionMatrix , tai:ROCAUC .
+nist:MS-2.11 asgo:measuredBy tai:DemographicParity , tai:EqualOpportunity , tai:EqualisedOdds , tai:DisparateImpact , tai:IndividualFairness .
+euaia:Art15  asgo:measuredBy tai:Precision , tai:Recall , tai:Accuracy , tai:ROCAUC ;
+             skos:editorialNote "Art. 15(3): accuracy levels and the relevant accuracy metrics must be declared in the instructions for use."@en .
+euaia:Art10  asgo:measuredBy tai:DemographicParity , tai:EqualOpportunity , tai:EqualisedOdds , tai:DisparateImpact .
+
+# =============================================================================
+# 4. Conformity assessment route for a high-risk (non-biometric) Annex III
+#    system - internal control, Annex VI
+# =============================================================================
+
+tai:ConformityAssessmentAnnexVI a asgo:AssessmentMethod ;
+    rdfs:label "Conformity assessment roadmap - internal control (Annex VI)"@en ;
+    skos:definition "Ten-step route to demonstrate that a high-risk AI system meets Chapter III, Section 2 before placing on the market. Starting point only: the applicable articles depend on the system."@en ;
+    dcterms:source src:GokceINFO ;
+    skos:relatedMatch euaia:Art43 , euaia:AnnexVI .
+
+tai:CA01 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 1 ;
+    rdfs:label "Define scope and requirements"@en ;
+    skos:definition "Classify the system, identify the applicable requirements and the conformity route, fix the assessment scope."@en ;
+    skos:relatedMatch euaia:Art6 , euaia:Art43 .
+
+tai:CA02 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 2 ;
+    rdfs:label "Risk management and mitigation planning"@en ;
+    skos:relatedMatch euaia:Art9 .
+
+tai:CA03 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 3 ;
+    rdfs:label "Data governance and quality assessment"@en ;
+    skos:relatedMatch euaia:Art10 ;
+    skos:note "GokceINFO insight: an existing GDPR DPIA covers much of Art. 10 groundwork."@en .
+
+tai:CA04 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 4 ;
+    rdfs:label "Algorithm choice, metrics and model testing"@en ;
+    skos:definition "Test accuracy and robustness, evaluate fairness and non-discrimination with documented metrics."@en ;
+    skos:relatedMatch euaia:Art15 .
+
+tai:CA05 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 5 ;
+    rdfs:label "Transparency and explainability"@en ;
+    skos:relatedMatch euaia:Art13 , euaia:Art14 .
+
+tai:CA06 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 6 ;
+    rdfs:label "Security and privacy controls"@en ;
+    skos:definition "Run a security assessment (incl. AI-specific attacks such as prompt injection) and implement privacy safeguards."@en ;
+    skos:relatedMatch euaia:Art10 , euaia:Art15 , euaia:Art15-5 , euaia:Art42 ;
+    skos:note "ASGO extension: an EU Cybersecurity Act certificate can create a presumption of conformity for Art. 15 cybersecurity (Art. 42(2))."@en .
+
+tai:CA07 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 7 ;
+    rdfs:label "Continuous monitoring and quality management"@en ;
+    skos:relatedMatch euaia:Art12 , euaia:Art17 , euaia:Art72 ;
+    skos:editorialNote "GokceINFO source also cites Art. 19 (automatically generated logs)."@en .
+
+tai:CA08 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 8 ;
+    rdfs:label "Document and register the AI system"@en ;
+    skos:relatedMatch euaia:Art11 , euaia:Art47 , euaia:Art49 , euaia:Art71 ;
+    skos:editorialNote "GokceINFO source cites Art. 47, 49 and Annexes V and IX. In the final text the EU declaration of conformity is Art. 47 (content: Annex V) and registration information is in Annex VIII; Annex IX concerns registration of testing in real-world conditions. The same source also cites 'Articles 48 and 49' for the declaration and 'Articles 51 and 60' for registration, which matches the 2021 proposal numbering - final text: Art. 47 declaration, Art. 48 CE marking, Art. 49 registration, Art. 71 EU database."@en .
+
+tai:CA09 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 9 ;
+    rdfs:label "Third-party audit (if applicable)"@en ;
+    skos:definition "Engage a notified body where the route requires it (e.g. biometric systems without full application of harmonised standards)."@en ;
+    skos:relatedMatch euaia:AnnexVII .
+
+tai:CA10 a asgo:AssessmentStep ; asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder 10 ;
+    rdfs:label "Approval and deployment"@en ;
+    skos:relatedMatch euaia:Art16 , euaia:Art48 .
+
+# =============================================================================
+# 5. Setting up AI governance
+# =============================================================================
+
+tai:Centralised a asgo:GovernanceOperatingModel ;
+    rdfs:label "Centralised AI governance"@en ;
+    skos:definition "One central function sets standards, keeps the AI inventory and reviews use cases."@en ;
+    skos:note "Pros: consistency, single inventory, uniform ethical standards. Cons: review backlogs, resourcing bottlenecks, resistance from business units."@en .
+
+tai:Federated a asgo:GovernanceOperatingModel ;
+    rdfs:label "Federated AI governance"@en ;
+    skos:definition "Regional or business units govern their own AI within light central guidance."@en ;
+    skos:note "Pros: autonomy, faster decisions, higher adoption (suits franchise-like structures). Cons: hard to set global standards and protect the brand across jurisdictions."@en .
+
+tai:Hybrid a asgo:GovernanceOperatingModel ;
+    rdfs:label "Hybrid AI governance"@en ;
+    skos:definition "Central standards and inventory combined with local implementation, tailored to the organisation."@en .
+
+tai:SetupDecisions a asgo:AssessmentMethod ;
+    rdfs:label "Three decisions when setting up AI governance"@en ;
+    skos:note "Embed AI governance in existing enterprise risk management rather than running it stand-alone; give senior leadership a menu of options to co-develop the plan with the board."@en ;
+    dcterms:source src:GokceINFO .
+
+tai:Decision1 a asgo:AssessmentStep ; asgo:partOfMethod tai:SetupDecisions ; asgo:stepOrder 1 ;
+    rdfs:label "Choose the governance operating model"@en ;
+    skos:definition "Centralised, federated or hybrid."@en ;
+    skos:relatedMatch nist:GV-2.1 .
+
+tai:Decision2 a asgo:AssessmentStep ; asgo:partOfMethod tai:SetupDecisions ; asgo:stepOrder 2 ;
+    rdfs:label "Assess people and skills"@en ;
+    skos:definition "Build internally, hire, or outsource AI ethics and compliance; build an interdisciplinary team (data science, law, ethics, social science, cybersecurity)."@en ;
+    skos:note "Outsourcing brings expertise quickly but creates vendor dependency."@en ;
+    skos:relatedMatch nist:GV-3.1 , nist:GV-2.2 , euaia:Art4 .
+
+tai:Decision3 a asgo:AssessmentStep ; asgo:partOfMethod tai:SetupDecisions ; asgo:stepOrder 3 ;
+    rdfs:label "Set scope and funding"@en ;
+    skos:definition "Treat AI governance as an investment with a business plan, roadmap and funding model."@en ;
+    skos:relatedMatch nist:GV-1.3 .
+
+# =============================================================================
+# 6. What makes AI risk different from traditional software
+# =============================================================================
+
+tai:DataDependence a asgo:RiskSource ;
+    rdfs:label "Data dependence"@en ;
+    skos:definition "AI is data-hungry, which creates IP infringement, data quality and privacy risks."@en ;
+    skos:relatedMatch nist:IntellectualProperty , nist:DataPrivacy .
+
+tai:HumanImpact a asgo:RiskSource ;
+    rdfs:label "Impact on humans"@en ;
+    skos:definition "Anthropomorphism, automation bias (over-trusting outputs), deskilling and job displacement."@en ;
+    skos:relatedMatch nist:HumanAIConfiguration .
+
+tai:Opacity a asgo:RiskSource ;
+    rdfs:label "Opacity and performance risk"@en ;
+    skos:definition "Black-box models whose predictions cannot be fully explained, complicating transparency and explainability obligations."@en ;
+    asgo:affectsCharacteristic nist:ExplainableAndInterpretable .
+
+tai:OffLabelUse a asgo:RiskSource ;
+    rdfs:label "Use beyond intended purpose"@en ;
+    skos:definition "General-purpose systems used for tasks they were not designed or validated for (e.g. a chatbot used for mental-health diagnosis)."@en ;
+    skos:relatedMatch oecd:P1.2 , nist:MP-3.3 .

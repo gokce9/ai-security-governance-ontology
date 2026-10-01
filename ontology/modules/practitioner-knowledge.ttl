@@ -1,0 +1,224 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix pk:      <https://w3id.org/asgo/practitioner#> .
+@prefix ctl:     <https://w3id.org/asgo/controls#> .
+@prefix nist:    <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix euaia:   <https://w3id.org/asgo/eu-ai-act#> .
+@prefix threat:  <https://w3id.org/asgo/threats#> .
+@prefix src:     <https://w3id.org/asgo/sources#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# Practitioner knowledge
+# Anonymised, composite cases drawn from the author's practice: recurring
+# patterns seen across AI deployments, not accounts of any single organisation.
+# Organisations, products, tools and timelines are removed or generalised.
+# asgo:outcome describes the recommended target state, not a specific event.
+# Every case carries:
+#   asgo:authorityLevel asgo:PractitionerInsight
+#   dcterms:creator     "<your name>"
+#   dcterms:created     "<YYYY-MM-DD>"^^xsd:date
+# The SHACL shapes in /shapes enforce this.
+# New controls go to ai-controls.ttl; new mappings to mappings/.
+# =============================================================================
+
+<https://w3id.org/asgo/practitioner>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/controls> , <https://w3id.org/asgo/sources> ;
+    dcterms:title "ASGO - Practitioner knowledge module"@en ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:source src:GokceINFO ;
+    owl:versionInfo "0.2.0" .
+
+# =============================================================================
+# Case 1 - Internal knowledge-base RAG assistant
+# =============================================================================
+
+pk:Case1 a asgo:PractitionerCase ;
+    rdfs:label "Case 1 - Internal knowledge-base RAG assistant"@en ;
+    asgo:caseSystem pk:InternalKBAssistant ;
+    asgo:observedRisk pk:Case1-OverbroadRetrieval , pk:Case1-HiddenInstructions ;
+    asgo:appliedControl ctl:PermissionAwareRetrieval , ctl:IngestionSanitisation ;
+    asgo:outcome "Recommended target state: retrieval runs with the requesting user's permissions and indexed content is sanitised before ingestion, so the assistant can go live without exposing confidential documents."@en ;
+    asgo:lessonLearned "In RAG systems the model's permissions can never exceed those of the person using it. The data classification and access control applied when indexing are the most fundamental factors deciding how safe the generated answers are."@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:source src:GokceINFO ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+pk:InternalKBAssistant a asgo:AISystem ;
+    rdfs:label "Internal knowledge-base RAG assistant (Case 1)"@en ;
+    asgo:intendedPurpose "Employees ask natural-language questions about HR policies, technical documentation and internal wiki pages" ;
+    asgo:supportsBusinessProcess "Internal communication and knowledge management" ;
+    asgo:usesTechnique asgo:GenerativeAI ;
+    asgo:automationLevel asgo:DecisionSupport ;
+    asgo:sourcing asgo:ThirdPartyProvided ;
+    asgo:deploymentScope ctl:Scope3 ;
+    asgo:classifiedAs euaia:TransparencyRisk ;
+    asgo:inLifecycleStage asgo:OperateAndMonitor ;
+    asgo:hasComponent pk:Case1-VectorIndex ;
+    asgo:exposedTo pk:Case1-OverbroadRetrieval , pk:Case1-HiddenInstructions .
+
+pk:Case1-VectorIndex a asgo:VectorStore ; rdfs:label "Case 1 - Indexed internal documents (vector database)"@en .
+
+pk:Case1-OverbroadRetrieval a asgo:Risk ;
+    rdfs:label "Retrieval open to all documents lets low-privilege users extract confidential content (payroll, strategy) through summaries"@en ;
+    skos:note "Common pattern: search permissions default to every indexed document, so a low-privilege user can ask the assistant to summarise documents meant only for management."@en ;
+    asgo:arisesFrom threat:VectorEmbeddingWeakness ;
+    asgo:affectsCharacteristic nist:PrivacyEnhanced ;
+    asgo:likelihood 4 ; asgo:severity 5 ;
+    asgo:mitigatedBy ctl:PermissionAwareRetrieval .
+
+pk:Case1-HiddenInstructions a asgo:Risk ;
+    rdfs:label "Hidden instructions in indexed documents (e.g. white-on-white text) manipulate the assistant"@en ;
+    asgo:arisesFrom threat:IndirectPromptInjection ;
+    asgo:likelihood 3 ; asgo:severity 4 ;
+    asgo:mitigatedBy ctl:IngestionSanitisation .
+
+# =============================================================================
+# Case 2 - Customer-facing support chatbot with actions
+# =============================================================================
+
+pk:Case2 a asgo:PractitionerCase ;
+    rdfs:label "Case 2 - Customer-facing support chatbot with actions"@en ;
+    asgo:caseSystem pk:CustomerSupportBot ;
+    asgo:observedRisk pk:Case2-Jailbreak , pk:Case2-PromptDisclosure , pk:Case2-PIIToProvider , pk:Case2-UncontrolledActions ;
+    asgo:appliedControl ctl:DeterministicActionGate , ctl:HumanApprovalForActions , ctl:ConversationalPIIMasking , ctl:InputOutputGuardrails ;
+    asgo:outcome "Recommended target state: the externally exposed bot follows data-privacy rules (PII masked before it reaches the provider), and critical actions such as refunds or cancellations require a deterministic rule check or agent approval."@en ;
+    asgo:lessonLearned "An LLM exposed to external customers is the weakest link in the network. Trust no incoming prompt, position the model as an intermediary rather than a decision-maker, and always leave the final approval of critical API operations to a classic deterministic business rule or a human."@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:source src:GokceINFO ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+pk:CustomerSupportBot a asgo:AISystem ;
+    rdfs:label "Customer-facing support chatbot with actions (Case 2)"@en ;
+    asgo:intendedPurpose "Answer external customers' questions on order status, returns and basic support requests in real time" ;
+    asgo:supportsBusinessProcess "Customer service" ;
+    asgo:usesTechnique asgo:GenerativeAI , asgo:AgenticAI ;
+    asgo:automationLevel asgo:HumanInTheLoop ;
+    asgo:sourcing asgo:ThirdPartyProvided ;
+    asgo:deploymentScope ctl:Scope3 ;
+    asgo:classifiedAs euaia:TransparencyRisk ;
+    asgo:inLifecycleStage asgo:OperateAndMonitor ;
+    asgo:hasComponent pk:Case2-OrderAPI ;
+    asgo:exposedTo pk:Case2-Jailbreak , pk:Case2-PromptDisclosure , pk:Case2-PIIToProvider , pk:Case2-UncontrolledActions .
+
+pk:Case2-OrderAPI a asgo:ToolIntegration ; rdfs:label "Case 2 - Refund and cancellation APIs"@en .
+
+pk:Case2-Jailbreak a asgo:Risk ;
+    rdfs:label "Public users jailbreak the bot"@en ;
+    asgo:arisesFrom threat:Jailbreak ;
+    asgo:likelihood 5 ; asgo:severity 3 ;
+    asgo:mitigatedBy ctl:InputOutputGuardrails .
+
+pk:Case2-PromptDisclosure a asgo:Risk ;
+    rdfs:label "System prompt and hidden context disclosed to users"@en ;
+    asgo:arisesFrom threat:HiddenContextExposure ;
+    asgo:likelihood 4 ; asgo:severity 3 ;
+    asgo:mitigatedBy ctl:InputOutputGuardrails .
+
+pk:Case2-PIIToProvider a asgo:Risk ;
+    rdfs:label "Card numbers or national ID numbers typed by customers reach the third-party model provider's logs unmasked"@en ;
+    asgo:arisesFrom threat:DataReconstruction ;
+    asgo:affectsCharacteristic nist:PrivacyEnhanced ;
+    asgo:likelihood 4 ; asgo:severity 4 ;
+    asgo:mitigatedBy ctl:ConversationalPIIMasking .
+
+pk:Case2-UncontrolledActions a asgo:Risk ;
+    rdfs:label "Bot calls refund or cancellation APIs without control (uncontrolled function calling)"@en ;
+    asgo:arisesFrom threat:ExcessiveAgency ;
+    asgo:likelihood 3 ; asgo:severity 5 ;
+    asgo:mitigatedBy ctl:DeterministicActionGate , ctl:HumanApprovalForActions .
+
+# =============================================================================
+# Case 3 - AI coding assistant and local IDE agents
+# =============================================================================
+
+pk:Case3 a asgo:PractitionerCase ;
+    rdfs:label "Case 3 - AI coding assistant and local IDE agents"@en ;
+    asgo:caseSystem pk:CodingAssistant ;
+    asgo:observedRisk pk:Case3-CodeAndSecretsToProvider , pk:Case3-SecretFileAccess , pk:Case3-UnauthorisedCommands ;
+    asgo:appliedControl ctl:VendorTrainingOptOut , ctl:AgentSecretFileDenylist , ctl:HumanApprovalForActions ;
+    asgo:outcome "Recommended configuration: a no-training / privacy mode enforced in every IDE; agent access to local secret and configuration files blocked; automatic execution disabled so every terminal or file-system action needs developer approval (click-to-run)."@en ;
+    asgo:lessonLearned "Developer productivity tools bring flexibility, but left uncontrolled they can hand the organisation's intellectual property over on a silver platter. Zero trust must apply not only to the network but also to the agents running inside a developer's own IDE."@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:source src:GokceINFO ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+pk:CodingAssistant a asgo:AISystem ;
+    rdfs:label "AI coding assistant and local IDE agents (Case 3)"@en ;
+    asgo:intendedPurpose "Help software teams write, refactor and test code; local agents act through tool protocols (e.g. MCP) on the developer's machine" ;
+    asgo:supportsBusinessProcess "Software development" ;
+    asgo:usesTechnique asgo:GenerativeAI , asgo:AgenticAI ;
+    asgo:automationLevel asgo:HumanInTheLoop ;
+    asgo:sourcing asgo:ThirdPartyProvided ;
+    asgo:deploymentScope ctl:Scope2 ;
+    asgo:classifiedAs euaia:MinimalRisk ;
+    asgo:inLifecycleStage asgo:OperateAndMonitor ;
+    asgo:exposedTo pk:Case3-CodeAndSecretsToProvider , pk:Case3-SecretFileAccess , pk:Case3-UnauthorisedCommands .
+
+pk:Case3-CodeAndSecretsToProvider a asgo:Risk ;
+    rdfs:label "Proprietary code, .env files, database passwords and API keys uploaded to the provider and leaked into training data"@en ;
+    asgo:arisesFrom threat:DataReconstruction ;
+    asgo:likelihood 4 ; asgo:severity 5 ;
+    asgo:mitigatedBy ctl:VendorTrainingOptOut , ctl:AgentSecretFileDenylist .
+
+pk:Case3-SecretFileAccess a asgo:Risk ;
+    rdfs:label "Agent reads local secret and configuration files"@en ;
+    asgo:arisesFrom threat:IdentityPrivilegeAbuse ;
+    asgo:likelihood 3 ; asgo:severity 5 ;
+    asgo:mitigatedBy ctl:AgentSecretFileDenylist .
+
+pk:Case3-UnauthorisedCommands a asgo:Risk ;
+    rdfs:label "Agent runs unauthorised shell commands on the developer's machine (confused deputy)"@en ;
+    asgo:arisesFrom threat:UnexpectedCodeExecution ;
+    asgo:likelihood 3 ; asgo:severity 5 ;
+    asgo:mitigatedBy ctl:HumanApprovalForActions .
+
+# =============================================================================
+# Case 5 - AI nodes in low-code workflow automation
+# =============================================================================
+
+pk:Case5 a asgo:PractitionerCase ;
+    rdfs:label "Case 5 - AI nodes in low-code workflow automation"@en ;
+    asgo:caseSystem pk:LowCodeAIWorkflow ;
+    asgo:observedRisk pk:Case5-TokensInLogs , pk:Case5-UnauthenticatedWebhook ;
+    asgo:appliedControl ctl:SecretsVault , ctl:AuthenticatedWorkflowTriggers ;
+    asgo:outcome "Recommended fix: no plaintext API keys - credentials are injected from a central secrets vault - and HMAC signature verification on every external webhook. Together these close unauthorised pipeline triggers and credential leaks."@en ;
+    asgo:lessonLearned "When workflow automations (low-code/no-code) are built by speed-focused teams, security is usually skipped. Once an AI model is connected to a workflow, classic application security standards (API security, secret management) must be enforced without compromise from the very first trigger point."@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:source src:GokceINFO ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+pk:LowCodeAIWorkflow a asgo:AISystem ;
+    rdfs:label "AI nodes in low-code workflow automation (Case 5)"@en ;
+    asgo:intendedPurpose "Operations teams automate workflows, e.g. summarise incoming support e-mails and open tickets in the issue tracker" ;
+    asgo:supportsBusinessProcess "Operations automation" ;
+    asgo:usesTechnique asgo:GenerativeAI , asgo:AgenticAI ;
+    asgo:automationLevel asgo:FullyAutomated ;
+    asgo:sourcing asgo:ThirdPartyProvided ;
+    asgo:deploymentScope ctl:Scope3 ;
+    asgo:classifiedAs euaia:MinimalRisk ;
+    asgo:inLifecycleStage asgo:OperateAndMonitor ;
+    asgo:hasComponent pk:Case5-Webhook ;
+    asgo:exposedTo pk:Case5-TokensInLogs , pk:Case5-UnauthenticatedWebhook .
+
+pk:Case5-Webhook a asgo:ToolIntegration ; rdfs:label "Case 5 - Inbound webhook trigger"@en .
+
+pk:Case5-TokensInLogs a asgo:Risk ;
+    rdfs:label "LLM API tokens written in plaintext to debug and error logs"@en ;
+    asgo:arisesFrom threat:IdentityPrivilegeAbuse ;
+    asgo:likelihood 4 ; asgo:severity 4 ;
+    asgo:mitigatedBy ctl:SecretsVault .
+
+pk:Case5-UnauthenticatedWebhook a asgo:Risk ;
+    rdfs:label "Unauthenticated webhook lets anyone trigger the LLM with an arbitrary payload and create fake work items"@en ;
+    asgo:arisesFrom threat:ToolMisuse ;
+    asgo:likelihood 4 ; asgo:severity 4 ;
+    asgo:mitigatedBy ctl:AuthenticatedWorkflowTriggers .

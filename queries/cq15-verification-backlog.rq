@@ -1,0 +1,14 @@
+# CQ15: Which framework elements are not yet verified against their primary
+#       source? (work-in-progress backlog)
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?framework ?status (COUNT(?e) AS ?elements)
+       (GROUP_CONCAT(?id; separator=", ") AS ?identifiers) WHERE {
+  ?e asgo:verificationStatus ?s ; asgo:identifier ?id ;
+     asgo:partOfFramework/rdfs:label ?framework .
+  ?s rdfs:label ?status .
+  FILTER (?s != asgo:VerifiedPrimary)
+}
+GROUP BY ?framework ?status
+ORDER BY ?framework ?status

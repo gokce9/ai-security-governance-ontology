@@ -1,0 +1,682 @@
+@prefix asgo:     <https://w3id.org/asgo/core#> .
+@prefix ctl:      <https://w3id.org/asgo/controls#> .
+@prefix threat:   <https://w3id.org/asgo/threats#> .
+@prefix nist:     <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix csf:      <https://w3id.org/asgo/nist-csf#> .
+@prefix euaia:    <https://w3id.org/asgo/eu-ai-act#> .
+@prefix oecd:     <https://w3id.org/asgo/oecd-ai#> .
+@prefix pk:       <https://w3id.org/asgo/practitioner#> .
+@prefix src:      <https://w3id.org/asgo/sources#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# AI security control catalogue by deployment scope
+# - Deployment scopes follow the public AWS Generative AI Security Scoping
+#   Matrix (Scope 1 consumer app ... Scope 5 self-trained model).
+# - MITRE ATLAS mitigations are taken from ATLAS data release v2026.09
+#   (IDs and names verified against ATLAS-2026.09.yaml).
+# - This file is the ONLY place where controls are defined and linked to
+#   requirements (asgo:implements) and threats (asgo:mitigates).
+# - Controls are generic security practice written in the ASGO author's words;
+#   which control applies to which scope is practitioner judgement (GokceINFO).
+# =============================================================================
+
+<https://w3id.org/asgo/controls>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/threats> , <https://w3id.org/asgo/eu-ai-act> , <https://w3id.org/asgo/nist-ai-rmf-subcategories> , <https://w3id.org/asgo/nist-csf> , <https://w3id.org/asgo/oecd-ai> , <https://w3id.org/asgo/sources> ;
+    dcterms:title "ASGO - AI security control catalogue by deployment scope"@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date ;
+    dcterms:source src:GokceINFO ;
+    owl:versionInfo "0.1.0" .
+
+ctl:AWSGenAIScopingMatrix a asgo:Framework ;
+    rdfs:label "AWS Generative AI Security Scoping Matrix"@en ;
+    asgo:identifier "AWS GenAI Scoping Matrix" ;
+    asgo:authorityLevel asgo:Informative ;
+    asgo:sourceURL "https://aws.amazon.com/ai/security/generative-ai-scoping-matrix/" ;
+    rdfs:seeAlso <https://aws.amazon.com/blogs/security/securing-generative-ai-an-introduction-to-the-generative-ai-security-scoping-matrix/> ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    skos:note "Classifies generative AI use by ownership of the stack. Scopes 1-2 are 'buying', scopes 3-5 are 'building'. A companion Agentic AI Security Scoping Matrix also exists."@en .
+
+# -----------------------------------------------------------------------------
+# Deployment scopes
+# -----------------------------------------------------------------------------
+
+ctl:Scope1 a asgo:DeploymentScope ; asgo:scopeLevel 1 ;
+    rdfs:label "Scope 1 - Consumer app"@en ;
+    skos:definition "Use of a public third-party AI service under its standard terms; no access to model or training data, no ability to modify them. Buying."@en ;
+    dcterms:source ctl:AWSGenAIScopingMatrix .
+
+ctl:Scope2 a asgo:DeploymentScope ; asgo:scopeLevel 2 ;
+    rdfs:label "Scope 2 - Enterprise app"@en ;
+    skos:definition "Third-party enterprise application with AI features under an organisation-specific contract. Buying."@en ;
+    dcterms:source ctl:AWSGenAIScopingMatrix .
+
+ctl:Scope3 a asgo:DeploymentScope ; asgo:scopeLevel 3 ;
+    rdfs:label "Scope 3 - Pre-trained model"@en ;
+    skos:definition "Own application built on a third-party foundation model via API or locally hosted, without changing the model. Building."@en ;
+    dcterms:source ctl:AWSGenAIScopingMatrix .
+
+ctl:Scope4 a asgo:DeploymentScope ; asgo:scopeLevel 4 ;
+    rdfs:label "Scope 4 - Fine-tuned model"@en ;
+    skos:definition "A third-party foundation model fine-tuned with the organisation's data, creating a new model. Building."@en ;
+    dcterms:source ctl:AWSGenAIScopingMatrix .
+
+ctl:Scope5 a asgo:DeploymentScope ; asgo:scopeLevel 5 ;
+    rdfs:label "Scope 5 - Self-trained model"@en ;
+    skos:definition "A model trained from scratch on data the organisation owns or acquires; full ownership of the stack. Building."@en ;
+    dcterms:source ctl:AWSGenAIScopingMatrix .
+
+# -----------------------------------------------------------------------------
+# MITRE ATLAS mitigations (v2026.09) - verified against the primary data file
+# -----------------------------------------------------------------------------
+
+threat:AML.M0000 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0000" ; rdfs:label "AML.M0000 Limit Public Release of Information"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0001 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0001" ; rdfs:label "AML.M0001 Limit Model Artifact Release"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0002 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0002" ; rdfs:label "AML.M0002 Predictive AI Output Obfuscation"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0003 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0003" ; rdfs:label "AML.M0003 Predictive AI Model Hardening"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0004 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0004" ; rdfs:label "AML.M0004 Limit AI Service Query Volume and Rate"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0005 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0005" ; rdfs:label "AML.M0005 Control Access to AI Models and Data at Rest"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0006 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0006" ; rdfs:label "AML.M0006 Predictive AI Ensembles"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0007 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0007" ; rdfs:label "AML.M0007 Sanitize Training Data"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0008 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0008" ; rdfs:label "AML.M0008 Validate AI Model"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0009 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0009" ; rdfs:label "AML.M0009 Predictive AI Multi-Sensor Fusion"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0010 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0010" ; rdfs:label "AML.M0010 Predictive AI Input Restoration"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0011 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0011" ; rdfs:label "AML.M0011 Restrict Library Loading"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0012 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0012" ; rdfs:label "AML.M0012 Encrypt Sensitive Information"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0013 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0013" ; rdfs:label "AML.M0013 Code Signing"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0014 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0014" ; rdfs:label "AML.M0014 Verify AI Artifacts"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0015 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0015" ; rdfs:label "AML.M0015 Predictive AI Adversarial Input Detection"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0016 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0016" ; rdfs:label "AML.M0016 Vulnerability Scanning"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0017 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0017" ; rdfs:label "AML.M0017 AI Model Distribution Methods"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0018 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0018" ; rdfs:label "AML.M0018 User Training"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0019 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0019" ; rdfs:label "AML.M0019 Control Access to AI Models and Data in Production"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0020 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0020" ; rdfs:label "AML.M0020 Generative AI Guardrails"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0021 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0021" ; rdfs:label "AML.M0021 Generative AI Guidelines"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0022 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0022" ; rdfs:label "AML.M0022 Generative AI Model Alignment"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0023 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0023" ; rdfs:label "AML.M0023 AI Bill of Materials"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0024 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0024" ; rdfs:label "AML.M0024 AI Telemetry Logging"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0025 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0025" ; rdfs:label "AML.M0025 Maintain AI Dataset Provenance"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0026 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0026" ; rdfs:label "AML.M0026 Privileged AI Agent Permissions Configuration"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0027 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0027" ; rdfs:label "AML.M0027 Single-User AI Agent Permissions Configuration"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0028 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0028" ; rdfs:label "AML.M0028 AI Agent Tools Permissions Configuration"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0029 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0029" ; rdfs:label "AML.M0029 Human In-the-Loop for AI Agent Actions"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0030 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0030" ; rdfs:label "AML.M0030 Restrict AI Agent Tool Invocation on Untrusted Data"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0031 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0031" ; rdfs:label "AML.M0031 Memory Hardening"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0032 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0032" ; rdfs:label "AML.M0032 Segmentation of AI Agent Components"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0033 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0033" ; rdfs:label "AML.M0033 Input and Output Validation for AI Agent Components"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0034 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0034" ; rdfs:label "AML.M0034 Deepfake Detection"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0035 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0035" ; rdfs:label "AML.M0035 AI Red Team"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0036 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0036" ; rdfs:label "AML.M0036 Limit AI Workload Resource Consumption"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0037 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0037" ; rdfs:label "AML.M0037 AI Agent Authority Expansion Controls"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0038 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0038" ; rdfs:label "AML.M0038 AI Agent Scope Drift Detection"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+threat:AML.M0039 a asgo:FrameworkElement ; asgo:partOfFramework threat:MITREATLAS ; asgo:identifier "AML.M0039" ; rdfs:label "AML.M0039 AI Honeypots"@en ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "ATLAS-2026.09.yaml" .
+
+threat:ATLASMitigationRenameNote a skos:Concept ;
+    rdfs:label "ATLAS mitigations renamed and narrowed to predictive AI"@en ;
+    skos:note "Several ATLAS mitigations were renamed ('ML' became 'AI') and some are now explicitly scoped to predictive AI: AML.M0003 Predictive AI Model Hardening, AML.M0010 Predictive AI Input Restoration, AML.M0015 Predictive AI Adversarial Input Detection. Older control mappings that cite M0010 for LLM content-filtering guardrails should use AML.M0020 Generative AI Guardrails instead; agent-specific mitigations AML.M0026-M0033 and M0035-M0039 are new."@en ;
+    dcterms:subject threat:MITREATLAS ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+# -----------------------------------------------------------------------------
+# Controls - single source of truth for every control in ASGO.
+# Each control states its domain, scopes, the threats it mitigates, the
+# requirements it implements and the matching ATLAS mitigations.
+# -----------------------------------------------------------------------------
+
+# =============================================================================
+# Data security
+# =============================================================================
+
+ctl:DataUseDisclosure a asgo:TechnicalControl ;
+    rdfs:label "Disclose whether data is used for training or fine-tuning"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "The application or vendor states explicitly whether provided data modifies a model; if so, the purpose, dataset (incl. personal or sensitive data), duration, expected results and who receives the resulting model. Use the precise term (e.g. 'fine-tuning'), not just 'training'."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements euaia:Art13 , nist:MS-2.8 , oecd:P1.3 .
+
+ctl:EncryptionAtRest a asgo:TechnicalControl ;
+    rdfs:label "Encrypt data and model artefacts at rest"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "Stored user data, prompts, outputs, embeddings and model artefacts are encrypted at rest."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ModelExtraction ;
+    asgo:implements csf:PR.DS-01 , euaia:Art15-5 ;
+    skos:closeMatch threat:AML.M0012 .
+
+ctl:EncryptionInTransit a asgo:TechnicalControl ;
+    rdfs:label "Encrypt data in transit (TLS 1.2+)"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "All traffic between users, application components, training and storage systems and model APIs uses encrypted channels (TLS 1.2 or higher)."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements csf:PR.DS-02 , euaia:Art15-5 ;
+    skos:closeMatch threat:AML.M0012 .
+
+ctl:DataMaskingAnonymisation a asgo:TechnicalControl ;
+    rdfs:label "Mask or anonymise personal and sensitive data"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "Limit access to personal and sensitive data and anonymise or pseudonymise it (e.g. pattern-based masking) wherever the use case allows."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DataReconstruction , threat:MembershipInference ;
+    asgo:implements csf:PR.DS-01 , euaia:Art10 , nist:MS-2.10 .
+
+ctl:NoSensitiveDataInPublicAI a asgo:TechnicalControl ;
+    rdfs:label "No confidential or personal data in consumer AI tools"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "Treat prompts and outputs of public AI services as public: never enter personal data, confidential business data, source code, credentials or infrastructure details."@en ;
+    asgo:applicableToScope ctl:Scope1 , ctl:Scope2 ;
+    asgo:mitigates threat:DataReconstruction ;
+    asgo:implements csf:GV.PO-01 , nist:GV-1.2 .
+
+ctl:VendorTrainingOptOut a asgo:TechnicalControl ;
+    rdfs:label "Provider may not train on our data (opt-out or contract clause)"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "Use available opt-out settings and contractual terms so that prompts, files and outputs are not used to train or improve the provider's models or shared with third parties."@en ;
+    asgo:applicableToScope ctl:Scope1 , ctl:Scope2 , ctl:Scope3 ;
+    asgo:mitigates threat:DataReconstruction ;
+    asgo:implements csf:GV.SC-05 , euaia:Art25 , nist:GV-6.1 .
+
+ctl:PromptRedaction a asgo:TechnicalControl ;
+    rdfs:label "Redact data before it reaches the model"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "Remove or mask information the requesting user is not entitled to see (and payment data, secrets) at retrieval time, before it is placed in the prompt."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DataReconstruction , threat:HiddenContextExposure ;
+    asgo:implements csf:PR.DS-10 , euaia:Art15-5 , nist:MS-2.10 .
+
+
+# =============================================================================
+# Identity and access
+# =============================================================================
+
+ctl:DelegatedUserAuthorization a asgo:TechnicalControl ;
+    rdfs:label "Integrations act with the end user's own permissions"@en ;
+    asgo:controlDomain "Identity and access" ;
+    skos:definition "When an AI application or agent reads from or writes to other systems, it uses delegated, token-based access bound to the requesting user, so it can never see or change more than that user could."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ExcessiveAgency , threat:IdentityPrivilegeAbuse , threat:IndirectPromptInjection ;
+    asgo:implements csf:PR.AA-05 , euaia:Art15-5 ;
+    skos:closeMatch threat:AML.M0027 .
+
+ctl:LeastPrivilegeTooling a asgo:TechnicalControl ;
+    rdfs:label "Least-privilege tool permissions"@en ;
+    asgo:controlDomain "Identity and access" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ExcessiveAgency , threat:IdentityPrivilegeAbuse , threat:ToolMisuse ;
+    asgo:implements csf:PR.AA-05 , euaia:Art15 , nist:MG-2 ;
+    skos:closeMatch threat:AML.M0026 , threat:AML.M0028 .
+
+ctl:MultiFactorAuthentication a asgo:TechnicalControl ;
+    rdfs:label "Multi-factor authentication"@en ;
+    asgo:controlDomain "Identity and access" ;
+    skos:definition "MFA on every AI tool, platform and console that supports it."@en ;
+    asgo:applicableToScope ctl:Scope1 , ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:IdentityPrivilegeAbuse ;
+    asgo:implements csf:PR.AA-03 .
+
+ctl:AgentIdentityAndMutualAuth a asgo:TechnicalControl ;
+    rdfs:label "Per-agent identity and mutually authenticated inter-agent channels"@en ;
+    asgo:controlDomain "Identity and access" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:IdentityPrivilegeAbuse , threat:InsecureInterAgentCommunication ;
+    asgo:implements csf:PR.AA-01 , csf:PR.AA-03 , csf:PR.DS-02 , euaia:Art15-5 , nist:MS-2.7 ;
+    skos:closeMatch threat:AML.M0032 .
+
+ctl:UniqueAccounts a asgo:TechnicalControl ;
+    rdfs:label "Personal, unique accounts for every user"@en ;
+    asgo:controlDomain "Identity and access" ;
+    skos:definition "No shared accounts for AI tools, platforms or model APIs; every action is attributable to a person or a named service identity."@en ;
+    asgo:applicableToScope ctl:Scope1 , ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:IdentityPrivilegeAbuse ;
+    asgo:implements csf:PR.AA-01 .
+
+ctl:RoleBasedModelAccess a asgo:TechnicalControl ;
+    rdfs:label "Role- or attribute-based access to models and inference endpoints"@en ;
+    asgo:controlDomain "Identity and access" ;
+    skos:definition "RBAC/ABAC on model APIs, registries and development resources with least privilege and periodic access reviews."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:IdentityPrivilegeAbuse , threat:ModelExtraction ;
+    asgo:implements csf:PR.AA-05 , euaia:Art15-5 , nist:MS-2.7 ;
+    skos:closeMatch threat:AML.M0005 , threat:AML.M0019 .
+
+
+# =============================================================================
+# API security
+# =============================================================================
+
+ctl:QueryRateLimiting a asgo:TechnicalControl ;
+    rdfs:label "API rate limiting and query monitoring"@en ;
+    asgo:controlDomain "API security" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ModelExtraction , threat:UnboundedConsumption ;
+    asgo:implements csf:DE.CM-09 , csf:PR.IR-04 , euaia:Art15-5 , nist:MS-3 ;
+    skos:closeMatch threat:AML.M0004 .
+
+ctl:APIAuthentication a asgo:TechnicalControl ;
+    rdfs:label "Authenticate every model API consumer"@en ;
+    asgo:controlDomain "API security" ;
+    skos:definition "API keys, OAuth 2.0 or signed tokens for all model and AI service APIs; stronger authentication for training and fine-tuning interfaces."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ModelExtraction ;
+    asgo:implements csf:PR.AA-03 , euaia:Art15-5 ;
+    skos:closeMatch threat:AML.M0019 .
+
+ctl:EndpointScopedPermissions a asgo:TechnicalControl ;
+    rdfs:label "Fine-grained permissions per API endpoint"@en ;
+    asgo:controlDomain "API security" ;
+    skos:definition "Each consumer gets explicit scopes per endpoint and operation, including operations on models during and after fine-tuning."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ExcessiveAgency ;
+    asgo:implements csf:PR.AA-05 ;
+    skos:closeMatch threat:AML.M0019 .
+
+
+# =============================================================================
+# Application security
+# =============================================================================
+
+ctl:AgentToolCallAllowlist a asgo:TechnicalControl ;
+    rdfs:label "Allowlist of tool calls per agent task"@en ;
+    asgo:controlDomain "Application security" ;
+    skos:definition "Each agent workflow declares an explicit allowlist of tools and argument patterns; any call outside it is blocked and logged."@en ;
+    skos:scopeNote "EXAMPLE ENTRY - edit or delete."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ExcessiveAgency , threat:IndirectPromptInjection ;
+    asgo:implements euaia:Art15 , nist:MG-2 ;
+    skos:closeMatch threat:AML.M0028 ;
+    asgo:inLifecycleStage asgo:Deploy , asgo:OperateAndMonitor ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+ctl:HumanApprovalForActions a asgo:OrganisationalControl ;
+    rdfs:label "Human-in-the-loop approval for high-impact actions"@en ;
+    asgo:controlDomain "Application security" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ExcessiveAgency , threat:RogueAgent , threat:ToolMisuse ;
+    asgo:implements euaia:Art14 , nist:GV-3 ;
+    skos:closeMatch threat:AML.M0029 .
+
+ctl:UntrustedContentIsolation a asgo:TechnicalControl ;
+    rdfs:label "Isolation and tagging of untrusted retrieved content"@en ;
+    asgo:controlDomain "Application security" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:AgentGoalHijack , threat:IndirectPromptInjection , threat:RAGPoisoning ;
+    asgo:implements euaia:Art15-5 , nist:MG-2 ;
+    skos:closeMatch threat:AML.M0030 .
+
+ctl:SecretFreeSystemPrompts a asgo:TechnicalControl ;
+    rdfs:label "No secrets or authorisation logic in hidden context"@en ;
+    asgo:controlDomain "Application security" ;
+    skos:definition "System prompts, developer instructions and tool schemas contain no credentials and are never the sole enforcement point for authorisation."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:HiddenContextExposure ;
+    asgo:implements csf:PR.DS-01 , csf:PR.PS-06 , euaia:Art15 , nist:MP-4 .
+
+ctl:OutputEncodingValidation a asgo:TechnicalControl ;
+    rdfs:label "Output encoding and downstream validation"@en ;
+    asgo:controlDomain "Application security" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ImproperOutputHandling ;
+    asgo:implements csf:PR.PS-06 , euaia:Art15 , nist:MG-2 ;
+    skos:closeMatch threat:AML.M0033 .
+
+ctl:MemoryIntegrityControls a asgo:TechnicalControl ;
+    rdfs:label "Provenance, validation and expiry of agent memory entries"@en ;
+    asgo:controlDomain "Application security" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:MemoryContextPoisoning ;
+    asgo:implements csf:PR.DS-01 , euaia:Art15-5 , nist:MS-2.7 ;
+    skos:closeMatch threat:AML.M0031 .
+
+ctl:SandboxedCodeExecution a asgo:TechnicalControl ;
+    rdfs:label "Sandboxed execution of agent-generated code"@en ;
+    asgo:controlDomain "Application security" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:UnexpectedCodeExecution ;
+    asgo:implements csf:PR.IR-01 , csf:PR.PS-05 , euaia:Art15-5 , nist:MG-2 ;
+    skos:closeMatch threat:AML.M0032 .
+
+
+# =============================================================================
+# Model security
+# =============================================================================
+
+ctl:SecureModelServing a asgo:TechnicalControl ;
+    rdfs:label "Harden model serving infrastructure"@en ;
+    asgo:controlDomain "Model security" ;
+    skos:definition "Inference endpoints and serving infrastructure are protected against unauthorised access; self-hosted runtimes restrict library loading and are scanned for vulnerabilities."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ModelExtraction , threat:UnexpectedCodeExecution ;
+    asgo:implements csf:PR.IR-01 , csf:PR.PS-01 , euaia:Art15-5 ;
+    skos:closeMatch threat:AML.M0011 , threat:AML.M0016 , threat:AML.M0019 .
+
+ctl:ModelSigningAndSBOM a asgo:TechnicalControl ;
+    rdfs:label "Model signing and AI-BOM / SBOM"@en ;
+    asgo:controlDomain "Model security" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:AgentToolPoisoning , threat:BackdoorAttack , threat:ModelPoisoning , threat:SupplyChainCompromise ;
+    asgo:implements csf:GV.SC-09 , csf:ID.RA-09 , euaia:Art15-5 , euaia:Art25 , nist:GV-6 ;
+    skos:closeMatch threat:AML.M0013 , threat:AML.M0014 , threat:AML.M0023 .
+
+ctl:ModelVersionChangeControl a asgo:TechnicalControl ;
+    rdfs:label "Model versioning and change control"@en ;
+    asgo:controlDomain "Model security" ;
+    skos:definition "Every model version is registered; changes go through review and approval and can be rolled back."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ModelPoisoning ;
+    asgo:implements csf:ID.RA-07 .
+
+ctl:ModelArtifactAccessControl a asgo:TechnicalControl ;
+    rdfs:label "Restrict access to model weights and artefacts"@en ;
+    asgo:controlDomain "Model security" ;
+    skos:definition "Only authorised staff can read or change weights, parameters and checkpoints; artefacts are not released publicly."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ModelExtraction , threat:ModelPoisoning ;
+    asgo:implements csf:PR.DS-01 , euaia:Art15-5 , nist:MS-2.7 ;
+    skos:closeMatch threat:AML.M0001 , threat:AML.M0005 .
+
+
+# =============================================================================
+# Model training
+# =============================================================================
+
+ctl:AdversarialTraining a asgo:TechnicalControl ;
+    rdfs:label "Adversarial training"@en ;
+    asgo:controlDomain "Model training" ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:EvasionAttack ;
+    asgo:implements euaia:Art15-5 , nist:MS-2 ;
+    skos:closeMatch threat:AML.M0003 .
+
+ctl:DataProvenanceTracking a asgo:TechnicalControl ;
+    rdfs:label "Data provenance and integrity tracking"@en ;
+    asgo:controlDomain "Model training" ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DataPoisoning , threat:SupplyChainCompromise ;
+    asgo:implements csf:ID.AM-07 , csf:PR.DS-01 , euaia:Art10 , euaia:Art15-5 , nist:MP-4 ;
+    skos:closeMatch threat:AML.M0025 .
+
+ctl:DifferentialPrivacy a asgo:TechnicalControl ;
+    rdfs:label "Differential privacy in training"@en ;
+    asgo:controlDomain "Model training" ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DataReconstruction , threat:MembershipInference ;
+    asgo:implements csf:PR.DS-01 , euaia:Art15-5 , nist:MS-2 .
+
+ctl:ReproducibleTrainingRecords a asgo:TechnicalControl ;
+    rdfs:label "Reproducible, auditable training records"@en ;
+    asgo:controlDomain "Model training" ;
+    skos:definition "Log data sources, data access, hyperparameters, code versions and evaluation metrics for every training or fine-tuning run."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements euaia:Art11 , euaia:Art12 , nist:MS-2.1 ;
+    skos:closeMatch threat:AML.M0025 .
+
+ctl:TrainingDataComplianceReview a asgo:TechnicalControl ;
+    rdfs:label "Review training and fine-tuning data before use"@en ;
+    asgo:controlDomain "Model training" ;
+    skos:definition "Check datasets for lawful basis, personal and sensitive data, source reliability and data that may need to be deleted later; document selection criteria."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DataPoisoning ;
+    asgo:implements euaia:Art10 , nist:MP-4.1 ;
+    skos:closeMatch threat:AML.M0007 .
+
+ctl:TrainingInfrastructureSecurity a asgo:TechnicalControl ;
+    rdfs:label "Secure training infrastructure"@en ;
+    asgo:controlDomain "Model training" ;
+    skos:definition "GPU/TPU clusters, training storage and pipelines are logically and physically protected and isolated."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DataPoisoning , threat:ModelPoisoning ;
+    asgo:implements csf:PR.AA-06 , csf:PR.IR-01 .
+
+
+# =============================================================================
+# Model evaluation
+# =============================================================================
+
+ctl:AIRedTeaming a asgo:OrganisationalControl ;
+    rdfs:label "AI red teaming / adversarial testing"@en ;
+    asgo:controlDomain "Model evaluation" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:EvasionAttack , threat:Jailbreak , threat:PromptInjection ;
+    asgo:implements csf:ID.IM-02 , csf:ID.RA-01 , euaia:Art15 , euaia:Art55 , nist:MS-1 , nist:MS-2 ;
+    skos:closeMatch threat:AML.M0008 , threat:AML.M0035 .
+
+ctl:BiasFairnessTesting a asgo:TechnicalControl ;
+    rdfs:label "Bias and fairness testing before release"@en ;
+    asgo:controlDomain "Model evaluation" ;
+    skos:definition "Evaluate performance across demographic groups and use cases with documented fairness metrics; mitigate before deployment."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements euaia:Art10 , nist:MS-2.11 .
+
+ctl:InputOutputGuardrails a asgo:TechnicalControl ;
+    rdfs:label "Input/output guardrails and content filtering"@en ;
+    asgo:controlDomain "Model evaluation" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DirectPromptInjection , threat:Jailbreak ;
+    asgo:implements csf:PR.PS-06 , euaia:Art15 , nist:MG-2 ;
+    skos:closeMatch threat:AML.M0020 .
+
+
+# =============================================================================
+# Deployment security
+# =============================================================================
+
+ctl:SecureMLPipeline a asgo:TechnicalControl ;
+    rdfs:label "Secure CI/CD for models"@en ;
+    asgo:controlDomain "Deployment security" ;
+    skos:definition "Model build and deployment pipelines include security scanning, integrity checks and approval gates before production."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ModelPoisoning , threat:SupplyChainCompromise ;
+    asgo:implements csf:PR.PS-06 ;
+    skos:closeMatch threat:AML.M0016 .
+
+
+# =============================================================================
+# Monitoring and response
+# =============================================================================
+
+ctl:AIIncidentResponsePlan a asgo:OrganisationalControl ;
+    rdfs:label "AI incident response plan"@en ;
+    asgo:controlDomain "Monitoring and response" ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements csf:ID.IM-04 , csf:RS.MA-01 , euaia:Art73 , nist:MG-4 .
+
+ctl:ResourceConsumptionLimits a asgo:TechnicalControl ;
+    rdfs:label "Limit resource consumption and plan for load"@en ;
+    asgo:controlDomain "Monitoring and response" ;
+    skos:definition "Quotas per request, user and workflow; traffic filtering, backoff/retry and load shedding; scalable serving to absorb spikes."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:UnboundedConsumption ;
+    asgo:implements csf:PR.IR-04 ;
+    skos:closeMatch threat:AML.M0004 , threat:AML.M0036 .
+
+ctl:OutputAnomalyMonitoring a asgo:TechnicalControl ;
+    rdfs:label "Monitor outputs for anomalies and misuse"@en ;
+    asgo:controlDomain "Monitoring and response" ;
+    skos:definition "Watch model outputs for unexpected, harmful or misleading responses and abuse patterns; alerts feed the AI incident response plan."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:Jailbreak , threat:PromptInjection ;
+    asgo:implements csf:DE.AE-02 , csf:DE.CM-09 , euaia:Art72 , nist:MS-2.4 ;
+    skos:closeMatch threat:AML.M0024 .
+
+ctl:AISecurityLogging a asgo:TechnicalControl ;
+    rdfs:label "Security logging of prompts, tool calls and model outputs"@en ;
+    asgo:controlDomain "Monitoring and response" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:CascadingFailure , threat:RogueAgent ;
+    asgo:implements csf:DE.CM-09 , csf:PR.PS-04 , euaia:Art12 , euaia:Art26 , nist:MS-3 ;
+    skos:closeMatch threat:AML.M0024 .
+
+
+# =============================================================================
+# Governance
+# =============================================================================
+
+ctl:AISecurityTraining a asgo:OrganisationalControl ;
+    rdfs:label "AI security training for builders"@en ;
+    asgo:controlDomain "Governance" ;
+    skos:definition "Role-based training on AI-specific threats (prompt injection, poisoning, malicious model artefacts) for everyone who builds or operates AI systems."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:SupplyChainCompromise ;
+    asgo:implements csf:PR.AT-02 , euaia:Art4 , nist:GV-2.2 ;
+    skos:closeMatch threat:AML.M0018 .
+
+ctl:VendorAIContractTerms a asgo:OrganisationalControl ;
+    rdfs:label "AI-specific clauses in vendor contracts"@en ;
+    asgo:controlDomain "Governance" ;
+    skos:definition "Contracts state data use and retention, training use, data location, security obligations, incident notification and responsibility allocation for AI features."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 ;
+    asgo:mitigates threat:SupplyChainCompromise ;
+    asgo:implements csf:GV.SC-05 , euaia:Art25 , nist:GV-6.1 .
+
+ctl:AISecurityOversightBody a asgo:OrganisationalControl ;
+    rdfs:label "Dedicated AI security and governance oversight"@en ;
+    asgo:controlDomain "Governance" ;
+    skos:definition "A cross-functional body owns AI security practices across the model lifecycle for organisations that fine-tune or train models."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements nist:GV-2.1 .
+
+ctl:IndependentSecurityAudit a asgo:OrganisationalControl ;
+    rdfs:label "Independent audit of training and deployment"@en ;
+    asgo:controlDomain "Governance" ;
+    skos:definition "Periodic third-party review of training procedures and deployment infrastructure."@en ;
+    asgo:applicableToScope ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements nist:MS-1.3 .
+
+ctl:HumanOutputVerification a asgo:OrganisationalControl ;
+    rdfs:label "People verify AI output before relying on it"@en ;
+    asgo:controlDomain "Governance" ;
+    skos:definition "Users remain accountable for any work product they submit or act on; AI output is checked for accuracy and policy compliance before use."@en ;
+    asgo:applicableToScope ctl:Scope1 , ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:implements euaia:Art4 , nist:GV-2.2 .
+
+ctl:ApprovedAIToolAlternative a asgo:OrganisationalControl ;
+    rdfs:label "Provide an approved enterprise AI tool instead of consumer tools"@en ;
+    asgo:controlDomain "Governance" ;
+    skos:definition "Reduce shadow AI by offering a sanctioned, contractually covered AI assistant for the tasks people would otherwise do in free consumer tools."@en ;
+    asgo:applicableToScope ctl:Scope1 ;
+    asgo:implements nist:GV-1.6 .
+
+ctl:ThirdPartyAIRiskAssessment a asgo:OrganisationalControl ;
+    rdfs:label "Third-party / vendor AI risk assessment"@en ;
+    asgo:controlDomain "Governance" ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 ;
+    asgo:mitigates threat:SupplyChainCompromise ;
+    asgo:implements csf:GV.SC-06 , csf:GV.SC-07 , csf:ID.RA-10 , euaia:Art25 , nist:GV-6 , nist:MG-3 .
+
+ctl:ToolServerVetting a asgo:OrganisationalControl ;
+    rdfs:label "Vetting and pinning of agent tools and tool servers (e.g. MCP)"@en ;
+    asgo:controlDomain "Governance" ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:AgentToolPoisoning ;
+    asgo:implements csf:GV.SC-07 , csf:ID.RA-09 , euaia:Art25 , nist:GV-6.1 , nist:MG-3.1 ;
+    skos:closeMatch threat:AML.M0028 .
+
+# =============================================================================
+# Controls derived from practitioner cases (source: GokceINFO)
+# See ontology/modules/practitioner-knowledge.ttl for the cases themselves.
+# =============================================================================
+
+ctl:PermissionAwareRetrieval a asgo:TechnicalControl ;
+    rdfs:label "Permission-aware retrieval (document ACLs enforced in vector search)"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "Retrieval runs with the requesting user's identity token and only returns chunks from documents that user may read; access labels are attached at indexing time and enforced as filters in the vector search, never left to the model."@en ;
+    skos:note "Lesson: in RAG, the model's reach must never exceed the user's. Data classification and access control applied at indexing time decide how safe the answers are."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:VectorEmbeddingWeakness , threat:DataReconstruction , threat:HiddenContextExposure ;
+    asgo:implements csf:PR.AA-05 , euaia:Art15-5 , nist:MS-2.10 , nist:MS-2.7 ;
+    skos:relatedMatch threat:AML.M0005 , threat:AML.M0027 ;
+    dcterms:source src:GokceINFO ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+ctl:IngestionSanitisation a asgo:TechnicalControl ;
+    rdfs:label "Sanitise content before indexing (hidden text, embedded instructions)"@en ;
+    asgo:controlDomain "Application security" ;
+    skos:definition "Documents pass a sanitisation pipeline before they are embedded: hidden or invisible text (e.g. white-on-white fonts), embedded instructions and malicious markup are detected and removed or flagged."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:IndirectPromptInjection , threat:RAGPoisoning ;
+    asgo:implements euaia:Art15-5 , nist:MS-2.7 ;
+    skos:relatedMatch threat:AML.M0007 , threat:AML.M0030 ;
+    dcterms:source src:GokceINFO ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+ctl:ConversationalPIIMasking a asgo:TechnicalControl ;
+    rdfs:label "Real-time masking of personal data typed into chat"@en ;
+    asgo:controlDomain "Data security" ;
+    skos:definition "A guardrail layer between users and the model detects personal and payment data (card numbers, national ID numbers, etc.) in prompts and responses and masks it before it reaches the model provider or any log."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:DataReconstruction ;
+    asgo:implements nist:MS-2.10 , csf:PR.DS-10 , euaia:Art15-5 ;
+    skos:relatedMatch threat:AML.M0020 ;
+    dcterms:source src:GokceINFO ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+ctl:DeterministicActionGate a asgo:TechnicalControl ;
+    rdfs:label "Model proposes, deterministic rule or human decides (critical actions)"@en ;
+    asgo:controlDomain "Application security" ;
+    skos:definition "The model never triggers financial or otherwise critical actions (refunds, cancellations, payments) directly. It only proposes; a deterministic business rule and/or a human agent makes the final call."@en ;
+    skos:note "Lesson: an LLM exposed to customers is the weakest link in the network - trust no external prompt and position the model as an intermediary, not a decision-maker."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ExcessiveAgency , threat:ToolMisuse , threat:AgentGoalHijack ;
+    asgo:implements euaia:Art14 , euaia:Art15-5 , nist:MG-2.4 , nist:MP-3.5 ;
+    skos:relatedMatch threat:AML.M0029 ;
+    dcterms:source src:GokceINFO ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+ctl:AgentSecretFileDenylist a asgo:TechnicalControl ;
+    rdfs:label "Block agent access to local secrets and configuration files"@en ;
+    asgo:controlDomain "Identity and access" ;
+    skos:definition "Coding assistants and local agents are denied read access to secret-bearing files (e.g. .env, key and credential files, local configuration) so they cannot be sent to the provider or misused."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:IdentityPrivilegeAbuse , threat:DataReconstruction ;
+    asgo:implements csf:PR.AA-05 , csf:PR.DS-01 , euaia:Art15-5 ;
+    skos:relatedMatch threat:AML.M0028 , threat:AML.M0032 ;
+    dcterms:source src:GokceINFO ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+ctl:SecretsVault a asgo:TechnicalControl ;
+    rdfs:label "AI API keys only in a secrets vault, never in config or logs"@en ;
+    asgo:controlDomain "Identity and access" ;
+    skos:definition "LLM and tool credentials are injected from a central secrets vault; plaintext keys in workflow definitions or environment files are prohibited and secrets are redacted from debug and error logs."@en ;
+    asgo:applicableToScope ctl:Scope2 , ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:IdentityPrivilegeAbuse ;
+    asgo:implements csf:PR.AA-01 , csf:PR.DS-01 , csf:PR.PS-04 , euaia:Art15-5 ;
+    skos:relatedMatch threat:AML.M0012 ;
+    dcterms:source src:GokceINFO ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .
+
+ctl:AuthenticatedWorkflowTriggers a asgo:TechnicalControl ;
+    rdfs:label "Authenticate every inbound trigger of an AI workflow (e.g. HMAC-signed webhooks)"@en ;
+    asgo:controlDomain "API security" ;
+    skos:definition "Webhooks and other entry points that start AI-enabled workflows verify the sender (HMAC signature, shared secret, allowlisted source) before any model or downstream action runs."@en ;
+    skos:note "Lesson: once an AI model is wired into a workflow, classic application security (API authentication, secret management) applies from the very first trigger - low-code speed is no exception."@en ;
+    asgo:applicableToScope ctl:Scope3 , ctl:Scope4 , ctl:Scope5 ;
+    asgo:mitigates threat:ToolMisuse , threat:UnboundedConsumption , threat:PromptInjection ;
+    asgo:implements csf:PR.AA-03 , euaia:Art15-5 , nist:MS-2.7 ;
+    skos:relatedMatch threat:AML.M0019 ;
+    dcterms:source src:GokceINFO ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date .

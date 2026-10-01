@@ -1,0 +1,14 @@
+# CQ9: What is the publication status of every framework in the ontology,
+#      and when was it last verified? (watch-list for updates)
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?framework ?identifier ?status ?issued ?checked WHERE {
+  ?f a asgo:Framework ; rdfs:label ?framework .
+  OPTIONAL { ?f asgo:identifier ?identifier }
+  OPTIONAL { ?f asgo:publicationStatus/rdfs:label ?status }
+  OPTIONAL { ?f dcterms:issued ?issued }
+  OPTIONAL { ?f asgo:statusCheckedOn ?checked }
+}
+ORDER BY ?status ?framework

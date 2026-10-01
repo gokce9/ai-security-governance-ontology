@@ -1,0 +1,13 @@
+# CQ1: Which EU AI Act obligations apply to a given AI system, for which role,
+#      and from when?
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?system ?tier ?article ?title ?role ?from WHERE {
+  ?system a asgo:AISystem ; asgo:classifiedAs ?t .
+  ?req asgo:appliesToTier ?t ; asgo:identifier ?article ; rdfs:label ?title .
+  ?t rdfs:label ?tier .
+  OPTIONAL { ?req asgo:appliesToRole/rdfs:label ?role }
+  OPTIONAL { ?req asgo:applicableFrom ?from }
+}
+ORDER BY ?system ?article

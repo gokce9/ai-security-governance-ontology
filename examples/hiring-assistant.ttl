@@ -1,0 +1,71 @@
+@prefix ctl:      <https://w3id.org/asgo/controls#> .
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix nist:    <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix euaia:   <https://w3id.org/asgo/eu-ai-act#> .
+@prefix threat:  <https://w3id.org/asgo/threats#> .
+@prefix tai:     <https://w3id.org/asgo/assessment#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix ex:      <https://example.org/acme#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# Example instance data: a fictional LLM agent used for hiring pre-screening
+# (Annex III(4) -> high risk) that also answers candidate questions (Art. 50).
+
+ex:AcmeCorp a asgo:Actor ;
+    rdfs:label "Acme Corp (fictional)" ;
+    asgo:hasRole euaia:Deployer ;
+    asgo:actsOn ex:HiringAssistant .
+
+ex:ModelVendor a asgo:Actor ;
+    rdfs:label "Model Vendor (fictional)" ;
+    asgo:hasRole euaia:GPAIModelProvider .
+
+ex:FoundationModel a asgo:GeneralPurposeAIModel ;
+    rdfs:label "Vendor foundation model" .
+
+ex:HiringAssistant a asgo:AISystem ;
+    rdfs:label "Hiring pre-screening assistant" ;
+    asgo:intendedPurpose "Rank incoming CVs and draft shortlist recommendations for recruiters" ;
+    asgo:supportsBusinessProcess "Recruitment - candidate pre-screening" ;
+    asgo:usesTechnique asgo:GenerativeAI , asgo:AgenticAI ;
+    asgo:automationLevel asgo:HumanInTheLoop ;
+    asgo:sourcing asgo:ThirdPartyProvided ;
+    asgo:deploymentScope <https://w3id.org/asgo/controls#Scope3> ;
+    asgo:basedOnModel ex:FoundationModel ;
+    asgo:classifiedAs euaia:HighRisk , euaia:TransparencyRisk ;
+    asgo:inLifecycleStage asgo:OperateAndMonitor ;
+    asgo:hasComponent ex:CVRetrievalIndex , ex:ATSTool , ex:AssistantPrompt ;
+    asgo:exposedTo ex:RiskCVInjection , ex:RiskBiasedRanking , ex:RiskHistoricalBias , ex:RiskCollaborativeFilteringExclusion .
+
+ex:CVRetrievalIndex a asgo:VectorStore ; rdfs:label "CV embedding index" .
+ex:ATSTool a asgo:ToolIntegration ; rdfs:label "Applicant tracking system write API" .
+ex:AssistantPrompt a asgo:SystemPrompt ; rdfs:label "Screening system prompt" .
+
+ex:RiskCVInjection a asgo:Risk ;
+    rdfs:label "Candidate embeds hidden instructions in CV to manipulate ranking" ;
+    asgo:arisesFrom threat:IndirectPromptInjection ;
+    asgo:likelihood 4 ; asgo:severity 4 ;
+    asgo:mitigatedBy ctl:UntrustedContentIsolation , ctl:HumanApprovalForActions .
+
+ex:RiskBiasedRanking a asgo:Risk ;
+    rdfs:label "Ranking discriminates against protected groups" ;
+    asgo:affectsCharacteristic nist:FairWithHarmfulBiasManaged ;
+    asgo:measuredBy tai:DisparateImpact , tai:EqualOpportunity ;
+    asgo:likelihood 3 ; asgo:severity 5 .
+
+# Recruitment-specific risks (source: GokceINFO)
+
+ex:RiskHistoricalBias a asgo:Risk ;
+    rdfs:label "Model reproduces recruiter bias and historical hiring patterns" ;
+    skos:note "Both recruiter bias (conscious or unconscious) and job-seeker bias (historical application behaviour) are encoded in past hiring data." ;
+    asgo:affectsCharacteristic nist:FairWithHarmfulBiasManaged ;
+    asgo:measuredBy tai:DisparateImpact , tai:EqualisedOdds ;
+    asgo:likelihood 4 ; asgo:severity 4 .
+
+ex:RiskCollaborativeFilteringExclusion a asgo:Risk ;
+    rdfs:label "Collaborative filtering excludes qualified candidates (e.g. women from management roles)" ;
+    skos:note "Inferring individual preferences from group behaviour can hide suitable roles or candidates from under-represented groups." ;
+    asgo:affectsCharacteristic nist:FairWithHarmfulBiasManaged ;
+    asgo:measuredBy tai:IndividualFairness , tai:DemographicParity ;
+    asgo:likelihood 3 ; asgo:severity 4 .

@@ -1,0 +1,199 @@
+@prefix asgo:     <https://w3id.org/asgo/core#> .
+@prefix nist:     <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix csf:      <https://w3id.org/asgo/nist-csf#> .
+@prefix euaia:    <https://w3id.org/asgo/eu-ai-act#> .
+@prefix oecd:     <https://w3id.org/asgo/oecd-ai#> .
+@prefix threat:   <https://w3id.org/asgo/threats#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# Framework crosswalk - the ONLY place for framework-to-framework mappings.
+# Author-curated (asgo:PractitionerInsight); not an official mapping by any
+# publisher.
+#   skos:closeMatch   - substantially overlapping intent
+#   skos:relatedMatch - partial / supporting overlap
+#   asgo:addresses    - a requirement addresses a threat or characteristic
+# Control -> requirement links live with each control in ai-controls.ttl;
+# requirement -> evidence links live in evidence.ttl.
+# =============================================================================
+
+<https://w3id.org/asgo/crosswalk>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/eu-ai-act> , <https://w3id.org/asgo/nist-ai-rmf-subcategories> ,
+                <https://w3id.org/asgo/nist-csf> ,
+                <https://w3id.org/asgo/oecd-ai> , <https://w3id.org/asgo/threats> ;
+    dcterms:title "ASGO - Framework crosswalk"@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    asgo:reviewedBy "Gokcenur Yazici" ;
+    asgo:reviewedOn "2026-10-01"^^xsd:date ;
+    asgo:reviewScope "All 107 framework mappings (EU AI Act -> NIST AI RMF, NIST CSF 2.0 -> NIST AI RMF, OECD -> EU AI Act / NIST, OWASP LLM 2026 -> 2025): 100 approved as proposed, 7 raised from related match to close match"@en ;
+    owl:versionInfo "0.4.0" .
+
+# #############################################################################
+# EU AI Act <-> NIST AI RMF, and EU AI Act -> threats
+# #############################################################################
+
+euaia:Art4  skos:relatedMatch nist:GV-2 .                       # AI literacy <-> trained accountable teams
+euaia:Art9  skos:closeMatch   nist:MG-1 ;                       # risk management system
+            skos:relatedMatch nist:GV-1 , nist:MP-1 , nist:MP-4 , nist:MP-5 , nist:MS-3 .
+euaia:Art10 skos:relatedMatch nist:MP-2 , nist:MS-2 , nist:MP-4 .  # data governance
+euaia:Art11 skos:relatedMatch nist:GV-1 , nist:MP-3 .           # technical documentation
+euaia:Art12 skos:relatedMatch nist:MS-3 , nist:MG-4 .           # logging
+euaia:Art13 skos:relatedMatch nist:MP-3 , nist:GV-5 .           # transparency to deployers
+euaia:Art14 skos:relatedMatch nist:GV-3 , nist:MP-3 .        # human oversight (GOVERN 3 only via 3.2; corrected from closeMatch)
+euaia:Art15 skos:closeMatch   nist:MS-2 ;                       # accuracy, robustness, cybersecurity
+            asgo:addresses nist:ValidAndReliable , nist:SecureAndResilient .
+euaia:Art17 skos:closeMatch   nist:GV-1 ;                       # QMS
+            skos:relatedMatch nist:GV-4 .
+euaia:Art25 skos:closeMatch   nist:GV-6 , nist:MG-3 .           # value chain
+euaia:Art26 skos:relatedMatch nist:GV-2 , nist:MS-3 .
+euaia:Art27 skos:closeMatch   nist:MP-5 .                       # FRIA <-> impact characterisation
+euaia:Art53 skos:relatedMatch nist:GV-6 , nist:MP-4 .
+euaia:Art55 skos:relatedMatch nist:MS-1 , nist:MS-2 , nist:MG-4 .
+euaia:Art72 skos:closeMatch   nist:MS-3 ;                       # post-market monitoring
+            skos:relatedMatch nist:MS-4 , nist:MG-4 .
+euaia:Art73 skos:closeMatch   nist:MG-4 .                       # serious incident reporting
+
+# --- EU AI Act Art. 15(5) -> named attack types ------------------------------
+
+euaia:Art15-5 asgo:addresses threat:DataPoisoning , threat:ModelPoisoning , threat:EvasionAttack ,
+                             threat:PrivacyAttack , threat:ModelExtraction .
+
+euaia:Art55 asgo:addresses threat:Jailbreak , threat:PromptInjection .
+
+# --- EU AI Act -> NIST AI RMF subcategories (finer-grained) ------------------
+
+euaia:Art4  skos:closeMatch   nist:GV-2.2 .               # AI literacy <-> AI risk management training
+euaia:Art9  skos:closeMatch   nist:MG-1.3 ;
+            skos:relatedMatch nist:MG-1.2 , nist:MG-1.4 , nist:MP-5.1 .
+euaia:Art10 skos:closeMatch   nist:MP-2.3 ;              # expert review: close
+            skos:relatedMatch nist:MS-2.11 .
+euaia:Art11 skos:closeMatch   nist:MS-2.1 ;              # expert review: close
+            skos:relatedMatch nist:MP-2.2 .
+euaia:Art13 skos:closeMatch   nist:MP-2.2 .               # knowledge limits & oversight info documented
+euaia:Art14 skos:closeMatch   nist:MP-3.5 ;
+            skos:closeMatch   nist:GV-3.2 ;              # expert review: close
+            skos:relatedMatch nist:MG-2.4 .
+euaia:Art15 skos:relatedMatch nist:MS-2.5 , nist:MS-2.6 .
+euaia:Art15-5 skos:closeMatch nist:MS-2.7 .               # security & resilience evaluated
+euaia:Art17 skos:relatedMatch nist:GV-1.4 .
+euaia:Art25 skos:closeMatch   nist:GV-6.1 .
+euaia:Art26 skos:relatedMatch nist:MS-2.4 .
+euaia:Art27 skos:closeMatch   nist:MP-5.1 .
+euaia:Art72 skos:closeMatch   nist:MG-4.1 .
+euaia:Art73 skos:closeMatch   nist:MG-4.3 .
+
+# #############################################################################
+# NIST CSF 2.0 <-> NIST AI RMF
+# #############################################################################
+
+csf:GV.OC-03 skos:closeMatch   nist:GV-1.1 .              # legal & regulatory requirements
+csf:GV.RM-02 skos:closeMatch   nist:MP-1.5 .              # risk tolerance
+csf:GV.RM-03 skos:relatedMatch nist:GV-1.3 .
+csf:GV.RM-06 skos:closeMatch   nist:MG-1.2 .              # expert review: close
+csf:GV.RR-01 skos:closeMatch   nist:GV-2.3 .              # leadership accountability
+csf:GV.RR-02 skos:closeMatch   nist:GV-2.1 .
+csf:GV.OV-01 skos:relatedMatch nist:GV-1.5 .
+csf:GV.SC-01 skos:relatedMatch nist:GV-6.1 .
+csf:GV.SC-07 skos:closeMatch   nist:MG-3.1 .
+csf:GV.SC-08 skos:relatedMatch nist:GV-6.2 .
+csf:ID.AM-02 skos:relatedMatch nist:GV-1.6 .              # software/system inventory <-> AI inventory
+csf:ID.AM-07 skos:relatedMatch nist:MP-4.1 .
+csf:ID.AM-08 skos:relatedMatch nist:GV-1.7 .              # life-cycle incl. decommissioning
+csf:ID.RA-01 skos:relatedMatch nist:MS-2.7 .
+csf:ID.RA-04 skos:relatedMatch nist:MP-5.1 .
+csf:ID.RA-06 skos:closeMatch   nist:MG-1.3 .
+csf:ID.RA-09 skos:relatedMatch nist:MG-3.2 .              # integrity of acquired software <-> pre-trained models
+csf:ID.IM-01 skos:relatedMatch nist:MG-4.2 .
+csf:ID.IM-04 skos:relatedMatch nist:MG-4.1 .
+csf:PR.AT-01 skos:relatedMatch nist:GV-2.2 .
+csf:DE.CM-09 skos:relatedMatch nist:MS-2.4 .
+csf:RS.MA-01 skos:relatedMatch nist:MG-4.3 , nist:MG-2.3 .
+csf:RS.CO-02 skos:relatedMatch nist:MG-4.3 .
+
+# #############################################################################
+# OECD AI Principles -> NIST AI RMF / EU AI Act
+# #############################################################################
+
+# --- OECD principles -> NIST AI RMF trustworthiness characteristics -----------
+oecd:P1.1 asgo:addresses nist:Safe ;
+          skos:relatedMatch nist:MS-2.12 , nist:MP-5.1 .          # environmental & societal impact
+oecd:P1.2 asgo:addresses nist:FairWithHarmfulBiasManaged , nist:PrivacyEnhanced .
+oecd:P1.3 asgo:addresses nist:AccountableAndTransparent , nist:ExplainableAndInterpretable .
+oecd:P1.4 asgo:addresses nist:ValidAndReliable , nist:Safe , nist:SecureAndResilient .
+oecd:P1.5 asgo:addresses nist:AccountableAndTransparent ;
+          skos:relatedMatch nist:GV-2 .
+
+# --- OECD principles -> EU AI Act -------------------------------------------
+oecd:P1.2 skos:closeMatch   euaia:Art14 ;                          # expert review: close
+          skos:relatedMatch euaia:Art5 , euaia:Art10 , euaia:Art27 .
+oecd:P1.3 skos:closeMatch   euaia:Art13 , euaia:Art50 .           # expert review: close
+oecd:P1.4 skos:relatedMatch euaia:Art15 , euaia:Art14 .
+oecd:P1.5 skos:relatedMatch euaia:Art9 , euaia:Art11 , euaia:Art12 , euaia:Art17 .
+oecd:R2.4 skos:relatedMatch euaia:Art4 .                          # AI literacy
+
+# #############################################################################
+# Mapping rationales - why each element is mapped as it is (asgo:mappingRationale)
+# Drafted by the author; expert review is tracked with asgo:reviewedBy on
+# <https://w3id.org/asgo/crosswalk> once completed.
+# #############################################################################
+
+euaia:Art4 asgo:mappingRationale "Art. 4 requires providers and deployers to support AI literacy of staff; GOVERN 2.2 requires AI risk management training for personnel and partners - the same intent, hence closeMatch. GOVERN 2 (accountability structures) is the wider category, hence relatedMatch."@en .
+euaia:Art9 asgo:mappingRationale "Art. 9 requires a continuous risk management system for high-risk AI. Its core - evaluating, prioritising and treating risks - matches MANAGE 1 and MANAGE 1.3 (responses to high-priority risks), hence closeMatch. Risk identification and impact estimation (MAP 1/4/5, MAP 5.1), tracking (MEASURE 3), policies (GOVERN 1) and residual-risk documentation (MANAGE 1.2/1.4) each cover part of Art. 9, hence relatedMatch."@en .
+euaia:Art10 asgo:mappingRationale "Art. 10 sets data governance and quality requirements, including bias examination. MAP 2.3 (data collection/selection and representativeness), MEASURE 2.11 (fairness and bias), MAP 4 (risks of components incl. third-party data) and the categories MAP 2 and MEASURE 2 support it partially. NIST does not prescribe dataset properties as Art. 10 does, so these are relatedMatch; MAP 2.3 was raised to closeMatch in the expert review because data collection, selection and representativeness are the conceptual core of Art. 10."@en .
+euaia:Art11 asgo:mappingRationale "Art. 11 requires technical documentation (Annex IV). MAP 2.2 (documented knowledge limits and use), MEASURE 2.1 (documented test sets and metrics), MAP 3 (documented capabilities and costs) and GOVERN 1 (documented processes) produce parts of that documentation; none prescribes its full content, so relatedMatch. MEASURE 2.1 was raised to closeMatch in the expert review because documented test sets, metrics and tools are a central part of Annex IV documentation."@en .
+euaia:Art12 asgo:mappingRationale "Art. 12 requires automatic event logging to enable traceability and monitoring. MEASURE 3 (tracking risks over time) and MANAGE 4 (monitoring, incident response) depend on such logs but do not require logging itself, so relatedMatch."@en .
+euaia:Art13 asgo:mappingRationale "Art. 13 requires instructions for use that let deployers understand capabilities, limitations and oversight measures. MAP 2.2 requires documenting knowledge limits and how output is used and overseen by humans - closeMatch. MAP 3 and GOVERN 5 (engagement with AI actors) are supporting, relatedMatch."@en .
+euaia:Art14 asgo:mappingRationale "Art. 14 requires effective human oversight by design. MAP 3.5 (processes for human oversight defined and documented) is the closest NIST outcome - closeMatch. GOVERN 3.2 (roles for human-AI configurations and oversight) and MANAGE 2.4 (mechanisms to supersede or deactivate systems, cf. Art. 14(4)(e)) are partial; GOVERN 3.2 was raised to closeMatch in the expert review because defining oversight roles is how Art. 14 is operationalised. GOVERN 3 is mapped only as related because its main theme is workforce diversity; this was corrected from closeMatch while drafting the rationale."@en .
+euaia:Art15 asgo:mappingRationale "Art. 15 requires appropriate accuracy, robustness and cybersecurity. MEASURE 2 (evaluation for trustworthy characteristics) covers the same ground at category level - closeMatch. MEASURE 2.5 (valid and reliable) and 2.6 (safe, fails safely) address accuracy and robustness specifically, relatedMatch."@en .
+euaia:Art15-5 asgo:mappingRationale "Art. 15(5) requires resilience against attempts to exploit vulnerabilities (poisoning, adversarial examples, confidentiality attacks). MEASURE 2.7 requires security and resilience to be evaluated and documented - closeMatch, although NIST asks for evaluation while the AI Act asks for the resilience itself."@en .
+euaia:Art17 asgo:mappingRationale "Art. 17 requires a documented quality management system. GOVERN 1 (policies, processes, procedures in place and implemented) is the NIST counterpart - closeMatch. GOVERN 1.4 (transparent risk management controls) and GOVERN 4 (risk culture) support it, relatedMatch."@en .
+euaia:Art25 asgo:mappingRationale "Art. 25 allocates responsibilities along the AI value chain (when distributors, importers or deployers become providers; cooperation duties). GOVERN 6 / 6.1 (policies for third-party risks) and MANAGE 3 (third-party risks managed) target the same supplier relationships - closeMatch."@en .
+euaia:Art26 asgo:mappingRationale "Art. 26 sets deployer duties: use per instructions, assign competent human oversight, monitor operation, keep logs. GOVERN 2 (accountability and competent staff), MEASURE 2.4 (monitoring in production) and MEASURE 3 (tracking) each cover a part, relatedMatch."@en .
+euaia:Art27 asgo:mappingRationale "Art. 27 requires certain deployers to assess impacts on fundamental rights before use. MAP 5 / 5.1 require identifying and documenting the likelihood and magnitude of impacts on individuals and groups - closeMatch in intent, though NIST does not frame it in fundamental-rights terms."@en .
+euaia:Art53 asgo:mappingRationale "Art. 53 requires GPAI providers to document the model and inform downstream providers. Downstream organisations rely on this information in MAP 4 (risks of components incl. third-party models) and GOVERN 6 (third-party policies) - supporting, relatedMatch."@en .
+euaia:Art55 asgo:mappingRationale "Art. 55 requires GPAI-with-systemic-risk providers to evaluate models incl. adversarial testing, mitigate systemic risks, report serious incidents and ensure cybersecurity. MEASURE 1 and 2 (methods and trustworthiness evaluation) and MANAGE 4 (incident response and communication) cover parts, relatedMatch."@en .
+euaia:Art72 asgo:mappingRationale "Art. 72 requires providers to run post-market monitoring based on a plan. MEASURE 3 (tracking risks over time) and MANAGE 4.1 (post-deployment monitoring plans implemented) match closely - closeMatch. MANAGE 4 and MEASURE 4 (feedback on measurement) are supporting."@en .
+euaia:Art73 asgo:mappingRationale "Art. 73 requires reporting serious incidents to authorities. MANAGE 4 / 4.3 require communicating incidents to relevant AI actors and following incident processes - closeMatch, although NIST does not set regulatory reporting deadlines."@en .
+csf:GV.OC-03 asgo:mappingRationale "Both require legal and regulatory requirements to be understood and managed (CSF for cybersecurity, GOVERN 1.1 for AI) - closeMatch."@en .
+csf:GV.RM-02 asgo:mappingRationale "Risk appetite and tolerance statements (CSF) correspond to MAP 1.5 (organisational risk tolerances determined) - closeMatch."@en .
+csf:GV.RM-03 asgo:mappingRationale "Integrating cybersecurity risk into enterprise risk management supports GOVERN 1.3 (risk management level based on risk tolerance) - relatedMatch."@en .
+csf:GV.RM-06 asgo:mappingRationale "A standardised method for calculating and prioritising risks corresponds to MANAGE 1.2 (prioritisation by impact and likelihood) - closeMatch (raised from relatedMatch in the expert review)."@en .
+csf:GV.RR-01 asgo:mappingRationale "Leadership accountable for cybersecurity risk corresponds to GOVERN 2.3 (executive leadership responsible for AI risk) - closeMatch."@en .
+csf:GV.RR-02 asgo:mappingRationale "Roles, responsibilities and authorities established corresponds to GOVERN 2.1 - closeMatch."@en .
+csf:GV.OV-01 asgo:mappingRationale "Reviewing risk strategy outcomes supports GOVERN 1.5 (periodic review of the risk management process) - relatedMatch."@en .
+csf:GV.SC-01 asgo:mappingRationale "A supply chain risk management programme supports GOVERN 6.1 (third-party AI risk policies) - relatedMatch."@en .
+csf:GV.SC-07 asgo:mappingRationale "Supplier risks understood, assessed and monitored over the relationship corresponds to MANAGE 3.1 (third-party risks monitored and controlled) - closeMatch."@en .
+csf:GV.SC-08 asgo:mappingRationale "Including suppliers in incident planning supports GOVERN 6.2 (contingency for third-party failures) - relatedMatch."@en .
+csf:ID.AM-02 asgo:mappingRationale "Software, service and system inventories support GOVERN 1.6 (AI system inventory) - relatedMatch; an AI inventory needs AI-specific fields."@en .
+csf:ID.AM-07 asgo:mappingRationale "Data inventories and metadata support MAP 4.1 (mapping risks of components incl. third-party data) - relatedMatch."@en .
+csf:ID.AM-08 asgo:mappingRationale "Life-cycle management of assets incl. disposal supports GOVERN 1.7 (safe decommissioning of AI systems) - relatedMatch."@en .
+csf:ID.RA-01 asgo:mappingRationale "Identifying vulnerabilities supports MEASURE 2.7 (security and resilience evaluated) - relatedMatch."@en .
+csf:ID.RA-04 asgo:mappingRationale "Impact and likelihood of threats identified supports MAP 5.1 (likelihood and magnitude of impacts) - relatedMatch."@en .
+csf:ID.RA-06 asgo:mappingRationale "Risk responses chosen, prioritised and planned corresponds to MANAGE 1.3 - closeMatch."@en .
+csf:ID.RA-09 asgo:mappingRationale "Assessing authenticity and integrity of software before use supports MANAGE 3.2 (pre-trained models monitored) - relatedMatch."@en .
+csf:ID.IM-01 asgo:mappingRationale "Improvements identified from evaluations supports MANAGE 4.2 (continual improvement) - relatedMatch."@en .
+csf:ID.IM-04 asgo:mappingRationale "Incident response plans established and maintained supports MANAGE 4.1 (post-deployment monitoring incl. incident response) - relatedMatch."@en .
+csf:PR.AT-01 asgo:mappingRationale "Awareness and training for personnel supports GOVERN 2.2 (AI risk management training) - relatedMatch."@en .
+csf:DE.CM-09 asgo:mappingRationale "Monitoring computing environments and runtime for adverse events supports MEASURE 2.4 (AI system behaviour monitored in production) - relatedMatch."@en .
+csf:RS.MA-01 asgo:mappingRationale "Executing the incident response plan supports MANAGE 4.3 (incident processes followed) and MANAGE 2.3 (responding to previously unknown risks) - relatedMatch."@en .
+csf:RS.CO-02 asgo:mappingRationale "Notifying internal and external stakeholders of incidents supports MANAGE 4.3 (incidents communicated to relevant AI actors) - relatedMatch."@en .
+oecd:P1.1 asgo:mappingRationale "Inclusive growth and well-being relates to assessing societal and environmental impacts: MAP 5.1 and MEASURE 2.12 - relatedMatch."@en .
+oecd:P1.2 asgo:mappingRationale "Rule of law, human rights, fairness and privacy are operationalised in the AI Act by prohibitions (Art. 5), data governance and bias examination (Art. 10), human oversight (Art. 14) and fundamental rights impact assessment (Art. 27) - relatedMatch. Art. 14 was raised to closeMatch in the expert review because OECD 1.2 explicitly names human agency and oversight as a safeguard."@en .
+oecd:P1.3 asgo:mappingRationale "Transparency and explainability are operationalised by Art. 13 (information to deployers) and Art. 50 (disclosure to people) - closeMatch after the expert review: both articles directly operationalise the principle."@en .
+oecd:P1.4 asgo:mappingRationale "Robustness, security and safety are operationalised by Art. 15 and by the ability to override or stop systems (Art. 14) - relatedMatch."@en .
+oecd:P1.5 asgo:mappingRationale "Accountability, traceability and systematic risk management are operationalised by GOVERN 2 and by AI Act Art. 9, 11, 12 and 17 - relatedMatch."@en .
+oecd:R2.4 asgo:mappingRationale "Building human capacity is a policy recommendation; at organisational level it is reflected in AI literacy (Art. 4) - relatedMatch."@en .
+threat:LLM01-2026 asgo:mappingRationale "Same OWASP entry, same rank: Prompt Injection (2026 adds cross-modal injection)."@en .
+threat:LLM02-2026 asgo:mappingRationale "Same OWASP entry, same rank: Sensitive Information Disclosure."@en .
+threat:LLM03-2026 asgo:mappingRationale "Same entry renumbered: Excessive Agency moved from #6 (2025) to #3 (2026)."@en .
+threat:LLM04-2026 asgo:mappingRationale "Same entry renumbered: Supply Chain moved from #3 to #4."@en .
+threat:LLM05-2026 asgo:mappingRationale "Data and Model Poisoning moved from #4 to #5 and now also absorbs fine-tuning subversion, hence closeMatch rather than exactMatch."@en .
+threat:LLM06-2026 asgo:mappingRationale "Same entry renumbered: Unbounded Consumption moved from #10 to #6."@en .
+threat:LLM07-2026 asgo:mappingRationale "Same entry renumbered: Misinformation moved from #9 to #7."@en .
+threat:LLM08-2026 asgo:mappingRationale "Hidden Context Exposure (2026) renames and broadens System Prompt Leakage (2025) to all hidden context incl. tool schemas and retrieved policy text, hence broadMatch."@en .
+threat:LLM09-2026 asgo:mappingRationale "Same entry renumbered: Vector and Embedding Weaknesses moved from #8 to #9."@en .
+threat:LLM10-2026 asgo:mappingRationale "Improper Output Handling moved from #5 to #10 and absorbed more scope, hence closeMatch."@en .

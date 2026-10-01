@@ -1,0 +1,37 @@
+name: validate
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: SHACL + undefined references
+        run: python scripts/asgo.py validate
+      - name: Competency queries
+        run: python scripts/asgo.py query-all
+  owl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Download ROBOT 1.9.10 (pinned, checksum verified)
+        run: |
+          curl -sSL -o robot.jar https://github.com/ontodev/robot/releases/download/v1.9.10/robot.jar
+          echo "16a73c074f3df359a7338a84b4e0788785fe06117f931bb9796e9619ea776105  robot.jar" | sha256sum -c -
+      - name: Merge via catalog (as Protege does)
+        run: java -jar robot.jar merge --catalog ontology/catalog-v001.xml --input ontology/asgo.ttl --output merged.owl
+      - name: OWL 2 DL profile
+        run: java -jar robot.jar validate-profile --profile DL --input merged.owl --output dl-profile.txt
+      - name: HermiT consistency (ontology + examples)
+        run: java -jar robot.jar merge --input merged.owl --input examples/hiring-assistant.ttl --input examples/support-chatbot.ttl reason --reasoner hermit --equivalent-classes-allowed all
+      - name: Quality report (fail on ERROR, e.g. duplicate labels)
+        run: java -jar robot.jar report --input merged.owl --fail-on ERROR --output report.tsv

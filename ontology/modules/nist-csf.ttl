@@ -1,0 +1,609 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix csf:     <https://w3id.org/asgo/nist-csf#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# =============================================================================
+# NIST Cybersecurity Framework (CSF) 2.0 - CSF Core (NIST CSWP 29, Feb 2024)
+# 6 functions, 22 categories, 106 subcategories.
+# Text extracted from https://doi.org/10.6028/NIST.CSWP.29 (Appendix A).
+# Implementation examples and informative references are not included;
+# see the CSF 2.0 Reference Tool.
+# =============================================================================
+
+<https://w3id.org/asgo/nist-csf>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/core> ;
+    dcterms:title "ASGO - NIST CSF 2.0 module"@en ;
+    owl:versionInfo "0.2.0" .
+
+csf:CSF a asgo:Framework ;
+    rdfs:label "NIST Cybersecurity Framework 2.0"@en ;
+    asgo:identifier "NIST CSWP 29" ;
+    asgo:authorityLevel asgo:Voluntary ;
+    asgo:sourceURL "https://doi.org/10.6028/NIST.CSWP.29" ;
+    dcterms:issued "2024-02-26"^^xsd:date ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date .
+
+csf:CyberAIProfile a asgo:Framework ;
+    rdfs:label "Cybersecurity Framework Profile for Artificial Intelligence (Cyber AI Profile)"@en ;
+    asgo:identifier "NIST IR 8596" ;
+    asgo:authorityLevel asgo:Voluntary ;
+    asgo:sourceURL "https://csrc.nist.gov/pubs/ir/8596/iprd" ;
+    dcterms:issued "2025-12-16"^^xsd:date ;
+    asgo:publicationStatus asgo:Draft ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    skos:note "Initial preliminary draft (comments closed 30 Jan 2026); an initial public draft is expected. A CSF 2.0 Community Profile organised around three focus areas: Securing AI system components (Secure), Conducting AI-enabled cyber defense (Defend), Thwarting AI-enabled cyber attacks (Thwart)."@en ;
+    dcterms:relation csf:CSF .
+
+csf:COSAiS a asgo:Framework ;
+    rdfs:label "SP 800-53 Control Overlays for Securing AI Systems (COSAiS)"@en ;
+    asgo:identifier "NIST IR 8605 (planned)" ;
+    asgo:authorityLevel asgo:Voluntary ;
+    asgo:sourceURL "https://csrc.nist.gov/projects/cosais" ;
+    asgo:publicationStatus asgo:Draft ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    skos:note "Project launched July 2025. Annotated outline for 'Using and Fine-Tuning Predictive AI' released 8 Jan 2026. NIST IR 8605 (Overview and Methodology) and 8605A (Controls for Securing Predictive AI Systems) are planned for 2026 to early 2027. Candidate for a future SP 800-53 module."@en .
+
+csf:Function a owl:Class ; rdfs:subClassOf asgo:FrameworkElement ; rdfs:label "CSF Function"@en .
+csf:Category a owl:Class ; rdfs:subClassOf asgo:Requirement ; rdfs:label "CSF Category"@en .
+csf:Subcategory a owl:Class ; rdfs:subClassOf asgo:Requirement ; rdfs:label "CSF Subcategory"@en .
+
+
+# =============================================================================
+# GOVERN (GV)
+# =============================================================================
+
+csf:GV a csf:Function ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "GV" ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "CSF GOVERN"@en ;
+    skos:definition "The organization's cybersecurity risk management strategy, expectations, and policy are established, communicated, and monitored."@en .
+
+# --- GV.OC Organizational Context --------------------------------------
+csf:GV.OC a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "GV.OC" ;
+    asgo:parentElement csf:GV ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OC - Organizational Context"@en ;
+    skos:definition "The circumstances — mission, stakeholder expectations, dependencies, and legal, regulatory, and contractual requirements — surrounding the organization's cybersecurity risk management decisions are understood."@en .
+csf:GV.OC-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OC-01" ; asgo:parentElement csf:GV.OC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OC-01"@en ;
+    skos:definition "The organizational mission is understood and informs cybersecurity risk management."@en .
+csf:GV.OC-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OC-02" ; asgo:parentElement csf:GV.OC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OC-02"@en ;
+    skos:definition "Internal and external stakeholders are understood, and their needs and expectations regarding cybersecurity risk management are understood and considered."@en .
+csf:GV.OC-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OC-03" ; asgo:parentElement csf:GV.OC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OC-03"@en ;
+    skos:definition "Legal, regulatory, and contractual requirements regarding cybersecurity — including privacy and civil liberties obligations — are understood and managed."@en .
+csf:GV.OC-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OC-04" ; asgo:parentElement csf:GV.OC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OC-04"@en ;
+    skos:definition "Critical objectives, capabilities, and services that external stakeholders depend on or expect from the organization are understood and communicated."@en .
+csf:GV.OC-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OC-05" ; asgo:parentElement csf:GV.OC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OC-05"@en ;
+    skos:definition "Outcomes, capabilities, and services that the organization depends on are understood and communicated."@en .
+
+# --- GV.RM Risk Management Strategy ------------------------------------
+csf:GV.RM a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "GV.RM" ;
+    asgo:parentElement csf:GV ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM - Risk Management Strategy"@en ;
+    skos:definition "The organization's priorities, constraints, risk tolerance and appetite statements, and assumptions are established, communicated, and used to support operational risk decisions."@en .
+csf:GV.RM-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RM-01" ; asgo:parentElement csf:GV.RM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM-01"@en ;
+    skos:definition "Risk management objectives are established and agreed to by organizational stakeholders."@en .
+csf:GV.RM-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RM-02" ; asgo:parentElement csf:GV.RM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM-02"@en ;
+    skos:definition "Risk appetite and risk tolerance statements are established, communicated, and maintained."@en .
+csf:GV.RM-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RM-03" ; asgo:parentElement csf:GV.RM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM-03"@en ;
+    skos:definition "Cybersecurity risk management activities and outcomes are included in enterprise risk management processes."@en .
+csf:GV.RM-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RM-04" ; asgo:parentElement csf:GV.RM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM-04"@en ;
+    skos:definition "Strategic direction that describes appropriate risk response options is established and communicated."@en .
+csf:GV.RM-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RM-05" ; asgo:parentElement csf:GV.RM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM-05"@en ;
+    skos:definition "Lines of communication across the organization are established for cybersecurity risks, including risks from suppliers and other third parties."@en .
+csf:GV.RM-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RM-06" ; asgo:parentElement csf:GV.RM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM-06"@en ;
+    skos:definition "A standardized method for calculating, documenting, categorizing, and prioritizing cybersecurity risks is established and communicated."@en .
+csf:GV.RM-07 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RM-07" ; asgo:parentElement csf:GV.RM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RM-07"@en ;
+    skos:definition "Strategic opportunities (i.e., positive risks) are characterized and are included in organizational cybersecurity risk discussions."@en .
+
+# --- GV.RR Roles, Responsibilities, and Authorities --------------------
+csf:GV.RR a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "GV.RR" ;
+    asgo:parentElement csf:GV ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RR - Roles, Responsibilities, and Authorities"@en ;
+    skos:definition "Cybersecurity roles, responsibilities, and authorities to foster accountability, performance assessment, and continuous improvement are established and communicated."@en .
+csf:GV.RR-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RR-01" ; asgo:parentElement csf:GV.RR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RR-01"@en ;
+    skos:definition "Organizational leadership is responsible and accountable for cybersecurity risk and fosters a culture that is risk-aware, ethical, and continually improving."@en .
+csf:GV.RR-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RR-02" ; asgo:parentElement csf:GV.RR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RR-02"@en ;
+    skos:definition "Roles, responsibilities, and authorities related to cybersecurity risk management are established, communicated, understood, and enforced."@en .
+csf:GV.RR-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RR-03" ; asgo:parentElement csf:GV.RR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RR-03"@en ;
+    skos:definition "Adequate resources are allocated commensurate with the cybersecurity risk strategy, roles, responsibilities, and policies."@en .
+csf:GV.RR-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.RR-04" ; asgo:parentElement csf:GV.RR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.RR-04"@en ;
+    skos:definition "Cybersecurity is included in human resources practices."@en .
+
+# --- GV.PO Policy ------------------------------------------------------
+csf:GV.PO a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "GV.PO" ;
+    asgo:parentElement csf:GV ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.PO - Policy"@en ;
+    skos:definition "Organizational cybersecurity policy is established, communicated, and enforced."@en .
+csf:GV.PO-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.PO-01" ; asgo:parentElement csf:GV.PO ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.PO-01"@en ;
+    skos:definition "Policy for managing cybersecurity risks is established based on organizational context, cybersecurity strategy, and priorities and is communicated and enforced."@en .
+csf:GV.PO-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.PO-02" ; asgo:parentElement csf:GV.PO ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.PO-02"@en ;
+    skos:definition "Policy for managing cybersecurity risks is reviewed, updated, communicated, and enforced to reflect changes in requirements, threats, technology, and organizational mission."@en .
+
+# --- GV.OV Oversight ---------------------------------------------------
+csf:GV.OV a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "GV.OV" ;
+    asgo:parentElement csf:GV ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OV - Oversight"@en ;
+    skos:definition "Results of organization-wide cybersecurity risk management activities and performance are used to inform, improve, and adjust the risk management strategy."@en .
+csf:GV.OV-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OV-01" ; asgo:parentElement csf:GV.OV ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OV-01"@en ;
+    skos:definition "Cybersecurity risk management strategy outcomes are reviewed to inform and adjust strategy and direction."@en .
+csf:GV.OV-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OV-02" ; asgo:parentElement csf:GV.OV ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OV-02"@en ;
+    skos:definition "The cybersecurity risk management strategy is reviewed and adjusted to ensure coverage of organizational requirements and risks."@en .
+csf:GV.OV-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.OV-03" ; asgo:parentElement csf:GV.OV ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.OV-03"@en ;
+    skos:definition "Organizational cybersecurity risk management performance is evaluated and reviewed for adjustments needed."@en .
+
+# --- GV.SC Cybersecurity Supply Chain Risk Management ------------------
+csf:GV.SC a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "GV.SC" ;
+    asgo:parentElement csf:GV ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC - Cybersecurity Supply Chain Risk Management"@en ;
+    skos:definition "Cyber supply chain risk management processes are identified, established, managed, monitored, and improved by organizational stakeholders."@en .
+csf:GV.SC-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-01" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-01"@en ;
+    skos:definition "A cybersecurity supply chain risk management program, strategy, objectives, policies, and processes are established and agreed to by organizational stakeholders."@en .
+csf:GV.SC-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-02" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-02"@en ;
+    skos:definition "Cybersecurity roles and responsibilities for suppliers, customers, and partners are established, communicated, and coordinated internally and externally."@en .
+csf:GV.SC-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-03" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-03"@en ;
+    skos:definition "Cybersecurity supply chain risk management is integrated into cybersecurity and enterprise risk management, risk assessment, and improvement processes."@en .
+csf:GV.SC-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-04" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-04"@en ;
+    skos:definition "Suppliers are known and prioritized by criticality."@en .
+csf:GV.SC-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-05" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-05"@en ;
+    skos:definition "Requirements to address cybersecurity risks in supply chains are established, prioritized, and integrated into contracts and other types of agreements with suppliers and other relevant third parties."@en .
+csf:GV.SC-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-06" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-06"@en ;
+    skos:definition "Planning and due diligence are performed to reduce risks before entering into formal supplier or other third-party relationships."@en .
+csf:GV.SC-07 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-07" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-07"@en ;
+    skos:definition "The risks posed by a supplier, their products and services, and other third parties are understood, recorded, prioritized, assessed, responded to, and monitored over the course of the relationship."@en .
+csf:GV.SC-08 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-08" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-08"@en ;
+    skos:definition "Relevant suppliers and other third parties are included in incident planning, response, and recovery activities."@en .
+csf:GV.SC-09 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-09" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-09"@en ;
+    skos:definition "Supply chain security practices are integrated into cybersecurity and enterprise risk management programs, and their performance is monitored throughout the technology product and service life cycle."@en .
+csf:GV.SC-10 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "GV.SC-10" ; asgo:parentElement csf:GV.SC ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "GV.SC-10"@en ;
+    skos:definition "Cybersecurity supply chain risk management plans include provisions for activities that occur after the conclusion of a partnership or service agreement."@en .
+
+# =============================================================================
+# IDENTIFY (ID)
+# =============================================================================
+
+csf:ID a csf:Function ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "ID" ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "CSF IDENTIFY"@en ;
+    skos:definition "The organization's current cybersecurity risks are understood."@en .
+
+# --- ID.AM Asset Management --------------------------------------------
+csf:ID.AM a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "ID.AM" ;
+    asgo:parentElement csf:ID ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM - Asset Management"@en ;
+    skos:definition "Assets (e.g., data, hardware, software, systems, facilities, services, people) that enable the organization to achieve business purposes are identified and managed consistent with their relative importance to organizational objectives and the organization's risk strategy."@en .
+csf:ID.AM-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.AM-01" ; asgo:parentElement csf:ID.AM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM-01"@en ;
+    skos:definition "Inventories of hardware managed by the organization are maintained."@en .
+csf:ID.AM-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.AM-02" ; asgo:parentElement csf:ID.AM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM-02"@en ;
+    skos:definition "Inventories of software, services, and systems managed by the organization are maintained."@en .
+csf:ID.AM-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.AM-03" ; asgo:parentElement csf:ID.AM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM-03"@en ;
+    skos:definition "Representations of the organization's authorized network communication and internal and external network data flows are maintained."@en .
+csf:ID.AM-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.AM-04" ; asgo:parentElement csf:ID.AM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM-04"@en ;
+    skos:definition "Inventories of services provided by suppliers are maintained."@en .
+csf:ID.AM-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.AM-05" ; asgo:parentElement csf:ID.AM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM-05"@en ;
+    skos:definition "Assets are prioritized based on classification, criticality, resources, and impact on the mission."@en .
+csf:ID.AM-07 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.AM-07" ; asgo:parentElement csf:ID.AM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM-07"@en ;
+    skos:definition "Inventories of data and corresponding metadata for designated data types are maintained."@en .
+csf:ID.AM-08 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.AM-08" ; asgo:parentElement csf:ID.AM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.AM-08"@en ;
+    skos:definition "Systems, hardware, software, services, and data are managed throughout their life cycles."@en .
+
+# --- ID.RA Risk Assessment ---------------------------------------------
+csf:ID.RA a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "ID.RA" ;
+    asgo:parentElement csf:ID ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA - Risk Assessment"@en ;
+    skos:definition "The cybersecurity risk to the organization, assets, and individuals is understood by the organization."@en .
+csf:ID.RA-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-01" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-01"@en ;
+    skos:definition "Vulnerabilities in assets are identified, validated, and recorded."@en .
+csf:ID.RA-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-02" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-02"@en ;
+    skos:definition "Cyber threat intelligence is received from information sharing forums and sources."@en .
+csf:ID.RA-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-03" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-03"@en ;
+    skos:definition "Internal and external threats to the organization are identified and recorded."@en .
+csf:ID.RA-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-04" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-04"@en ;
+    skos:definition "Potential impacts and likelihoods of threats exploiting vulnerabilities are identified and recorded."@en .
+csf:ID.RA-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-05" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-05"@en ;
+    skos:definition "Threats, vulnerabilities, likelihoods, and impacts are used to understand inherent risk and inform risk response prioritization."@en .
+csf:ID.RA-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-06" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-06"@en ;
+    skos:definition "Risk responses are chosen, prioritized, planned, tracked, and communicated."@en .
+csf:ID.RA-07 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-07" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-07"@en ;
+    skos:definition "Changes and exceptions are managed, assessed for risk impact, recorded, and tracked."@en .
+csf:ID.RA-08 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-08" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-08"@en ;
+    skos:definition "Processes for receiving, analyzing, and responding to vulnerability disclosures are established."@en .
+csf:ID.RA-09 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-09" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-09"@en ;
+    skos:definition "The authenticity and integrity of hardware and software are assessed prior to acquisition and use."@en .
+csf:ID.RA-10 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.RA-10" ; asgo:parentElement csf:ID.RA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.RA-10"@en ;
+    skos:definition "Critical suppliers are assessed prior to acquisition."@en .
+
+# --- ID.IM Improvement -------------------------------------------------
+csf:ID.IM a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "ID.IM" ;
+    asgo:parentElement csf:ID ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.IM - Improvement"@en ;
+    skos:definition "Improvements to organizational cybersecurity risk management processes, procedures and activities are identified across all CSF Functions."@en .
+csf:ID.IM-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.IM-01" ; asgo:parentElement csf:ID.IM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.IM-01"@en ;
+    skos:definition "Improvements are identified from evaluations."@en .
+csf:ID.IM-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.IM-02" ; asgo:parentElement csf:ID.IM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.IM-02"@en ;
+    skos:definition "Improvements are identified from security tests and exercises, including those done in coordination with suppliers and relevant third parties."@en .
+csf:ID.IM-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.IM-03" ; asgo:parentElement csf:ID.IM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.IM-03"@en ;
+    skos:definition "Improvements are identified from execution of operational processes, procedures, and activities."@en .
+csf:ID.IM-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "ID.IM-04" ; asgo:parentElement csf:ID.IM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "ID.IM-04"@en ;
+    skos:definition "Incident response plans and other cybersecurity plans that affect operations are established, communicated, maintained, and improved."@en .
+
+# =============================================================================
+# PROTECT (PR)
+# =============================================================================
+
+csf:PR a csf:Function ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "PR" ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "CSF PROTECT"@en ;
+    skos:definition "Safeguards to manage the organization's cybersecurity risks are used."@en .
+
+# --- PR.AA Identity Management, Authentication, and Access Control -----
+csf:PR.AA a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "PR.AA" ;
+    asgo:parentElement csf:PR ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AA - Identity Management, Authentication, and Access Control"@en ;
+    skos:definition "Access to physical and logical assets is limited to authorized users, services, and hardware and managed commensurate with the assessed risk of unauthorized access."@en .
+csf:PR.AA-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AA-01" ; asgo:parentElement csf:PR.AA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AA-01"@en ;
+    skos:definition "Identities and credentials for authorized users, services, and hardware are managed by the organization."@en .
+csf:PR.AA-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AA-02" ; asgo:parentElement csf:PR.AA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AA-02"@en ;
+    skos:definition "Identities are proofed and bound to credentials based on the context of interactions."@en .
+csf:PR.AA-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AA-03" ; asgo:parentElement csf:PR.AA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AA-03"@en ;
+    skos:definition "Users, services, and hardware are authenticated."@en .
+csf:PR.AA-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AA-04" ; asgo:parentElement csf:PR.AA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AA-04"@en ;
+    skos:definition "Identity assertions are protected, conveyed, and verified."@en .
+csf:PR.AA-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AA-05" ; asgo:parentElement csf:PR.AA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AA-05"@en ;
+    skos:definition "Access permissions, entitlements, and authorizations are defined in a policy, managed, enforced, and reviewed, and incorporate the principles of least privilege and separation of duties."@en .
+csf:PR.AA-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AA-06" ; asgo:parentElement csf:PR.AA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AA-06"@en ;
+    skos:definition "Physical access to assets is managed, monitored, and enforced commensurate with risk."@en .
+
+# --- PR.AT Awareness and Training --------------------------------------
+csf:PR.AT a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "PR.AT" ;
+    asgo:parentElement csf:PR ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AT - Awareness and Training"@en ;
+    skos:definition "The organization's personnel are provided with cybersecurity awareness and training so that they can perform their cybersecurity-related tasks."@en .
+csf:PR.AT-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AT-01" ; asgo:parentElement csf:PR.AT ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AT-01"@en ;
+    skos:definition "Personnel are provided with awareness and training so that they possess the knowledge and skills to perform general tasks with cybersecurity risks in mind."@en .
+csf:PR.AT-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.AT-02" ; asgo:parentElement csf:PR.AT ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.AT-02"@en ;
+    skos:definition "Individuals in specialized roles are provided with awareness and training so that they possess the knowledge and skills to perform relevant tasks with cybersecurity risks in mind."@en .
+
+# --- PR.DS Data Security -----------------------------------------------
+csf:PR.DS a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "PR.DS" ;
+    asgo:parentElement csf:PR ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.DS - Data Security"@en ;
+    skos:definition "Data are managed consistent with the organization's risk strategy to protect the confidentiality, integrity, and availability of information."@en .
+csf:PR.DS-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.DS-01" ; asgo:parentElement csf:PR.DS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.DS-01"@en ;
+    skos:definition "The confidentiality, integrity, and availability of data-at-rest are protected."@en .
+csf:PR.DS-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.DS-02" ; asgo:parentElement csf:PR.DS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.DS-02"@en ;
+    skos:definition "The confidentiality, integrity, and availability of data-in-transit are protected."@en .
+csf:PR.DS-10 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.DS-10" ; asgo:parentElement csf:PR.DS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.DS-10"@en ;
+    skos:definition "The confidentiality, integrity, and availability of data-in-use are protected."@en .
+csf:PR.DS-11 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.DS-11" ; asgo:parentElement csf:PR.DS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.DS-11"@en ;
+    skos:definition "Backups of data are created, protected, maintained, and tested."@en .
+
+# --- PR.PS Platform Security -------------------------------------------
+csf:PR.PS a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "PR.PS" ;
+    asgo:parentElement csf:PR ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.PS - Platform Security"@en ;
+    skos:definition "The hardware, software (e.g., firmware, operating systems, applications), and services of physical and virtual platforms are managed consistent with the organization's risk strategy to protect their confidentiality, integrity, and availability."@en .
+csf:PR.PS-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.PS-01" ; asgo:parentElement csf:PR.PS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.PS-01"@en ;
+    skos:definition "Configuration management practices are established and applied."@en .
+csf:PR.PS-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.PS-02" ; asgo:parentElement csf:PR.PS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.PS-02"@en ;
+    skos:definition "Software is maintained, replaced, and removed commensurate with risk."@en .
+csf:PR.PS-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.PS-03" ; asgo:parentElement csf:PR.PS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.PS-03"@en ;
+    skos:definition "Hardware is maintained, replaced, and removed commensurate with risk."@en .
+csf:PR.PS-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.PS-04" ; asgo:parentElement csf:PR.PS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.PS-04"@en ;
+    skos:definition "Log records are generated and made available for continuous monitoring."@en .
+csf:PR.PS-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.PS-05" ; asgo:parentElement csf:PR.PS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.PS-05"@en ;
+    skos:definition "Installation and execution of unauthorized software are prevented."@en .
+csf:PR.PS-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.PS-06" ; asgo:parentElement csf:PR.PS ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.PS-06"@en ;
+    skos:definition "Secure software development practices are integrated, and their performance is monitored throughout the software development life cycle."@en .
+
+# --- PR.IR Technology Infrastructure Resilience ------------------------
+csf:PR.IR a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "PR.IR" ;
+    asgo:parentElement csf:PR ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.IR - Technology Infrastructure Resilience"@en ;
+    skos:definition "Security architectures are managed with the organization's risk strategy to protect asset confidentiality, integrity, and availability, and organizational resilience."@en .
+csf:PR.IR-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.IR-01" ; asgo:parentElement csf:PR.IR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.IR-01"@en ;
+    skos:definition "Networks and environments are protected from unauthorized logical access and usage."@en .
+csf:PR.IR-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.IR-02" ; asgo:parentElement csf:PR.IR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.IR-02"@en ;
+    skos:definition "The organization's technology assets are protected from environmental threats."@en .
+csf:PR.IR-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.IR-03" ; asgo:parentElement csf:PR.IR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.IR-03"@en ;
+    skos:definition "Mechanisms are implemented to achieve resilience requirements in normal and adverse situations."@en .
+csf:PR.IR-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "PR.IR-04" ; asgo:parentElement csf:PR.IR ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "PR.IR-04"@en ;
+    skos:definition "Adequate resource capacity to ensure availability is maintained."@en .
+
+# =============================================================================
+# DETECT (DE)
+# =============================================================================
+
+csf:DE a csf:Function ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "DE" ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "CSF DETECT"@en ;
+    skos:definition "Possible cybersecurity attacks and compromises are found and analyzed."@en .
+
+# --- DE.CM Continuous Monitoring ---------------------------------------
+csf:DE.CM a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "DE.CM" ;
+    asgo:parentElement csf:DE ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.CM - Continuous Monitoring"@en ;
+    skos:definition "Assets are monitored to find anomalies, indicators of compromise, and other potentially adverse events."@en .
+csf:DE.CM-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.CM-01" ; asgo:parentElement csf:DE.CM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.CM-01"@en ;
+    skos:definition "Networks and network services are monitored to find potentially adverse events."@en .
+csf:DE.CM-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.CM-02" ; asgo:parentElement csf:DE.CM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.CM-02"@en ;
+    skos:definition "The physical environment is monitored to find potentially adverse events."@en .
+csf:DE.CM-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.CM-03" ; asgo:parentElement csf:DE.CM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.CM-03"@en ;
+    skos:definition "Personnel activity and technology usage are monitored to find potentially adverse events."@en .
+csf:DE.CM-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.CM-06" ; asgo:parentElement csf:DE.CM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.CM-06"@en ;
+    skos:definition "External service provider activities and services are monitored to find potentially adverse events."@en .
+csf:DE.CM-09 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.CM-09" ; asgo:parentElement csf:DE.CM ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.CM-09"@en ;
+    skos:definition "Computing hardware and software, runtime environments, and their data are monitored to find potentially adverse events."@en .
+
+# --- DE.AE Adverse Event Analysis --------------------------------------
+csf:DE.AE a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "DE.AE" ;
+    asgo:parentElement csf:DE ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.AE - Adverse Event Analysis"@en ;
+    skos:definition "Anomalies, indicators of compromise, and other potentially adverse events are analyzed to characterize the events and detect cybersecurity incidents."@en .
+csf:DE.AE-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.AE-02" ; asgo:parentElement csf:DE.AE ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.AE-02"@en ;
+    skos:definition "Potentially adverse events are analyzed to better understand associated activities."@en .
+csf:DE.AE-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.AE-03" ; asgo:parentElement csf:DE.AE ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.AE-03"@en ;
+    skos:definition "Information is correlated from multiple sources."@en .
+csf:DE.AE-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.AE-04" ; asgo:parentElement csf:DE.AE ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.AE-04"@en ;
+    skos:definition "The estimated impact and scope of adverse events are understood."@en .
+csf:DE.AE-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.AE-06" ; asgo:parentElement csf:DE.AE ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.AE-06"@en ;
+    skos:definition "Information on adverse events is provided to authorized staff and tools."@en .
+csf:DE.AE-07 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.AE-07" ; asgo:parentElement csf:DE.AE ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.AE-07"@en ;
+    skos:definition "Cyber threat intelligence and other contextual information are integrated into the analysis."@en .
+csf:DE.AE-08 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "DE.AE-08" ; asgo:parentElement csf:DE.AE ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "DE.AE-08"@en ;
+    skos:definition "Incidents are declared when adverse events meet the defined incident criteria."@en .
+
+# =============================================================================
+# RESPOND (RS)
+# =============================================================================
+
+csf:RS a csf:Function ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RS" ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "CSF RESPOND"@en ;
+    skos:definition "Actions regarding a detected cybersecurity incident are taken."@en .
+
+# --- RS.MA Incident Management -----------------------------------------
+csf:RS.MA a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RS.MA" ;
+    asgo:parentElement csf:RS ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MA - Incident Management"@en ;
+    skos:definition "Responses to detected cybersecurity incidents are managed."@en .
+csf:RS.MA-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.MA-01" ; asgo:parentElement csf:RS.MA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MA-01"@en ;
+    skos:definition "The incident response plan is executed in coordination with relevant third parties once an incident is declared."@en .
+csf:RS.MA-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.MA-02" ; asgo:parentElement csf:RS.MA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MA-02"@en ;
+    skos:definition "Incident reports are triaged and validated."@en .
+csf:RS.MA-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.MA-03" ; asgo:parentElement csf:RS.MA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MA-03"@en ;
+    skos:definition "Incidents are categorized and prioritized."@en .
+csf:RS.MA-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.MA-04" ; asgo:parentElement csf:RS.MA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MA-04"@en ;
+    skos:definition "Incidents are escalated or elevated as needed."@en .
+csf:RS.MA-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.MA-05" ; asgo:parentElement csf:RS.MA ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MA-05"@en ;
+    skos:definition "The criteria for initiating incident recovery are applied."@en .
+
+# --- RS.AN Incident Analysis -------------------------------------------
+csf:RS.AN a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RS.AN" ;
+    asgo:parentElement csf:RS ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.AN - Incident Analysis"@en ;
+    skos:definition "Investigations are conducted to ensure effective response and support forensics and recovery activities."@en .
+csf:RS.AN-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.AN-03" ; asgo:parentElement csf:RS.AN ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.AN-03"@en ;
+    skos:definition "Analysis is performed to establish what has taken place during an incident and the root cause of the incident."@en .
+csf:RS.AN-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.AN-06" ; asgo:parentElement csf:RS.AN ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.AN-06"@en ;
+    skos:definition "Actions performed during an investigation are recorded, and the records' integrity and provenance are preserved."@en .
+csf:RS.AN-07 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.AN-07" ; asgo:parentElement csf:RS.AN ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.AN-07"@en ;
+    skos:definition "Incident data and metadata are collected, and their integrity and provenance are preserved."@en .
+csf:RS.AN-08 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.AN-08" ; asgo:parentElement csf:RS.AN ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.AN-08"@en ;
+    skos:definition "An incident's magnitude is estimated and validated."@en .
+
+# --- RS.CO Incident Response Reporting and Communication ---------------
+csf:RS.CO a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RS.CO" ;
+    asgo:parentElement csf:RS ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.CO - Incident Response Reporting and Communication"@en ;
+    skos:definition "Response activities are coordinated with internal and external stakeholders as required by laws, regulations, or policies."@en .
+csf:RS.CO-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.CO-02" ; asgo:parentElement csf:RS.CO ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.CO-02"@en ;
+    skos:definition "Internal and external stakeholders are notified of incidents."@en .
+csf:RS.CO-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.CO-03" ; asgo:parentElement csf:RS.CO ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.CO-03"@en ;
+    skos:definition "Information is shared with designated internal and external stakeholders."@en .
+
+# --- RS.MI Incident Mitigation -----------------------------------------
+csf:RS.MI a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RS.MI" ;
+    asgo:parentElement csf:RS ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MI - Incident Mitigation"@en ;
+    skos:definition "Activities are performed to prevent expansion of an event and mitigate its effects."@en .
+csf:RS.MI-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.MI-01" ; asgo:parentElement csf:RS.MI ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MI-01"@en ;
+    skos:definition "Incidents are contained."@en .
+csf:RS.MI-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RS.MI-02" ; asgo:parentElement csf:RS.MI ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RS.MI-02"@en ;
+    skos:definition "Incidents are eradicated."@en .
+
+# =============================================================================
+# RECOVER (RC)
+# =============================================================================
+
+csf:RC a csf:Function ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RC" ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "CSF RECOVER"@en ;
+    skos:definition "Assets and operations affected by a cybersecurity incident are restored."@en .
+
+# --- RC.RP Incident Recovery Plan Execution ----------------------------
+csf:RC.RP a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RC.RP" ;
+    asgo:parentElement csf:RC ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.RP - Incident Recovery Plan Execution"@en ;
+    skos:definition "Restoration activities are performed to ensure operational availability of systems and services affected by cybersecurity incidents."@en .
+csf:RC.RP-01 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.RP-01" ; asgo:parentElement csf:RC.RP ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.RP-01"@en ;
+    skos:definition "The recovery portion of the incident response plan is executed once initiated from the incident response process."@en .
+csf:RC.RP-02 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.RP-02" ; asgo:parentElement csf:RC.RP ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.RP-02"@en ;
+    skos:definition "Recovery actions are selected, scoped, prioritized, and performed."@en .
+csf:RC.RP-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.RP-03" ; asgo:parentElement csf:RC.RP ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.RP-03"@en ;
+    skos:definition "The integrity of backups and other restoration assets is verified before using them for restoration."@en .
+csf:RC.RP-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.RP-04" ; asgo:parentElement csf:RC.RP ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.RP-04"@en ;
+    skos:definition "Critical mission functions and cybersecurity risk management are considered to establish post-incident operational norms."@en .
+csf:RC.RP-05 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.RP-05" ; asgo:parentElement csf:RC.RP ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.RP-05"@en ;
+    skos:definition "The integrity of restored assets is verified, systems and services are restored, and normal operating status is confirmed."@en .
+csf:RC.RP-06 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.RP-06" ; asgo:parentElement csf:RC.RP ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.RP-06"@en ;
+    skos:definition "The end of incident recovery is declared based on criteria, and incident-related documentation is completed."@en .
+
+# --- RC.CO Incident Recovery Communication -----------------------------
+csf:RC.CO a csf:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ;
+    asgo:identifier "RC.CO" ;
+    asgo:parentElement csf:RC ;
+    asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.CO - Incident Recovery Communication"@en ;
+    skos:definition "Restoration activities are coordinated with internal and external parties."@en .
+csf:RC.CO-03 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.CO-03" ; asgo:parentElement csf:RC.CO ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.CO-03"@en ;
+    skos:definition "Recovery activities and progress in restoring operational capabilities are communicated to designated internal and external stakeholders."@en .
+csf:RC.CO-04 a csf:Subcategory ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST CSWP 29 (PDF)" ; asgo:identifier "RC.CO-04" ; asgo:parentElement csf:RC.CO ; asgo:partOfFramework csf:CSF ;
+    rdfs:label "RC.CO-04"@en ;
+    skos:definition "Public updates on incident recovery are shared using approved methods and messaging."@en .

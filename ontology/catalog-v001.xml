@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Maps ASGO ontology IRIs to local files so Protege and OWL tools resolve imports offline. -->
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="asgo-core" name="https://w3id.org/asgo/core" uri="asgo-core.ttl"/>
+    <uri id="asgo" name="https://w3id.org/asgo" uri="asgo.ttl"/>
+    <uri id="framework-crosswalk" name="https://w3id.org/asgo/crosswalk" uri="mappings/framework-crosswalk.ttl"/>
+    <uri id="ai-controls" name="https://w3id.org/asgo/controls" uri="modules/ai-controls.ttl"/>
+    <uri id="ai-threats" name="https://w3id.org/asgo/threats" uri="modules/ai-threats.ttl"/>
+    <uri id="eu-ai-act" name="https://w3id.org/asgo/eu-ai-act" uri="modules/eu-ai-act.ttl"/>
+    <uri id="evidence" name="https://w3id.org/asgo/evidence" uri="modules/evidence.ttl"/>
+    <uri id="nist-ai-rmf-subcategories" name="https://w3id.org/asgo/nist-ai-rmf-subcategories" uri="modules/nist-ai-rmf-subcategories.ttl"/>
+    <uri id="nist-ai-rmf" name="https://w3id.org/asgo/nist-ai-rmf" uri="modules/nist-ai-rmf.ttl"/>
+    <uri id="nist-csf" name="https://w3id.org/asgo/nist-csf" uri="modules/nist-csf.ttl"/>
+    <uri id="oecd-ai-principles" name="https://w3id.org/asgo/oecd-ai" uri="modules/oecd-ai-principles.ttl"/>
+    <uri id="practitioner-knowledge" name="https://w3id.org/asgo/practitioner" uri="modules/practitioner-knowledge.ttl"/>
+    <uri id="trustworthy-ai-assessment" name="https://w3id.org/asgo/assessment" uri="modules/trustworthy-ai-assessment.ttl"/>
+    <uri id="sources" name="https://w3id.org/asgo/sources" uri="sources.ttl"/>
+</catalog>

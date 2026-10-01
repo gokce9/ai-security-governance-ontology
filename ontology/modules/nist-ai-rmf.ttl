@@ -1,0 +1,211 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix nist:    <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# NIST AI Risk Management Framework 1.0 (NIST AI 100-1, Jan 2023)
+# + Generative AI Profile (NIST AI 600-1, Jul 2024)
+# Category-level coverage. Subcategories (e.g. GOVERN 1.1) can be added
+# following the same pattern with asgo:parentElement.
+# =============================================================================
+
+<https://w3id.org/asgo/nist-ai-rmf>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/core> ;
+    dcterms:title "ASGO - NIST AI RMF module"@en ;
+    owl:versionInfo "0.1.0" .
+
+# -----------------------------------------------------------------------------
+# Frameworks
+# -----------------------------------------------------------------------------
+
+nist:AIRMF a asgo:Framework ;
+    rdfs:label "NIST AI Risk Management Framework 1.0"@en ;
+    asgo:identifier "NIST AI 100-1" ;
+    asgo:authorityLevel asgo:Voluntary ;
+    asgo:sourceURL "https://doi.org/10.6028/NIST.AI.100-1" ;
+    dcterms:issued "2023-01-26"^^xsd:date ;
+    asgo:publicationStatus asgo:UnderRevision ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    skos:note "1.0 is the current version. NIST states that the AI RMF 1.0 is being revised as part of the White House AI Action Plan; no revised version or date has been published. NIST extends the framework through profiles rather than new version numbers."@en ;
+    rdfs:seeAlso <https://www.nist.gov/itl/ai-risk-management-framework> .
+
+nist:GenAIProfile a asgo:Framework ;
+    asgo:companionOf nist:AIRMF ;
+    rdfs:label "NIST AI RMF Generative AI Profile"@en ;
+    asgo:identifier "NIST AI 600-1" ;
+    asgo:authorityLevel asgo:Voluntary ;
+    asgo:sourceURL "https://doi.org/10.6028/NIST.AI.600-1" ;
+    dcterms:issued "2024-07-26"^^xsd:date ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    dcterms:relation nist:AIRMF .
+
+nist:CriticalInfrastructureProfile a asgo:Framework ;
+    rdfs:label "AI RMF Profile on Trustworthy AI in Critical Infrastructure"@en ;
+    asgo:authorityLevel asgo:Voluntary ;
+    dcterms:issued "2026-04-07"^^xsd:date ;
+    asgo:publicationStatus asgo:ConceptNote ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    skos:note "Concept note released 7 Apr 2026. Will guide critical infrastructure operators on risk management practices when engaging AI-enabled capabilities. Add categories/subcategories once a draft is published."@en ;
+    dcterms:relation nist:AIRMF ;
+    rdfs:seeAlso <https://www.nist.gov/itl/ai-risk-management-framework> .
+
+# -----------------------------------------------------------------------------
+# Element classes
+# -----------------------------------------------------------------------------
+
+nist:Function a owl:Class ;
+    rdfs:subClassOf asgo:FrameworkElement ;
+    rdfs:label "AI RMF Function"@en .
+
+nist:Category a owl:Class ;
+    rdfs:subClassOf asgo:Requirement ;
+    rdfs:label "AI RMF Category"@en .
+
+nist:Subcategory a owl:Class ;
+    rdfs:subClassOf asgo:Requirement ;
+    rdfs:label "AI RMF Subcategory"@en .
+
+nist:GenAIRisk a owl:Class ;
+    rdfs:subClassOf asgo:Risk ;
+    rdfs:label "GenAI Risk (NIST AI 600-1)"@en .
+
+# -----------------------------------------------------------------------------
+# Trustworthiness characteristics (AI 100-1 Sec. 3)
+# -----------------------------------------------------------------------------
+
+nist:ValidAndReliable a asgo:TrustworthinessCharacteristic ; rdfs:label "Valid and Reliable"@en .
+nist:Safe a asgo:TrustworthinessCharacteristic ; rdfs:label "Safe"@en .
+nist:SecureAndResilient a asgo:TrustworthinessCharacteristic ; rdfs:label "Secure and Resilient"@en .
+nist:AccountableAndTransparent a asgo:TrustworthinessCharacteristic ; rdfs:label "Accountable and Transparent"@en .
+nist:ExplainableAndInterpretable a asgo:TrustworthinessCharacteristic ; rdfs:label "Explainable and Interpretable"@en .
+nist:PrivacyEnhanced a asgo:TrustworthinessCharacteristic ; rdfs:label "Privacy-Enhanced"@en .
+nist:FairWithHarmfulBiasManaged a asgo:TrustworthinessCharacteristic ; rdfs:label "Fair - with Harmful Bias Managed"@en .
+
+# -----------------------------------------------------------------------------
+# Functions
+# -----------------------------------------------------------------------------
+
+nist:GOVERN a nist:Function ;
+    rdfs:label "AI RMF GOVERN"@en ; asgo:identifier "GV" ;
+    skos:definition "A culture of risk management is cultivated and present. Cross-cutting; informs and is infused throughout the other three functions."@en ;
+    asgo:partOfFramework nist:AIRMF .
+
+nist:MAP a nist:Function ;
+    rdfs:label "AI RMF MAP"@en ; asgo:identifier "MP" ;
+    skos:definition "Context is recognized and risks related to context are identified."@en ;
+    asgo:partOfFramework nist:AIRMF .
+
+nist:MEASURE a nist:Function ;
+    rdfs:label "AI RMF MEASURE"@en ; asgo:identifier "MS" ;
+    skos:definition "Identified risks are assessed, analyzed, or tracked."@en ;
+    asgo:partOfFramework nist:AIRMF .
+
+nist:MANAGE a nist:Function ;
+    rdfs:label "AI RMF MANAGE"@en ; asgo:identifier "MG" ;
+    skos:definition "Risks are prioritized and acted upon based on a projected impact."@en ;
+    asgo:partOfFramework nist:AIRMF .
+
+# -----------------------------------------------------------------------------
+# Categories
+# -----------------------------------------------------------------------------
+
+nist:GV-1 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "GOVERN 1" ; asgo:parentElement nist:GOVERN ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "GOVERN 1 - Policies, processes, procedures and practices"@en ;
+    skos:definition "Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively."@en .
+
+nist:GV-2 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "GOVERN 2" ; asgo:parentElement nist:GOVERN ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "GOVERN 2 - Accountability structures"@en ;
+    skos:definition "Accountability structures are in place so that the appropriate teams and individuals are empowered, responsible, and trained for mapping, measuring, and managing AI risks."@en .
+
+nist:GV-3 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "GOVERN 3" ; asgo:parentElement nist:GOVERN ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "GOVERN 3 - Workforce diversity, equity, inclusion and accessibility"@en ;
+    skos:definition "Workforce diversity, equity, inclusion, and accessibility processes are prioritized in the mapping, measuring, and managing of AI risks throughout the lifecycle."@en .
+
+nist:GV-4 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "GOVERN 4" ; asgo:parentElement nist:GOVERN ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "GOVERN 4 - Risk culture"@en ;
+    skos:definition "Organizational teams are committed to a culture that considers and communicates AI risk."@en .
+
+nist:GV-5 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "GOVERN 5" ; asgo:parentElement nist:GOVERN ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "GOVERN 5 - Engagement with AI actors"@en ;
+    skos:definition "Processes are in place for robust engagement with relevant AI actors."@en .
+
+nist:GV-6 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "GOVERN 6" ; asgo:parentElement nist:GOVERN ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "GOVERN 6 - Third-party and supply chain"@en ;
+    skos:definition "Policies and procedures are in place to address AI risks and benefits arising from third-party software and data and other supply chain issues."@en .
+
+nist:MP-1 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MAP 1" ; asgo:parentElement nist:MAP ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MAP 1 - Context"@en ;
+    skos:definition "Context is established and understood."@en .
+
+nist:MP-2 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MAP 2" ; asgo:parentElement nist:MAP ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MAP 2 - Categorization"@en ;
+    skos:definition "Categorization of the AI system is performed."@en .
+
+nist:MP-3 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MAP 3" ; asgo:parentElement nist:MAP ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MAP 3 - Capabilities, usage, benefits and costs"@en ;
+    skos:definition "AI capabilities, targeted usage, goals, and expected benefits and costs compared with appropriate benchmarks are understood."@en .
+
+nist:MP-4 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MAP 4" ; asgo:parentElement nist:MAP ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MAP 4 - Component risks"@en ;
+    skos:definition "Risks and benefits are mapped for all components of the AI system including third-party software and data."@en .
+
+nist:MP-5 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MAP 5" ; asgo:parentElement nist:MAP ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MAP 5 - Impacts"@en ;
+    skos:definition "Impacts to individuals, groups, communities, organizations, and society are characterized."@en .
+
+nist:MS-1 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MEASURE 1" ; asgo:parentElement nist:MEASURE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MEASURE 1 - Methods and metrics"@en ;
+    skos:definition "Appropriate methods and metrics are identified and applied."@en .
+
+nist:MS-2 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MEASURE 2" ; asgo:parentElement nist:MEASURE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MEASURE 2 - Trustworthiness evaluation"@en ;
+    skos:definition "AI systems are evaluated for trustworthy characteristics."@en ;
+    asgo:addresses nist:ValidAndReliable , nist:Safe , nist:SecureAndResilient , nist:AccountableAndTransparent ,
+                   nist:ExplainableAndInterpretable , nist:PrivacyEnhanced , nist:FairWithHarmfulBiasManaged .
+
+nist:MS-3 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MEASURE 3" ; asgo:parentElement nist:MEASURE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MEASURE 3 - Risk tracking over time"@en ;
+    skos:definition "Mechanisms for tracking identified AI risks over time are in place."@en .
+
+nist:MS-4 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MEASURE 4" ; asgo:parentElement nist:MEASURE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MEASURE 4 - Measurement feedback"@en ;
+    skos:definition "Feedback about efficacy of measurement is gathered and assessed."@en .
+
+nist:MG-1 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MANAGE 1" ; asgo:parentElement nist:MANAGE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MANAGE 1 - Risk prioritization and response"@en ;
+    skos:definition "AI risks based on assessments and other analytical output from the MAP and MEASURE functions are prioritized, responded to, and managed."@en .
+
+nist:MG-2 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MANAGE 2" ; asgo:parentElement nist:MANAGE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MANAGE 2 - Benefit maximisation and impact minimisation"@en ;
+    skos:definition "Strategies to maximize AI benefits and minimize negative impacts are planned, prepared, implemented, documented, and informed by input from relevant AI actors."@en .
+
+nist:MG-3 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MANAGE 3" ; asgo:parentElement nist:MANAGE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MANAGE 3 - Third-party risk"@en ;
+    skos:definition "AI risks and benefits from third-party entities are managed."@en .
+
+nist:MG-4 a nist:Category ; asgo:verificationStatus asgo:VerifiedPrimary ; asgo:verifiedWith "NIST AI 100-1 (PDF)" ; asgo:identifier "MANAGE 4" ; asgo:parentElement nist:MANAGE ; asgo:partOfFramework nist:AIRMF ;
+    rdfs:label "MANAGE 4 - Response, recovery and communication"@en ;
+    skos:definition "Risk treatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly."@en .
+
+# -----------------------------------------------------------------------------
+# GenAI Profile risks (NIST AI 600-1 Sec. 2)
+# -----------------------------------------------------------------------------
+
+nist:CBRNInformation a nist:GenAIRisk ; rdfs:label "CBRN Information or Capabilities"@en ; asgo:affectsCharacteristic nist:Safe .
+nist:Confabulation a nist:GenAIRisk ; rdfs:label "Confabulation"@en ; asgo:affectsCharacteristic nist:ValidAndReliable .
+nist:DangerousViolentHatefulContent a nist:GenAIRisk ; rdfs:label "Dangerous, Violent, or Hateful Content"@en ; asgo:affectsCharacteristic nist:Safe .
+nist:DataPrivacy a nist:GenAIRisk ; rdfs:label "Data Privacy"@en ; asgo:affectsCharacteristic nist:PrivacyEnhanced .
+nist:EnvironmentalImpacts a nist:GenAIRisk ; rdfs:label "Environmental Impacts"@en .
+nist:HarmfulBiasAndHomogenization a nist:GenAIRisk ; rdfs:label "Harmful Bias and Homogenization"@en ; asgo:affectsCharacteristic nist:FairWithHarmfulBiasManaged .
+nist:HumanAIConfiguration a nist:GenAIRisk ; rdfs:label "Human-AI Configuration"@en ; asgo:affectsCharacteristic nist:Safe .
+nist:InformationIntegrity a nist:GenAIRisk ; rdfs:label "Information Integrity"@en ; asgo:affectsCharacteristic nist:ValidAndReliable .
+nist:InformationSecurity a nist:GenAIRisk ; rdfs:label "Information Security"@en ; asgo:affectsCharacteristic nist:SecureAndResilient .
+nist:IntellectualProperty a nist:GenAIRisk ; rdfs:label "Intellectual Property"@en .
+nist:ObsceneDegradingAbusiveContent a nist:GenAIRisk ; rdfs:label "Obscene, Degrading, and/or Abusive Content"@en ; asgo:affectsCharacteristic nist:Safe .
+nist:ValueChainAndComponentIntegration a nist:GenAIRisk ; rdfs:label "Value Chain and Component Integration"@en ; asgo:affectsCharacteristic nist:AccountableAndTransparent .

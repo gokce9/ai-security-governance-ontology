@@ -1,0 +1,13 @@
+# CQ18: Which metrics should be used to test each risk of an AI system, with
+#       formula and rule-of-thumb threshold?
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?system ?risk ?metric ?formula ?threshold WHERE {
+  ?s asgo:exposedTo ?r ; rdfs:label ?system .
+  ?r rdfs:label ?risk ; asgo:measuredBy ?m .
+  ?m rdfs:label ?metric .
+  OPTIONAL { ?m asgo:formula ?formula }
+  OPTIONAL { ?m asgo:threshold ?threshold }
+}
+ORDER BY ?risk ?metric

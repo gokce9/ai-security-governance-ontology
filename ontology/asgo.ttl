@@ -1,0 +1,26 @@
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# Entry point: importing this ontology loads every ASGO module.
+
+<https://w3id.org/asgo>
+    a owl:Ontology ;
+    dcterms:title "AI Security Governance Ontology (ASGO)"@en ;
+    dcterms:description "An ontology linking AI systems, AI security threats, controls, and governance requirements from the NIST AI RMF, NIST CSF 2.0, the OECD AI Principles and the EU AI Act."@en ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:license <https://creativecommons.org/licenses/by-nc/4.0/> ;
+    owl:versionInfo "0.4.0" ;
+    owl:imports <https://w3id.org/asgo/core> ,
+                <https://w3id.org/asgo/sources> ,
+                <https://w3id.org/asgo/nist-ai-rmf> ,
+                <https://w3id.org/asgo/nist-ai-rmf-subcategories> ,
+                <https://w3id.org/asgo/nist-csf> ,
+                <https://w3id.org/asgo/eu-ai-act> ,
+                <https://w3id.org/asgo/oecd-ai> ,
+                <https://w3id.org/asgo/threats> ,
+                <https://w3id.org/asgo/crosswalk> ,
+                <https://w3id.org/asgo/evidence> ,
+                <https://w3id.org/asgo/assessment> ,
+                <https://w3id.org/asgo/controls> ,
+                <https://w3id.org/asgo/practitioner> .

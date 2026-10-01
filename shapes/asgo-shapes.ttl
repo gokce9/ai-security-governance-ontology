@@ -1,0 +1,48 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# SHACL quality rules for ASGO content.
+
+asgo:FrameworkElementShape a sh:NodeShape ;
+    sh:targetClass asgo:FrameworkElement ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ;
+                  sh:message "Every framework element needs an rdfs:label." ] .
+
+asgo:RequirementShape a sh:NodeShape ;
+    sh:targetClass asgo:Requirement ;
+    sh:property [ sh:path asgo:identifier ; sh:minCount 1 ; sh:datatype xsd:string ;
+                  sh:message "Requirements need an asgo:identifier (e.g. 'Art. 15', 'MANAGE 4')." ] ;
+    sh:property [ sh:path asgo:partOfFramework ; sh:minCount 1 ;
+                  sh:message "Requirements must state which framework they belong to." ] .
+
+asgo:ControlShape a sh:NodeShape ;
+    sh:targetClass asgo:Control ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ] .
+
+asgo:PractitionerInsightShape a sh:NodeShape ;
+    sh:targetSubjectsOf asgo:authorityLevel ;
+    sh:sparql [
+        sh:message "Practitioner insights must carry dcterms:creator and dcterms:created." ;
+        sh:select """
+            PREFIX asgo: <https://w3id.org/asgo/core#>
+            PREFIX dcterms: <http://purl.org/dc/terms/>
+            SELECT $this WHERE {
+              $this asgo:authorityLevel asgo:PractitionerInsight .
+              FILTER NOT EXISTS { $this a <http://www.w3.org/2002/07/owl#Ontology> }
+              FILTER (NOT EXISTS { $this dcterms:creator ?c } || NOT EXISTS { $this dcterms:created ?d })
+            }""" ] .
+
+asgo:RiskShape a sh:NodeShape ;
+    sh:targetClass asgo:Risk ;
+    sh:property [ sh:path asgo:likelihood ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                  sh:minInclusive 1 ; sh:maxInclusive 5 ] ;
+    sh:property [ sh:path asgo:severity ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                  sh:minInclusive 1 ; sh:maxInclusive 5 ] .
+
+asgo:HighRiskSystemShape a sh:NodeShape ;
+    sh:targetClass asgo:AISystem ;
+    sh:property [ sh:path asgo:classifiedAs ; sh:minCount 1 ; sh:severity sh:Warning ;
+                  sh:message "AI system has no risk tier classification." ] .

@@ -1,0 +1,268 @@
+@prefix asgo:     <https://w3id.org/asgo/core#> .
+@prefix ev:       <https://w3id.org/asgo/evidence#> .
+@prefix nist:     <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix csf:      <https://w3id.org/asgo/nist-csf#> .
+@prefix euaia:    <https://w3id.org/asgo/eu-ai-act#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# AI governance evidence catalogue
+# Typical documented information for an AI management system, and which
+# requirements in each framework it helps demonstrate.
+# Artefact names are common management-system practice; descriptions are
+# written in the author's own words. The evidence -> requirement links are an
+# author-curated interpretation (asgo:PractitionerInsight).
+# Source: GokceINFO.
+# =============================================================================
+
+<https://w3id.org/asgo/evidence>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/crosswalk> ;
+    dcterms:title "ASGO - AI governance evidence catalogue"@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date ;
+    dcterms:source <https://w3id.org/asgo/sources#GokceINFO> ;
+    owl:versionInfo "0.1.0" .
+
+# -----------------------------------------------------------------------------
+# Context and scope
+# -----------------------------------------------------------------------------
+
+ev:ContextAnalysis a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI governance context analysis"@en ;
+    skos:definition "Internal and external issues that shape AI risk (regulation, data maturity, reliance on AI outputs, available skills), reviewed periodically and linked to risk planning."@en .
+
+ev:InterestedPartiesRegister a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Interested parties register"@en ;
+    skos:definition "Stakeholders affected by or able to affect AI systems, their expectations, and which expectations are compliance obligations."@en .
+
+ev:AIMSScopeStatement a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI governance scope statement"@en ;
+    skos:definition "Boundaries of the AI governance programme: business units, locations, AI systems (internal and third-party), with justified exclusions."@en ;
+    skos:note "Practitioner tip: a narrow, justified scope is auditable; an over-broad scope without governance maturity is a frequent cause of failure."@en .
+
+ev:AISystemInventory a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI system inventory"@en ;
+    skos:definition "List of AI systems with purpose, technique (rule-based, ML, generative, agentic), business process, automation level, data sources and sourcing (internal / third-party). Input to risk and impact assessment."@en ;
+    skos:note "Modelled in ASGO with asgo:intendedPurpose, asgo:usesTechnique, asgo:automationLevel, asgo:sourcing and asgo:supportsBusinessProcess."@en .
+
+# -----------------------------------------------------------------------------
+# Leadership
+# -----------------------------------------------------------------------------
+
+ev:AIPolicy a asgo:EvidenceType ; asgo:documentLevel asgo:PolicyLevel ;
+    rdfs:label "AI policy"@en .
+
+ev:RACIMatrix a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI roles and responsibilities matrix"@en .
+
+# -----------------------------------------------------------------------------
+# Planning
+# -----------------------------------------------------------------------------
+
+ev:AIRiskProcedure a asgo:EvidenceType ; asgo:documentLevel asgo:ProcedureLevel ;
+    rdfs:label "AI risk management procedure"@en ;
+    skos:definition "Risk criteria, assessment method and treatment options for AI risks."@en .
+
+ev:AIRiskRegister a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI risk register"@en .
+
+ev:AIRiskTreatmentPlan a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI risk treatment plan"@en .
+
+ev:AIImpactAssessment a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI system impact assessment"@en ;
+    skos:definition "Assessment of consequences for individuals, groups and society; can be designed to also serve as an EU AI Act fundamental rights impact assessment."@en .
+
+ev:StatementOfApplicability a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Statement of Applicability (SoA)"@en ;
+    skos:definition "Which controls from the control catalogue are applied or excluded, with justification and implementation status."@en .
+
+# -----------------------------------------------------------------------------
+# Support
+# -----------------------------------------------------------------------------
+
+ev:CompetenceMatrix a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Competence and training matrix / AI literacy records"@en .
+
+ev:CommunicationPlan a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI governance communication plan"@en .
+
+ev:DocumentControlRegister a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Document control register"@en .
+
+# -----------------------------------------------------------------------------
+# Operation
+# -----------------------------------------------------------------------------
+
+ev:AILifecycleProcedure a asgo:EvidenceType ; asgo:documentLevel asgo:ProcedureLevel ;
+    rdfs:label "AI system lifecycle procedure"@en .
+
+ev:TechnicalDocumentation a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI system technical documentation"@en .
+
+ev:AIChangeLog a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI change management log"@en ;
+    skos:definition "Changes to models, prompts, data, tools and configuration with risk review and approval."@en .
+
+ev:AISupplierRegister a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI supplier register"@en ;
+    skos:definition "Third-party models, datasets, AI services and tool providers with criticality and assessment status."@en .
+
+ev:AIIncidentRegister a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI incident register"@en .
+
+ev:HumanOversightMatrix a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Human oversight matrix"@en ;
+    skos:definition "Per AI system: who oversees, at which decision points, with what authority to override or stop."@en .
+
+ev:AIEventLogs a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI system event logs"@en ;
+    skos:definition "Automatically generated logs of inputs, outputs, tool calls and operator actions, retained per policy."@en .
+
+ev:PerformanceMonitoringLog a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI performance and behaviour monitoring log"@en .
+
+ev:EmergencyShutdownProcedure a asgo:EvidenceType ; asgo:documentLevel asgo:ProcedureLevel ;
+    rdfs:label "AI emergency stop / disengagement procedure"@en ;
+    skos:definition "How and by whom an AI system is halted, disengaged or rolled back: manual stop for human-in/on-the-loop systems, and automatic shutdown triggers (human-out-of-the-loop safeguards) for fully automated systems."@en .
+
+ev:DecommissioningRecord a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI decommissioning record"@en .
+
+ev:RedTeamReport a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI red-team / adversarial test report"@en ;
+    asgo:authorityLevel asgo:PractitionerInsight ;
+    dcterms:creator "Gokcenur Yazici" ;
+    dcterms:created "2026-10-01"^^xsd:date ;
+    skos:note "Security-specific evidence not covered in generic management-system document sets; expected for Art. 15 / Art. 55 and MEASURE 2.7."@en .
+
+# -----------------------------------------------------------------------------
+# Performance evaluation and improvement (clause 10)
+# -----------------------------------------------------------------------------
+
+ev:MonitoringPlan a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Monitoring and measurement plan"@en .
+
+ev:InternalAuditProgramme a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Internal audit programme and reports"@en .
+
+ev:ManagementReviewMinutes a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Management review minutes"@en .
+
+ev:CorrectiveActionLog a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Nonconformity and corrective action log (incl. root cause analysis)"@en .
+
+ev:ImprovementRegister a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Continual improvement register"@en .
+
+# =============================================================================
+# Requirement -> evidence (author-curated)
+# =============================================================================
+
+
+# --- EU AI Act ---------------------------------------------------------------
+euaia:Art4    asgo:demonstratedBy ev:CompetenceMatrix .
+euaia:Art9    asgo:demonstratedBy ev:AIRiskProcedure , ev:AIRiskRegister , ev:AIRiskTreatmentPlan .
+euaia:Art11   asgo:demonstratedBy ev:TechnicalDocumentation .
+euaia:Art12   asgo:demonstratedBy ev:AIEventLogs .
+euaia:Art14   asgo:demonstratedBy ev:HumanOversightMatrix , ev:EmergencyShutdownProcedure .
+euaia:Art15   asgo:demonstratedBy ev:RedTeamReport , ev:PerformanceMonitoringLog .
+euaia:Art15-5 asgo:demonstratedBy ev:RedTeamReport .
+euaia:Art17   asgo:demonstratedBy ev:AIPolicy , ev:AILifecycleProcedure , ev:DocumentControlRegister , ev:InternalAuditProgramme .
+euaia:Art25   asgo:demonstratedBy ev:AISupplierRegister .
+euaia:Art26   asgo:demonstratedBy ev:HumanOversightMatrix , ev:AIEventLogs .
+euaia:Art27   asgo:demonstratedBy ev:AIImpactAssessment .
+euaia:Art55   asgo:demonstratedBy ev:RedTeamReport , ev:AIIncidentRegister .
+euaia:Art72   asgo:demonstratedBy ev:MonitoringPlan , ev:PerformanceMonitoringLog .
+euaia:Art73   asgo:demonstratedBy ev:AIIncidentRegister .
+
+# --- NIST AI RMF -------------------------------------------------------------
+nist:GV-1.2 asgo:demonstratedBy ev:AIPolicy .
+nist:GV-1.5 asgo:demonstratedBy ev:ManagementReviewMinutes .
+nist:GV-1.6 asgo:demonstratedBy ev:AISystemInventory .
+nist:GV-1.7 asgo:demonstratedBy ev:DecommissioningRecord .
+nist:GV-2.1 asgo:demonstratedBy ev:RACIMatrix .
+nist:GV-2.2 asgo:demonstratedBy ev:CompetenceMatrix .
+nist:GV-3.2 asgo:demonstratedBy ev:HumanOversightMatrix .
+nist:GV-6.1 asgo:demonstratedBy ev:AISupplierRegister .
+nist:MP-1.1 asgo:demonstratedBy ev:ContextAnalysis , ev:AISystemInventory .
+nist:MP-3.5 asgo:demonstratedBy ev:HumanOversightMatrix .
+nist:MP-5.1 asgo:demonstratedBy ev:AIImpactAssessment .
+nist:MS-2.4 asgo:demonstratedBy ev:PerformanceMonitoringLog .
+nist:MS-2.7 asgo:demonstratedBy ev:RedTeamReport .
+nist:MG-1.3 asgo:demonstratedBy ev:AIRiskTreatmentPlan .
+nist:MG-2.4 asgo:demonstratedBy ev:EmergencyShutdownProcedure .
+nist:MG-4.1 asgo:demonstratedBy ev:MonitoringPlan .
+nist:MG-4.2 asgo:demonstratedBy ev:ImprovementRegister .
+nist:MG-4.3 asgo:demonstratedBy ev:AIIncidentRegister .
+
+# --- NIST CSF 2.0 ------------------------------------------------------------
+csf:GV.OC-02 asgo:demonstratedBy ev:InterestedPartiesRegister .
+csf:GV.PO-01 asgo:demonstratedBy ev:AIPolicy .
+csf:GV.RR-02 asgo:demonstratedBy ev:RACIMatrix .
+csf:GV.SC-04 asgo:demonstratedBy ev:AISupplierRegister .
+csf:ID.AM-02 asgo:demonstratedBy ev:AISystemInventory .
+csf:ID.RA-07 asgo:demonstratedBy ev:AIChangeLog .
+csf:ID.IM-01 asgo:demonstratedBy ev:ImprovementRegister .
+csf:PR.AT-01 asgo:demonstratedBy ev:CompetenceMatrix .
+csf:PR.PS-04 asgo:demonstratedBy ev:AIEventLogs .
+csf:RS.MA-02 asgo:demonstratedBy ev:AIIncidentRegister .
+
+# =============================================================================
+# Conformity-assessment evidence (added with the trustworthy AI assessment
+# module; gaps surfaced by queries/cq17-conformity-roadmap.rq)
+# =============================================================================
+
+ev:RiskClassificationRecord a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI risk classification record"@en ;
+    skos:definition "Documented classification of the system under the EU AI Act (prohibited / high-risk / transparency / minimal), including any Art. 6(3) non-high-risk assessment."@en .
+
+ev:DataGovernanceReport a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Data governance and quality report (datasheet)"@en ;
+    skos:definition "Provenance, collection, labelling, representativeness, known gaps and bias examination of training, validation and test data; can build on a GDPR DPIA."@en .
+
+ev:FairnessEvaluationReport a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Fairness evaluation report"@en ;
+    skos:definition "Chosen fairness metrics with justification, results per group, thresholds and mitigations."@en .
+
+ev:ModelCard a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Model card / instructions for use"@en ;
+    skos:definition "Intended purpose, performance and accuracy metrics, known limitations, oversight measures and explanation approach, written for deployers and users."@en .
+
+ev:EUDeclarationOfConformity a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "EU declaration of conformity (signed document)"@en .
+
+ev:NotifiedBodyCertificate a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Notified body certificate"@en .
+
+ev:DeploymentApprovalRecord a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "Go-live approval record"@en ;
+    skos:definition "Sign-off by accountable owners that pre-deployment checks are complete."@en .
+
+euaia:Art6     asgo:demonstratedBy ev:RiskClassificationRecord .
+euaia:Art10    asgo:demonstratedBy ev:DataGovernanceReport , ev:FairnessEvaluationReport .
+euaia:Art13    asgo:demonstratedBy ev:ModelCard .
+euaia:Art16    asgo:demonstratedBy ev:DeploymentApprovalRecord .
+euaia:Art43    asgo:demonstratedBy ev:EUDeclarationOfConformity .
+euaia:Art47    asgo:demonstratedBy ev:EUDeclarationOfConformity .
+euaia:Art48    asgo:demonstratedBy ev:EUDeclarationOfConformity .
+euaia:AnnexVII asgo:demonstratedBy ev:NotifiedBodyCertificate .
+euaia:Art15    asgo:demonstratedBy ev:FairnessEvaluationReport , ev:ModelCard .
+nist:MP-2.2    asgo:demonstratedBy ev:ModelCard .
+nist:MP-2.3    asgo:demonstratedBy ev:DataGovernanceReport .
+nist:MS-2.9    asgo:demonstratedBy ev:ModelCard .
+nist:MS-2.11   asgo:demonstratedBy ev:FairnessEvaluationReport .
+nist:MG-1.1    asgo:demonstratedBy ev:DeploymentApprovalRecord .
+
+ev:TransparencyDisclosureRecord a asgo:EvidenceType ; asgo:documentLevel asgo:RecordLevel ;
+    rdfs:label "AI interaction disclosure and content-marking record"@en ;
+    skos:definition "Screenshots or specs showing users are told they interact with AI, and how synthetic output is marked (machine-readable marking, deep fake labels)."@en .
+
+euaia:Art50 asgo:demonstratedBy ev:TransparencyDisclosureRecord .
+nist:MS-2.8 asgo:demonstratedBy ev:TransparencyDisclosureRecord .

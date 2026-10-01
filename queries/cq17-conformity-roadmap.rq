@@ -1,0 +1,21 @@
+# CQ17: Conformity assessment roadmap (Annex VI) - ordered steps, the EU AI Act
+#       articles behind each step, and the evidence that demonstrates them.
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX tai: <https://w3id.org/asgo/assessment#>
+
+SELECT ?n ?step ?articles ?evidence WHERE {
+  ?s asgo:partOfMethod tai:ConformityAssessmentAnnexVI ; asgo:stepOrder ?n ; rdfs:label ?step .
+  OPTIONAL {
+    SELECT ?s (GROUP_CONCAT(DISTINCT ?id; separator=", ") AS ?articles) WHERE {
+      ?s skos:relatedMatch/asgo:identifier ?id .
+    } GROUP BY ?s
+  }
+  OPTIONAL {
+    SELECT ?s (GROUP_CONCAT(DISTINCT ?el; separator="; ") AS ?evidence) WHERE {
+      ?s skos:relatedMatch/asgo:demonstratedBy/rdfs:label ?el .
+    } GROUP BY ?s
+  }
+}
+ORDER BY ?n

@@ -1,0 +1,10 @@
+# CQ5: List all author-curated (practitioner) knowledge with provenance.
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?item ?label ?creator ?created WHERE {
+  ?item asgo:authorityLevel asgo:PractitionerInsight ; rdfs:label ?label .
+  OPTIONAL { ?item dcterms:creator ?creator }
+  OPTIONAL { ?item dcterms:created ?created }
+}

@@ -1,0 +1,14 @@
+# CQ8: Which EU AI Act obligations become applicable within the next 12 months,
+#      and which have already applied?
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?article ?title ?from ?status WHERE {
+  ?r asgo:applicableFrom ?from ; asgo:identifier ?article ; rdfs:label ?title .
+  # ISO-8601 date strings compare correctly as plain strings
+  BIND (SUBSTR(STR(NOW()), 1, 10) AS ?today)
+  BIND (CONCAT(STR(YEAR(NOW()) + 1), SUBSTR(STR(NOW()), 5, 6)) AS ?inOneYear)
+  BIND (IF(STR(?from) <= ?today, "in force",
+        IF(STR(?from) <= ?inOneYear, "within 12 months", "later")) AS ?status)
+}
+ORDER BY ?from ?article

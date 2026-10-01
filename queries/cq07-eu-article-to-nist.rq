@@ -1,0 +1,13 @@
+# CQ7: For each EU AI Act article, which NIST AI RMF subcategories can be
+#      reused as compliance building blocks?
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX euaia: <https://w3id.org/asgo/eu-ai-act#>
+PREFIX nist: <https://w3id.org/asgo/nist-ai-rmf#>
+
+SELECT ?article (GROUP_CONCAT(DISTINCT ?nistId; separator=", ") AS ?nistSubcategories) WHERE {
+  ?a a euaia:Article ; asgo:identifier ?article ; skos:closeMatch|skos:relatedMatch ?n .
+  ?n a nist:Subcategory ; asgo:identifier ?nistId .
+}
+GROUP BY ?article
+ORDER BY ?article

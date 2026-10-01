@@ -1,0 +1,23 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix src:     <https://w3id.org/asgo/sources#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# Source documents
+# Reference material used to build or verify ASGO. Not frameworks: they inform
+# the ontology but nobody "complies" with them.
+# =============================================================================
+
+<https://w3id.org/asgo/sources>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/core> ;
+    dcterms:title "ASGO - Source documents"@en ;
+    owl:versionInfo "0.2.0" .
+
+src:GokceINFO a asgo:SourceDocument , asgo:ContentProvider ;
+    rdfs:label "GokceINFO"@en ;
+    asgo:format "PDF" ;
+    skos:definition "Materials shared as PDF by the project author, Gokcenur Yazici."@en .

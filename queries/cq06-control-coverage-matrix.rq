@@ -1,0 +1,12 @@
+# CQ6: For each control, which requirements does it satisfy in every framework?
+#      (one row per control x framework - a multi-framework coverage matrix)
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?control ?framework (GROUP_CONCAT(?id; separator=", ") AS ?requirements) WHERE {
+  ?c a ?ctype ; rdfs:label ?control ; asgo:implements ?req .
+  VALUES ?ctype { asgo:TechnicalControl asgo:OrganisationalControl }
+  ?req asgo:identifier ?id ; asgo:partOfFramework/rdfs:label ?framework .
+}
+GROUP BY ?control ?framework
+ORDER BY ?control ?framework

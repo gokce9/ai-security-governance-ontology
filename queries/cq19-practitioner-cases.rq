@@ -1,0 +1,19 @@
+# CQ19: Practitioner cases - for each case, the risks observed, the threats
+#       behind them, the controls applied, the requirements those controls
+#       help satisfy, and the lesson learned.
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?case ?threats ?appliedControls ?satisfies ?lesson WHERE {
+  ?c a asgo:PractitionerCase ; rdfs:label ?case ; asgo:lessonLearned ?lesson .
+  OPTIONAL {
+    SELECT ?c (GROUP_CONCAT(DISTINCT ?tl; separator="; ") AS ?threats) WHERE {
+      ?c asgo:observedRisk/asgo:arisesFrom/rdfs:label ?tl } GROUP BY ?c }
+  OPTIONAL {
+    SELECT ?c (GROUP_CONCAT(DISTINCT ?cl; separator="; ") AS ?appliedControls) WHERE {
+      ?c asgo:appliedControl/rdfs:label ?cl } GROUP BY ?c }
+  OPTIONAL {
+    SELECT ?c (GROUP_CONCAT(DISTINCT ?id; separator=", ") AS ?satisfies) WHERE {
+      ?c asgo:appliedControl/asgo:implements/asgo:identifier ?id } GROUP BY ?c }
+}
+ORDER BY ?case

@@ -1,0 +1,16 @@
+# CQ16: Consequence-scanning questionnaire - for each key question, which
+#       trustworthiness characteristics it probes and which requirements it
+#       helps answer.
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?n ?question ?ask ?requirements WHERE {
+  ?q a asgo:AssessmentQuestion ; asgo:stepOrder ?n ; rdfs:label ?question ; skos:definition ?ask .
+  OPTIONAL {
+    SELECT ?q (GROUP_CONCAT(DISTINCT ?id; separator=", ") AS ?requirements) WHERE {
+      ?q skos:relatedMatch/asgo:identifier ?id .
+    } GROUP BY ?q
+  }
+}
+ORDER BY ?n

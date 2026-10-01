@@ -1,0 +1,52 @@
+@prefix ctl:      <https://w3id.org/asgo/controls#> .
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix nist:    <https://w3id.org/asgo/nist-ai-rmf#> .
+@prefix euaia:   <https://w3id.org/asgo/eu-ai-act#> .
+@prefix threat:  <https://w3id.org/asgo/threats#> .
+@prefix tai:     <https://w3id.org/asgo/assessment#> .
+@prefix ex:      <https://example.org/acme#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+# Example instance data: a fictional customer-support chatbot with RAG and a
+# ticketing tool. Not high-risk, but subject to Art. 50 transparency.
+
+ex:SupportBot a asgo:AISystem ;
+    rdfs:label "Customer support chatbot" ;
+    asgo:intendedPurpose "Answer customer questions from the help-centre knowledge base and open support tickets" ;
+    asgo:supportsBusinessProcess "Customer service - first-line support" ;
+    asgo:usesTechnique asgo:GenerativeAI , asgo:AgenticAI ;
+    asgo:automationLevel asgo:HumanOnTheLoop ;
+    asgo:sourcing asgo:ThirdPartyProvided ;
+    asgo:deploymentScope <https://w3id.org/asgo/controls#Scope3> ;
+    asgo:basedOnModel ex:FoundationModel ;
+    asgo:classifiedAs euaia:TransparencyRisk ;
+    asgo:inLifecycleStage asgo:Deploy ;
+    asgo:hasComponent ex:HelpCentreIndex , ex:TicketingTool , ex:BotPrompt ;
+    asgo:exposedTo ex:RiskHelpCentrePoisoning , ex:RiskPromptLeak , ex:RiskTicketSpam , ex:RiskWrongAnswers .
+
+ex:HelpCentreIndex a asgo:VectorStore ; rdfs:label "Help-centre RAG index" .
+ex:TicketingTool a asgo:ToolIntegration ; rdfs:label "Ticketing system create-ticket API" .
+ex:BotPrompt a asgo:SystemPrompt ; rdfs:label "Support bot system prompt" .
+
+ex:RiskHelpCentrePoisoning a asgo:Risk ;
+    rdfs:label "Poisoned help-centre article hijacks bot answers" ;
+    asgo:arisesFrom threat:RAGPoisoning ;
+    asgo:likelihood 3 ; asgo:severity 3 .
+
+ex:RiskPromptLeak a asgo:Risk ;
+    rdfs:label "Hidden context (prompt, tool schema) extracted by users" ;
+    asgo:arisesFrom threat:HiddenContextExposure ;
+    asgo:likelihood 4 ; asgo:severity 2 .
+
+ex:RiskTicketSpam a asgo:Risk ;
+    rdfs:label "Bot abused to mass-create tickets" ;
+    asgo:arisesFrom threat:ToolMisuse ;
+    asgo:mitigatedBy ctl:LeastPrivilegeTooling ;
+    asgo:likelihood 3 ; asgo:severity 3 .
+
+ex:RiskWrongAnswers a asgo:Risk ;
+    rdfs:label "Confident but wrong answers about refunds and contracts" ;
+    asgo:affectsCharacteristic nist:ValidAndReliable ;
+    asgo:measuredBy tai:Precision , tai:Accuracy ;
+    asgo:likelihood 4 ; asgo:severity 3 .

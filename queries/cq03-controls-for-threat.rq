@@ -1,0 +1,13 @@
+# CQ3: For each threat, which controls mitigate it and which requirements do
+#      those controls help implement?
+PREFIX asgo: <https://w3id.org/asgo/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?threat ?control (GROUP_CONCAT(DISTINCT ?reqId; separator=", ") AS ?implements) WHERE {
+  ?c asgo:mitigates ?t ; rdfs:label ?control .
+  ?t rdfs:label ?threat .
+  OPTIONAL { ?c asgo:implements/asgo:identifier ?req }
+  BIND (COALESCE(?req, "-") AS ?reqId)
+}
+GROUP BY ?threat ?control
+ORDER BY ?threat

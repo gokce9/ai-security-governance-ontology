@@ -1,0 +1,327 @@
+@prefix asgo:    <https://w3id.org/asgo/core#> .
+@prefix euaia:   <https://w3id.org/asgo/eu-ai-act#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# =============================================================================
+# EU Artificial Intelligence Act - Regulation (EU) 2024/1689
+# Covers roles, risk tiers, prohibited practices, Annex III areas and the
+# security-relevant obligations. Application dates reflect the AI Act as
+# amended by the Digital Omnibus on AI (Regulation (EU) 2026/1744, in force
+# 27 July 2026). Original dates are kept in skos:historyNote.
+# =============================================================================
+
+<https://w3id.org/asgo/eu-ai-act>
+    a owl:Ontology ;
+    owl:imports <https://w3id.org/asgo/core> ;
+    dcterms:title "ASGO - EU AI Act module"@en ;
+    owl:versionInfo "0.1.0" .
+
+euaia:EUAIAct a asgo:Framework ;
+    rdfs:label "EU Artificial Intelligence Act"@en ;
+    asgo:identifier "Regulation (EU) 2024/1689" ;
+    asgo:authorityLevel asgo:Normative ;
+    asgo:sourceURL "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" ;
+    dcterms:issued "2024-07-12"^^xsd:date ;
+    skos:note "Entered into force 1 August 2024."@en ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    asgo:amendedBy euaia:DigitalOmnibusAI .
+
+euaia:DigitalOmnibusAI a asgo:AmendingAct ;
+    rdfs:label "Digital Omnibus on AI"@en ;
+    asgo:identifier "Regulation (EU) 2026/1744" ;
+    asgo:authorityLevel asgo:Normative ;
+    dcterms:issued "2026-07-24"^^xsd:date ;
+    asgo:publicationStatus asgo:Final ;
+    asgo:statusCheckedOn "2026-10-01"^^xsd:date ;
+    rdfs:seeAlso <https://www.europarl.europa.eu/legislative-train/package-digital-package/file-digital-omnibus-on-ai> ,
+                 <https://www.klgates.com/EU-Digital-Omnibus-on-AI-Enters-Into-Force-7-31-2026> ,
+                 <https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/> ,
+                 <https://usercentrics.com/knowledge-hub/eu-ai-act-high-risk-delay-article-50-transparency-consent/> ,
+                 <https://www.joneswalker.com/en/insights/blogs/ai-law-blog/yes-august-2-still-matters-the-eu-approved-a-high-risk-ai-delay-but-most-trans.html?id=102nbon> ;
+    skos:note "Amends Regulation (EU) 2024/1689. Entered into force 27 July 2026. Defers high-risk obligations (Annex III to 2 Dec 2027, Annex I to 2 Aug 2028), softens Art. 4, adds an Art. 5 prohibition on generating non-consensual intimate imagery and CSAM, extends the legal basis for processing special-category data for bias detection, and strengthens AI Office supervision."@en .
+
+# -----------------------------------------------------------------------------
+# Element classes
+# -----------------------------------------------------------------------------
+
+euaia:Article a owl:Class ; rdfs:subClassOf asgo:Requirement ; rdfs:label "Article"@en .
+euaia:Annex a owl:Class ; rdfs:subClassOf asgo:FrameworkElement ; rdfs:label "Annex"@en .
+euaia:ProhibitedPractice a owl:Class ; rdfs:subClassOf asgo:FrameworkElement ; rdfs:label "Prohibited AI Practice"@en .
+euaia:HighRiskArea a owl:Class ; rdfs:subClassOf asgo:FrameworkElement ; rdfs:label "Annex III High-Risk Area"@en .
+euaia:Penalty a owl:Class ; rdfs:subClassOf asgo:FrameworkElement ; rdfs:label "Penalty Tier"@en .
+
+# -----------------------------------------------------------------------------
+# Roles (Art. 3)
+# -----------------------------------------------------------------------------
+
+euaia:Provider a asgo:Role ; rdfs:label "Provider"@en ; asgo:sourceReference "Art. 3(3)" .
+euaia:Deployer a asgo:Role ; rdfs:label "Deployer"@en ; asgo:sourceReference "Art. 3(4)" .
+euaia:AuthorisedRepresentative a asgo:Role ; rdfs:label "Authorised Representative"@en ; asgo:sourceReference "Art. 3(5)" .
+euaia:Importer a asgo:Role ; rdfs:label "Importer"@en ; asgo:sourceReference "Art. 3(6)" .
+euaia:Distributor a asgo:Role ; rdfs:label "Distributor"@en ; asgo:sourceReference "Art. 3(7)" .
+euaia:ProductManufacturer a asgo:Role ; rdfs:label "Product Manufacturer"@en ; asgo:sourceReference "Art. 25(3)" .
+euaia:GPAIModelProvider a asgo:Role ; rdfs:label "Provider of a General-Purpose AI Model"@en ; asgo:sourceReference "Art. 3(3), Chapter V" .
+
+# -----------------------------------------------------------------------------
+# Risk tiers
+# -----------------------------------------------------------------------------
+
+euaia:Prohibited a asgo:RiskTier ; rdfs:label "Unacceptable risk (prohibited)"@en ; asgo:sourceReference "Art. 5" .
+euaia:HighRisk a asgo:RiskTier ; rdfs:label "High risk"@en ; asgo:sourceReference "Art. 6, Annex I, Annex III" .
+euaia:TransparencyRisk a asgo:RiskTier ; rdfs:label "Limited / transparency risk"@en ; asgo:sourceReference "Art. 50" .
+euaia:MinimalRisk a asgo:RiskTier ; rdfs:label "Minimal risk"@en ;
+    skos:note "No specific obligations beyond AI literacy (Art. 4); voluntary codes of conduct (Art. 95)."@en .
+euaia:GPAI a asgo:RiskTier ; rdfs:label "General-purpose AI model"@en ; asgo:sourceReference "Art. 53" .
+euaia:GPAISystemicRisk a asgo:RiskTier ; rdfs:label "General-purpose AI model with systemic risk"@en ; asgo:sourceReference "Art. 51, Art. 55" ;
+    skos:note "Presumed when cumulative training compute exceeds 10^25 FLOP (Art. 51(2))."@en .
+
+# -----------------------------------------------------------------------------
+# Prohibited practices (Art. 5(1)) - applicable from 2 Feb 2025
+# -----------------------------------------------------------------------------
+
+euaia:Art5-1a a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(a)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Subliminal, manipulative or deceptive techniques"@en .
+euaia:Art5-1b a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(b)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Exploitation of vulnerabilities (age, disability, social or economic situation)"@en .
+euaia:Art5-1c a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(c)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Social scoring leading to detrimental treatment"@en .
+euaia:Art5-1d a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(d)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Criminal offence risk prediction based solely on profiling"@en .
+euaia:Art5-1e a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(e)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Untargeted scraping of facial images to build recognition databases"@en .
+euaia:Art5-1f a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(f)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Emotion recognition in the workplace and education (except medical/safety)"@en .
+euaia:Art5-1g a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(g)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Biometric categorisation inferring sensitive attributes"@en .
+euaia:Art5-1h a euaia:ProhibitedPractice ; asgo:identifier "Art. 5(1)(h)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Real-time remote biometric identification in public spaces for law enforcement (narrow exceptions)"@en .
+
+euaia:Art5-NCII a euaia:ProhibitedPractice ; asgo:identifier "Art. 5 (added by Reg. 2026/1744)" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Generation of non-consensual intimate imagery and child sexual abuse material"@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2026-08-02"^^xsd:date ;
+    skos:note "Transitional period until 2 Dec 2026. Check the consolidated text for the exact point number in Art. 5(1)."@en .
+
+# -----------------------------------------------------------------------------
+# Annex III high-risk areas
+# -----------------------------------------------------------------------------
+
+euaia:AnnexIII a euaia:Annex ; asgo:identifier "Annex III" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Annex III - High-risk AI systems referred to in Article 6(2)"@en .
+
+euaia:AnnexIII-1 a euaia:HighRiskArea ; asgo:identifier "Annex III(1)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Biometrics"@en .
+euaia:AnnexIII-2 a euaia:HighRiskArea ; asgo:identifier "Annex III(2)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Critical infrastructure"@en .
+euaia:AnnexIII-3 a euaia:HighRiskArea ; asgo:identifier "Annex III(3)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Education and vocational training"@en .
+euaia:AnnexIII-4 a euaia:HighRiskArea ; asgo:identifier "Annex III(4)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Employment, workers management and access to self-employment"@en .
+euaia:AnnexIII-5 a euaia:HighRiskArea ; asgo:identifier "Annex III(5)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Access to essential private and public services and benefits"@en .
+euaia:AnnexIII-6 a euaia:HighRiskArea ; asgo:identifier "Annex III(6)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Law enforcement"@en .
+euaia:AnnexIII-7 a euaia:HighRiskArea ; asgo:identifier "Annex III(7)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Migration, asylum and border control management"@en .
+euaia:AnnexIII-8 a euaia:HighRiskArea ; asgo:identifier "Annex III(8)" ; asgo:parentElement euaia:AnnexIII ; rdfs:label "Administration of justice and democratic processes"@en .
+
+# -----------------------------------------------------------------------------
+# Articles (governance- and security-relevant subset)
+# -----------------------------------------------------------------------------
+
+euaia:Art4 a euaia:Article ; asgo:identifier "Art. 4" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "AI literacy"@en ;
+    asgo:appliesToTier euaia:MinimalRisk , euaia:TransparencyRisk , euaia:HighRisk ;
+    skos:note "As amended: providers and deployers support the development of AI literacy among their staff."@en ;
+    skos:historyNote "Original text required providers and deployers to ensure, to their best extent, a sufficient level of AI literacy of their staff. Softened by Regulation (EU) 2026/1744."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:appliesToRole euaia:Provider , euaia:Deployer ;
+    asgo:applicableFrom "2025-02-02"^^xsd:date .
+
+euaia:Art5 a euaia:Article ; asgo:identifier "Art. 5" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Prohibited AI practices"@en ;
+    asgo:appliesToTier euaia:Prohibited ;
+    asgo:applicableFrom "2025-02-02"^^xsd:date .
+
+euaia:Art6 a euaia:Article ; asgo:identifier "Art. 6" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Classification rules for high-risk AI systems"@en ;
+    skos:scopeNote "Art. 6(3) derogation: an Annex III system is not high-risk if it does not pose a significant risk of harm, e.g. it performs a narrow procedural task, improves the result of a prior human activity, detects decision patterns without replacing human assessment, or performs a preparatory task. Never applies where the system profiles natural persons. The provider must document the assessment (Art. 6(4))."@en ;
+    skos:note "Annex III route (Art. 6(2)) applies from 2 Dec 2027; Annex I product-safety route (Art. 6(1)) from 2 Aug 2028."@en ;
+    skos:historyNote "Original text: Annex III from 2 Aug 2026, Annex I from 2 Aug 2027. Deferred by Regulation (EU) 2026/1744."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI .
+
+euaia:Art9 a euaia:Article ; asgo:identifier "Art. 9" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Risk management system"@en ;
+    skos:definition "A continuous, iterative risk management process run throughout the entire lifecycle of a high-risk AI system."@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art10 a euaia:Article ; asgo:identifier "Art. 10" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Data and data governance"@en ;
+    skos:note "Regulation (EU) 2026/1744 extends the legal basis for processing special categories of personal data for bias detection and correction beyond high-risk systems to all AI systems and GPAI models, subject to strict necessity."@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art11 a euaia:Article ; asgo:identifier "Art. 11" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Technical documentation"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art12 a euaia:Article ; asgo:identifier "Art. 12" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Record-keeping (automatic logging)"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art13 a euaia:Article ; asgo:identifier "Art. 13" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Transparency and provision of information to deployers"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art14 a euaia:Article ; asgo:identifier "Art. 14" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Human oversight"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art15 a euaia:Article ; asgo:identifier "Art. 15" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Accuracy, robustness and cybersecurity"@en ;
+    skos:definition "High-risk AI systems shall achieve an appropriate level of accuracy, robustness and cybersecurity and perform consistently throughout their lifecycle."@en ;
+    skos:note "Art. 15(5) explicitly names data poisoning, model poisoning, adversarial examples / model evasion, confidentiality attacks and model flaws."@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art15-5 a euaia:Article ; asgo:identifier "Art. 15(5)" ; asgo:parentElement euaia:Art15 ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Resilience against attempts by unauthorised third parties to exploit vulnerabilities"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art17 a euaia:Article ; asgo:identifier "Art. 17" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Quality management system"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art25 a euaia:Article ; asgo:identifier "Art. 25" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Responsibilities along the AI value chain"@en ;
+    asgo:appliesToTier euaia:HighRisk ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art26 a euaia:Article ; asgo:identifier "Art. 26" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Obligations of deployers of high-risk AI systems"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Deployer ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art27 a euaia:Article ; asgo:identifier "Art. 27" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Fundamental rights impact assessment"@en ;
+    skos:note "Applies to deployers that are bodies governed by public law or private entities providing public services, and to deployers of Annex III point 5(b) (creditworthiness / credit scoring) and 5(c) (risk assessment and pricing in life and health insurance) systems."@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Deployer ;
+    skos:historyNote "Originally applicable from 2026-08-02; deferred by Regulation (EU) 2026/1744. For high-risk systems under Annex I the date is 2028-08-02."@en ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art16 a euaia:Article ; asgo:identifier "Art. 16" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Obligations of providers of high-risk AI systems"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art42 a euaia:Article ; asgo:identifier "Art. 42" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Presumption of conformity with certain requirements"@en ;
+    skos:definition "(1) Training and testing on data reflecting the specific setting of intended use creates a presumption of conformity with Art. 10(4). (2) Certification or a statement of conformity under a cybersecurity scheme of Regulation (EU) 2019/881 (Cybersecurity Act) creates a presumption of conformity with the cybersecurity requirements of Art. 15, to the extent covered."@en ;
+    skos:note "Security-relevant: an EU cybersecurity certificate can be reused as Art. 15 evidence."@en ;
+    asgo:appliesToTier euaia:HighRisk ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art47 a euaia:Article ; asgo:identifier "Art. 47" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "EU declaration of conformity"@en ;
+    skos:note "Content set out in Annex V."@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art48 a euaia:Article ; asgo:identifier "Art. 48" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "CE marking"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art71 a euaia:Article ; asgo:identifier "Art. 71" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "EU database for high-risk AI systems listed in Annex III"@en .
+
+euaia:AnnexVI a euaia:Annex ; asgo:identifier "Annex VI" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Conformity assessment procedure based on internal control"@en ;
+    skos:note "Default route for most Annex III high-risk systems (points 2-8)."@en .
+
+euaia:AnnexVII a euaia:Annex ; asgo:identifier "Annex VII" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Conformity based on assessment of the quality management system and technical documentation (notified body)"@en ;
+    skos:note "Third-party route; relevant for Annex III point 1 (biometrics) where harmonised standards are not (fully) applied (Art. 43(1))."@en .
+
+euaia:Art43 a euaia:Article ; asgo:identifier "Art. 43" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Conformity assessment"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art49 a euaia:Article ; asgo:identifier "Art. 49" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Registration in the EU database"@en ;
+    asgo:appliesToTier euaia:HighRisk ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art50 a euaia:Article ; asgo:identifier "Art. 50" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Transparency obligations for providers and deployers of certain AI systems"@en ;
+    skos:note "Interaction disclosure, machine-readable marking of synthetic content, deep fake labelling. Art. 50(2) marking: systems placed on the market before 2 Aug 2026 have until 2 Dec 2026 (Regulation (EU) 2026/1744)."@en ;
+    asgo:appliesToTier euaia:TransparencyRisk ; asgo:appliesToRole euaia:Provider , euaia:Deployer ;
+    asgo:applicableFrom "2026-08-02"^^xsd:date .
+
+euaia:Art53 a euaia:Article ; asgo:identifier "Art. 53" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Obligations for providers of general-purpose AI models"@en ;
+    asgo:appliesToTier euaia:GPAI ; asgo:appliesToRole euaia:GPAIModelProvider ;
+    asgo:applicableFrom "2025-08-02"^^xsd:date .
+
+euaia:Art55 a euaia:Article ; asgo:identifier "Art. 55" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Obligations for providers of GPAI models with systemic risk"@en ;
+    skos:note "Model evaluation incl. adversarial testing, systemic risk mitigation, serious incident reporting, adequate cybersecurity protection of the model and its physical infrastructure."@en ;
+    asgo:appliesToTier euaia:GPAISystemicRisk ; asgo:appliesToRole euaia:GPAIModelProvider ;
+    asgo:applicableFrom "2025-08-02"^^xsd:date .
+
+euaia:Art72 a euaia:Article ; asgo:identifier "Art. 72" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Post-market monitoring"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+euaia:Art73 a euaia:Article ; asgo:identifier "Art. 73" ; asgo:partOfFramework euaia:EUAIAct ;
+    rdfs:label "Reporting of serious incidents"@en ;
+    asgo:appliesToTier euaia:HighRisk ; asgo:appliesToRole euaia:Provider ;
+    asgo:amendedBy euaia:DigitalOmnibusAI ;
+    asgo:applicableFrom "2027-12-02"^^xsd:date .
+
+# -----------------------------------------------------------------------------
+# Penalties (Art. 99) - whichever is higher (lower for SMEs)
+# -----------------------------------------------------------------------------
+
+euaia:PenaltyProhibited a euaia:Penalty ; asgo:identifier "Art. 99(3)" ;
+    rdfs:label "Non-compliance with prohibited practices"@en ;
+    asgo:maxFineEUR 35000000 ; asgo:maxFinePercentTurnover 7 .
+
+euaia:PenaltyOperatorObligations a euaia:Penalty ; asgo:identifier "Art. 99(4)" ;
+    rdfs:label "Non-compliance with operator obligations"@en ;
+    asgo:maxFineEUR 15000000 ; asgo:maxFinePercentTurnover 3 .
+
+euaia:PenaltyIncorrectInformation a euaia:Penalty ; asgo:identifier "Art. 99(5)" ;
+    rdfs:label "Supplying incorrect, incomplete or misleading information"@en ;
+    asgo:maxFineEUR 7500000 ; asgo:maxFinePercentTurnover 1 .
